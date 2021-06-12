@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import beans.User;
 
 public class FileUsers {
-	private ArrayList<User> users;
+	private ArrayList<User> users = new ArrayList<User>();
 	private String path;
 	ObjectMapper objectMapper = new ObjectMapper();
 	private static FileUsers instance = null;

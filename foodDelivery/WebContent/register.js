@@ -48,7 +48,7 @@ $(document).ready(function(){
             contentType: "application/json",
             success: function(data2){
                 //alert(data2);
-                if(data2 == 'false') event.preventDefault();;
+                if(data2 == 'false') event.preventDefault();
             },
             error: function(){
                 alert('ne radi');

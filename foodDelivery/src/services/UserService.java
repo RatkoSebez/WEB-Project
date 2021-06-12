@@ -29,34 +29,18 @@ public class UserService {
 	@Context
 	private ServletContext ctx;
 	private ObjectMapper mapper = new ObjectMapper();
-	private List<User> users = new ArrayList<>();
 	
 	public UserService() {}
 	
 	@PostConstruct
 	public void init() {
-		if(ctx.getAttribute("userDAO") == null) {
-			String contextPath = ctx.getRealPath("");
-			ctx.setAttribute("userDAO", new UserDAO(contextPath));
-		}
 		if(ctx.getAttribute("users") == null) {
 			String contextPath = ctx.getRealPath("");
-			users.add(new User("Pera", "123"));
-			users.add(new User("Mika", "123"));
 			FileUsers fileUsers = FileUsers.getInstance(contextPath + File.separator + "users.json");
 			System.out.println(contextPath);
-			ArrayList<User> usersTest = fileUsers.getUsers();
-			//usersTest.add(new User("Pera", "123"));
-			//usersTest.add(new User("Marko", "423"));
-			//fileUsers.setPath(contextPath + File.separator + "users.json");
-			//System.out.println(contextPath + "\\users.json");
-			//fileUsers.write();
-			
-			
-			//fileUsers.read();
-			
-			System.out.println(usersTest.size());
+			List<User> users = fileUsers.getUsers();
 			ctx.setAttribute("users", users);
+			ctx.setAttribute("fileUsers", fileUsers);
 		}
 	}
 	
@@ -65,13 +49,14 @@ public class UserService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public User login(@Context HttpServletRequest request, User user) {
+		//List<User> users = (List<User>) ctx.getAttribute("users");
 		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
 		User loggedUser = userDao.findUser(user.getUsername(), user.getPassword());
 		//if(loggedUser == null) System.out.println("null");
 		//System.out.println(user.getUsername() + ", " + user.getPassword());
-		userDao.printUsers();
-		if(loggedUser == null) return loggedUser;
-		request.getSession().setAttribute("user", loggedUser);
+		//userDao.printUsers();
+		//if(loggedUser == null) return loggedUser;
+		//request.getSession().setAttribute("user", loggedUser);
 		return loggedUser;
 		
 		//request.getSession().setAttribute("user", user);
@@ -116,20 +101,13 @@ public class UserService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public boolean register(@Context HttpServletRequest request, User user) {
 		//User user2 = mapper.readValue(request.getReader(), User.class);
+		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
 		@SuppressWarnings("unchecked")
-		List<User> users = (List<User>) ctx.getAttribute("users");
-		//userDao.addUser(user.getUsername(), user.getPassword());
-		for(int i=0; i<users.size(); i++) {
-			//System.out.println(user.getUsername() + ", " + users.get(i).getUsername());
-			if(user.getUsername().equals(users.get(i).getUsername())) {
-				return false;
-			}
-		}
+		ArrayList<User> users = (ArrayList<User>) ctx.getAttribute("users");
 		users.add(user);
+		System.out.println(users.size());
+		fileUsers.write();
 		return true;
-		/*for(int i=0; i<users.size(); i++) {
-			System.out.println(i);
-		}*/
 	}
 	
 	@GET
@@ -138,12 +116,11 @@ public class UserService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String getUsers() {
 		@SuppressWarnings("unchecked")
-		List<User> users = (List<User>) ctx.getAttribute("users");
+		ArrayList<User> users = (ArrayList<User>) ctx.getAttribute("users");
 		try {
 			String usersJson = mapper.writeValueAsString(users);
 			return usersJson;
 		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "";
