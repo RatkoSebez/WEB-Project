@@ -1,5 +1,6 @@
 package services;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 //import java.util.Map;
@@ -20,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import beans.User;
 import dao.UserDAO;
+import repository.FileUsers;
 
 @Path("/userService")
 public class UserService {
@@ -38,9 +40,22 @@ public class UserService {
 			ctx.setAttribute("userDAO", new UserDAO(contextPath));
 		}
 		if(ctx.getAttribute("users") == null) {
-			//String contextPath = ctx.getRealPath("");
+			String contextPath = ctx.getRealPath("");
 			users.add(new User("Pera", "123"));
 			users.add(new User("Mika", "123"));
+			FileUsers fileUsers = FileUsers.getInstance(contextPath + File.separator + "users.json");
+			System.out.println(contextPath);
+			ArrayList<User> usersTest = fileUsers.getUsers();
+			//usersTest.add(new User("Pera", "123"));
+			//usersTest.add(new User("Marko", "423"));
+			//fileUsers.setPath(contextPath + File.separator + "users.json");
+			//System.out.println(contextPath + "\\users.json");
+			//fileUsers.write();
+			
+			
+			//fileUsers.read();
+			
+			System.out.println(usersTest.size());
 			ctx.setAttribute("users", users);
 		}
 	}
