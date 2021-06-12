@@ -63,6 +63,19 @@ public class FileUsers {
 		}
 	}
 	
+	public ArrayList<User> readAdmins(String path) {
+		try {
+			return objectMapper.readValue(new File(path), new TypeReference<List<User>>(){});
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public ArrayList<User> getUsers(){
 		return users;
 	}

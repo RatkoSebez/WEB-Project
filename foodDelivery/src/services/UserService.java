@@ -1,6 +1,5 @@
 package services;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,12 +31,34 @@ public class UserService {
 	
 	@PostConstruct
 	public void init() {
+		/*ArrayList<User> admins = new ArrayList<User>();
+		admins.add(new User("pera", "123", "pera", "peric", Gender.Male, new Date()));
+		admins.add(new User("marko", "123", "marko", "markovic", Gender.Male, new Date()));
+		admins.add(new User("milica", "123", "milica", "milicic", Gender.Female, new Date()));
+		admins.add(new User("jovan", "123", "jovan", "jovanovic", Gender.Male, new Date()));
+		
+		FileWriter myWriter;
+		try {
+			String json = mapper.writeValueAsString(admins);
+			myWriter = new FileWriter(ctx.getRealPath("") + "/admins.json");
+			myWriter.write(json);
+			myWriter.flush();
+			myWriter.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}*/
+		String contextPath = ctx.getRealPath("");
+		FileUsers fileUsers = FileUsers.getInstance(contextPath + "/users.json");
+		ArrayList<User> admins = fileUsers.readAdmins(contextPath + "/admins.json");
+		
+		if(ctx.getAttribute("admins") == null) {
+			ctx.setAttribute("admins", admins);
+		}
 		if(ctx.getAttribute("users") == null) {
-			String contextPath = ctx.getRealPath("");
-			FileUsers fileUsers = FileUsers.getInstance(contextPath + File.separator + "users.json");
-			System.out.println(contextPath);
 			List<User> users = fileUsers.getUsers();
 			ctx.setAttribute("users", users);
+		}
+		if(ctx.getAttribute("fileUsers") == null) {
 			ctx.setAttribute("fileUsers", fileUsers);
 		}
 	}

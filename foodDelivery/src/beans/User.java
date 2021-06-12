@@ -8,7 +8,7 @@ public class User {
 	private String password;
 	private String name;
 	private String surname;
-	private enum Gender{Male, Female}
+	public enum Gender{Male, Female}
 	private Gender gender;
 	private Date birthDate;
 	private enum Role{Admin, Manager, Deliverer, Customer}
@@ -40,6 +40,18 @@ public class User {
 		this.customersOrders = customersOrders;
 		this.shoppingCart = shoppingCart;
 		this.discountPoints = 0;
+	}
+	
+	//konstruktor za administratora
+	public User(String username, String password, String name, String surname, Gender gender, Date birthDate) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.name = name;
+		this.surname = surname;
+		this.gender = gender;
+		this.birthDate = birthDate;
+		this.role = Role.Admin;
 	}
 
 	public String getName() {

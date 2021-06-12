@@ -1,0 +1,17 @@
+[
+{
+    "username": "RA21/1111",
+    "password": "dragan",
+    "name": null,
+    "surname": null,
+    "gender": null,
+    "birthDate": null,
+    "role": null,
+    "customersOrders": null,
+    "shoppingCart": null,
+    "restaurant": null,
+    "delivererOrders": null,
+    "discountPoints": 0,
+    "customerType": null
+  }
+]
