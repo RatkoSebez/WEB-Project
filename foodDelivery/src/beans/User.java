@@ -41,18 +41,6 @@ public class User {
 		this.shoppingCart = shoppingCart;
 		this.discountPoints = 0;
 	}
-	
-	//konstruktor za administratora
-	public User(String username, String password, String name, String surname, Gender gender, Date birthDate) {
-		super();
-		this.username = username;
-		this.password = password;
-		this.name = name;
-		this.surname = surname;
-		this.gender = gender;
-		this.birthDate = birthDate;
-		this.role = Role.Admin;
-	}
 
 	public String getName() {
 		return name;

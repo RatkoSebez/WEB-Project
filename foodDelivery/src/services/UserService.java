@@ -49,11 +49,7 @@ public class UserService {
 		}*/
 		String contextPath = ctx.getRealPath("");
 		FileUsers fileUsers = FileUsers.getInstance(contextPath + "/users.json");
-		ArrayList<User> admins = fileUsers.readAdmins(contextPath + "/admins.json");
 		
-		if(ctx.getAttribute("admins") == null) {
-			ctx.setAttribute("admins", admins);
-		}
 		if(ctx.getAttribute("users") == null) {
 			List<User> users = fileUsers.getUsers();
 			ctx.setAttribute("users", users);
