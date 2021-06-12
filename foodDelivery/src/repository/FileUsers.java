@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import beans.User;
 
 public class FileUsers {
-	private ArrayList<User> users = new ArrayList<User>();
+	private ArrayList<User> users;
 	private String path;
 	ObjectMapper objectMapper = new ObjectMapper();
 	private static FileUsers instance = null;
@@ -65,5 +65,14 @@ public class FileUsers {
 	
 	public ArrayList<User> getUsers(){
 		return users;
+	}
+	
+	public User getUserByUsername(String username) {
+		//System.out.println(users.size());
+		for(int i=0; i<users.size(); i++) {
+			if(users.get(i).getUsername().equals(username)) return users.get(i);
+			//System.out.println(users.get(i).getUsername() + ", " + username);
+		}
+		return null;
 	}
 }

@@ -48,16 +48,25 @@ public class UserService {
 	@Path("/login")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public User login(@Context HttpServletRequest request, User user) {
-		//List<User> users = (List<User>) ctx.getAttribute("users");
-		UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
-		User loggedUser = userDao.findUser(user.getUsername(), user.getPassword());
+	public boolean login(@Context HttpServletRequest request, User user) {
+		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
+		User newUser = fileUsers.getUserByUsername(user.getUsername());
+		if(newUser == null) {
+			return false;
+		}
+		else {
+			request.getSession().setAttribute("user", newUser);
+			return true;
+		}
+		
+		//UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
+		//User loggedUser = userDao.findUser(user.getUsername(), user.getPassword());
 		//if(loggedUser == null) System.out.println("null");
 		//System.out.println(user.getUsername() + ", " + user.getPassword());
 		//userDao.printUsers();
 		//if(loggedUser == null) return loggedUser;
 		//request.getSession().setAttribute("user", loggedUser);
-		return loggedUser;
+		//return loggedUser;
 		
 		//request.getSession().setAttribute("user", user);
 		//System.out.println(user.getUsername() + ", " + user.getPassword());

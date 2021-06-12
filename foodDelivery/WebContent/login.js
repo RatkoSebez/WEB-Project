@@ -14,10 +14,10 @@ function login(){
         data: JSON.stringify({username: username, password: password}),
         contentType: "application/json",
         success: function(){
-            alert('uspeo');
+            //alert('uspeo');
         },
         error: function(){
-            alert('ne radi');
+            //alert('ne radi');
         }
     });
 }
