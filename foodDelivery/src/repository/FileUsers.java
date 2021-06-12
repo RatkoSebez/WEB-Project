@@ -67,11 +67,10 @@ public class FileUsers {
 		return users;
 	}
 	
-	public User getUserByUsername(String username) {
+	public User getUserForLogin(String username, String password) {
 		//System.out.println(users.size());
 		for(int i=0; i<users.size(); i++) {
-			if(users.get(i).getUsername().equals(username)) return users.get(i);
-			//System.out.println(users.get(i).getUsername() + ", " + username);
+			if(users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password)) return users.get(i);
 		}
 		return null;
 	}

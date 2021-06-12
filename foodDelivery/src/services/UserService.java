@@ -3,7 +3,6 @@ package services;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-//import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
@@ -20,7 +19,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import beans.User;
-import dao.UserDAO;
 import repository.FileUsers;
 
 @Path("/userService")
@@ -50,7 +48,7 @@ public class UserService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public boolean login(@Context HttpServletRequest request, User user) {
 		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
-		User newUser = fileUsers.getUserByUsername(user.getUsername());
+		User newUser = fileUsers.getUserForLogin(user.getUsername(), user.getPassword());
 		if(newUser == null) {
 			return false;
 		}
@@ -58,37 +56,16 @@ public class UserService {
 			request.getSession().setAttribute("user", newUser);
 			return true;
 		}
-		
-		//UserDAO userDao = (UserDAO) ctx.getAttribute("userDAO");
-		//User loggedUser = userDao.findUser(user.getUsername(), user.getPassword());
-		//if(loggedUser == null) System.out.println("null");
-		//System.out.println(user.getUsername() + ", " + user.getPassword());
-		//userDao.printUsers();
-		//if(loggedUser == null) return loggedUser;
-		//request.getSession().setAttribute("user", loggedUser);
-		//return loggedUser;
-		
-		//request.getSession().setAttribute("user", user);
-		//System.out.println(user.getUsername() + ", " + user.getPassword());
-		//return null;
-		
-		/*User retVal = null;
-		retVal = (User)request.getSession().getAttribute("user");
-		if(retVal == null) {
-			request.getSession().setAttribute("user", user);
-			retVal = user;
-		}
-		return retVal;*/
 	}
 	
 	@GET
 	@Path("/testLogin")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String testLogin(@Context HttpServletRequest request) {
-		User retVal = null;
-		retVal = (User)request.getSession().getAttribute("user");
-		if(retVal == null) return "not logged in";
-		return retVal.getUsername() + ", " + retVal.getPassword();
+		User user;
+		user = (User)request.getSession().getAttribute("user");
+		if(user == null) return "not logged in";
+		return user.getUsername() + ", " + user.getPassword();
 	}
 	
 	@GET
@@ -98,9 +75,7 @@ public class UserService {
 	public boolean logout(@Context HttpServletRequest request) {
 		User user = null;
 		user = (User) request.getSession().getAttribute("user");
-		if (user != null) {
-			request.getSession().invalidate();
-		}
+		if (user != null) request.getSession().invalidate();
 		return true;
 	}
 	
