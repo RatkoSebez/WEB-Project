@@ -7,10 +7,12 @@
     <title>Document</title>
     <script src="jquery-3.3.1.min.js"></script>
     <script src="register.js"></script>
-    <link rel="stylesheet" href="registerStyle.css">
+    <link rel="stylesheet" href="loginStyle.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
-    <form action="users.html" method="GET">
+    <!-- <form action="users.html" method="GET">
         <table id="registerTable" align="center">
             <tr>
                 <td>username:</td>
@@ -26,6 +28,36 @@
         </table>
     </form>
     <a href="users.html"></a>
-    <p id="errorMessage" style="color: red;"></p>
+    <p id="errorMessage" style="color: red;"></p> -->
+
+
+    <div class="container">
+        <div class="form">
+            <div class="header">
+                <h1>Register</h1>
+            </div>
+    
+            <form id="loginForm" action="index.html" method="GET">
+                <table id="registerTable" align="center">
+                    <tr>
+                        <td>username</td>
+                        <td><input type="text" name="username" /></td>
+                    </tr>
+                    <tr>
+                        <td>password</td>
+                        <td><input type="password" name="password" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" value="register" /></td>
+                    </tr>
+                </table>
+            </form>
+            <a href="users.html"></a>
+            <a href="login.html">login</a>
+            <p id="errorMessage" style="color: red;"></p>
+        </div>
+    </div>
+
+
 </body>
 </html>

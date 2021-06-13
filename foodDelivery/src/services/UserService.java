@@ -108,6 +108,8 @@ public class UserService {
 		users.add(user);
 		System.out.println(users.size());
 		fileUsers.write();
+		//uloguj korisnika kad se registruje
+		request.getSession().setAttribute("user", user);
 		return true;
 	}
 	

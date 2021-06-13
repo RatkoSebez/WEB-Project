@@ -1,7 +1,7 @@
 $(document).ready(function(){
     let form = $('form');
     form.submit(function(event){
-
+        event.preventDefault();
         var valid = true;
         
         //validacija da polja nisu prazna
@@ -12,7 +12,7 @@ $(document).ready(function(){
         });
 
         //validacija broja indeksa
-        let username = $('input[name="username"]').val();
+        /*let username = $('input[name="username"]').val();
         if(username.length == 9){
             if(username[0] != 'R' || username[1] != 'A') valid = false;
             if(isNaN(username[2])) valid = false;
@@ -23,11 +23,10 @@ $(document).ready(function(){
             if(isNaN(username[7])) valid = false;
             if(isNaN(username[8])) valid = false;
         }
-        else valid = false;
+        else valid = false;*/
         
 
         if(valid == false){
-            event.preventDefault();
             $('#errorMessage').text('Wrong input.');
             return;
         }
@@ -47,8 +46,9 @@ $(document).ready(function(){
             data: JSON.stringify(data),
             contentType: "application/json",
             success: function(data2){
+                if(data2 == true) window.location.replace("index.html");
                 //alert(data2);
-                if(data2 == 'false') event.preventDefault();
+                //if(data2 == 'false') event.preventDefault();
             },
             error: function(){
                 alert('ne radi');

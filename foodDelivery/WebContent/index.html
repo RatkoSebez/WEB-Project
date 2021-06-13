@@ -1,19 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="jquery-3.3.1.min.js"></script>
-<script src="login.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="homeStyle.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <script>
+        function stickyMenu(){
+            var sticky = document.getElementById('sticky');
+            if(window.pageYOffset > 220){
+                sticky.classList.add('sticky');
+            }
+            else{
+                sticky.classList.remove('sticky');
+            }
+        }
+
+        window.onscroll = function(){
+            stickyMenu();
+        }
+    </script>
 </head>
 <body>
-    <p>Log in</p>
-    <form id='loginForm'>
-        <input type="text" name="username"/><br>
-        <input type="text" name="password"/><br>
-        <input type="button" value="submit" onclick="login()"/><br>
-    </form>
-    <a href="rest/userService/testLogin">da li si ulogovan</a><br>
-    <a href="rest/userService/logout">logout</a>
+    <div class="parallax">
+        <div class="page-title">Fast delivery</div>
+    </div>
+    <div class="menu" id="sticky">
+        <ul class="menu-ul">
+            <a href="#home" class="a-menu"><li>Home</li></a>
+            <a href="#users" class="a-menu"><li>Users</li></a>
+            <a href="#about" class="a-menu"><li>About</li></a>
+            <a href="login.html" class="a-menu"><li>Login</li></a>
+            <a href="register.html" class="a-menu"><li>Register</li></a>
+        </ul>
+    </div>
+    <div class="container">
+        <a href="#home">
+            <div class="categories">
+                <img src="images/restaurant.jpg" class="item-image">
+                <div class="image-title">restaurant1</div>
+            </div>
+        </a>
+        <a href="#users">
+            <div class="categories">
+                <img src="images/restaurant.jpg" class="item-image">
+                <div class="image-title">restaurant2</div>
+            </div>
+        </a>
+        <a href="#about">
+            <div class="categories">
+                <img src="images/restaurant.jpg" class="item-image">
+                <div class="image-title">restaurant3</div>
+            </div>
+        </a>
+    </div>
 </body>
 </html>
