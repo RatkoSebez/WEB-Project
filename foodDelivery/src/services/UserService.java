@@ -1,11 +1,13 @@
 package services;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -89,10 +91,11 @@ public class UserService {
 	@Path("/logout")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public boolean logout(@Context HttpServletRequest request) {
+	public boolean logout(@Context HttpServletRequest request, @Context HttpServletResponse response) throws IOException {
 		User user = null;
 		user = (User) request.getSession().getAttribute("user");
 		if (user != null) request.getSession().invalidate();
+		response.sendRedirect("../../index.html");
 		return true;
 	}
 	
@@ -123,6 +126,21 @@ public class UserService {
 		try {
 			String usersJson = mapper.writeValueAsString(users);
 			return usersJson;
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	@GET
+	@Path("/getLoggedInUser")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getLoggedInUser(@Context HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute("user");
+		try {
+			String userJson = mapper.writeValueAsString(user);
+			return userJson;
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
