@@ -31,11 +31,18 @@ $(document).ready(function(){
             return;
         }
 
-
+        var genderVal = $('input[name=gender]:checked', '#loginForm').val();
+        var gender;
+        if(genderVal == 'male') gender = 0;
+        else gender = 1;
 
         let data = {
         'username' : $('input[name="username"]').val(),
-        'password' : $('input[name="password"]').val()
+        'password' : $('input[name="password"]').val(),
+        'name' : $('input[name="name"').val(),
+        'surname' : $('input[name="surname"').val(),
+        'gender' : gender,
+        'birthDate' : $('input[name="birthDate"]').val()
         }
         
         

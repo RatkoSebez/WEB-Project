@@ -20,6 +20,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import beans.User;
+import beans.User.Role;
 import repository.FileUsers;
 
 @Path("/userService")
@@ -105,6 +106,7 @@ public class UserService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public boolean register(@Context HttpServletRequest request, User user) {
 		//User user2 = mapper.readValue(request.getReader(), User.class);
+		user.setRole(Role.Customer);
 		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
 		@SuppressWarnings("unchecked")
 		ArrayList<User> users = (ArrayList<User>) ctx.getAttribute("users");

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="home.js"></script>
+    <link rel="stylesheet" href="homeStyle.css">
+    <link rel="stylesheet" href="account.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <script>
+        function stickyMenu() {
+            var sticky = document.getElementById('sticky');
+            if (window.pageYOffset > 220) {
+                sticky.classList.add('sticky');
+            }
+            else {
+                sticky.classList.remove('sticky');
+            }
+        }
+
+        window.onscroll = function () {
+            stickyMenu();
+        }
+    </script>
+</head>
+
+<body>
+    <div class="parallax">
+        <div class="page-title">Fast delivery</div>
+    </div>
+    <div class="menu" id="sticky">
+        <ul class="menu-ul">
+            <a href="#home" class="a-menu">
+                <li>Home</li>
+            </a>
+            <a href="#users" class="a-menu">
+                <li>Users</li>
+            </a>
+            <a href="rest/userService/logout" class="a-menu">
+                <li>Logout</li>
+            </a>
+            <a href="login.html" class="a-menu" id="login">
+                <li>Login</li>
+            </a>
+            <a href="register.html" class="a-menu" id="register">
+                <li>Register</li>
+            </a>
+        </ul>
+    </div>
+    
+    <div class="container">
+        <div class="form">
+            <div class="header">
+                <h1>Edit account</h1>
+            </div>
+
+            <form id="loginForm" action="index.html" method="POST">
+                <table id="registerTable" align="center">
+                    <tr>
+                        <td>username</td>
+                        <td><input type="text" name="username" /></td>
+                    </tr>
+                    <tr>
+                        <td>password</td>
+                        <td><input type="password" name="password" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" value="login" /></td>
+                    </tr>
+                </table>
+            </form>
+            <a href="rest/userService/testLogin">da li si ulogovan</a><br>
+            <a href="rest/userService/logout">logout</a><br>
+            <a href="register.html">register</a>
+        </div>
+    </div>
+
+</body>
+</html>

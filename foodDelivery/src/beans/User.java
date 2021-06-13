@@ -11,7 +11,7 @@ public class User {
 	public enum Gender{Male, Female}
 	private Gender gender;
 	private Date birthDate;
-	private enum Role{Admin, Manager, Deliverer, Customer}
+	public enum Role{Admin, Manager, Deliverer, Customer}
 	private Role role;
 	private List<Order> customersOrders;
 	private ShoppingCart shoppingCart;
@@ -22,9 +22,12 @@ public class User {
 	
 	public User() {}
 
-	public User(String username, String password) {
+	public User(String username, String password, String name, String surname) {
 		this.username = username;
 		this.password = password;
+		this.name = name;
+		this.surname = surname;
+		this.role = Role.Customer;
 	}
 	
 	//konstruktor za registrovanje kupca
