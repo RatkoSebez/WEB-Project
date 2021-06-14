@@ -48,6 +48,10 @@ $(document).ready(function(){
         filterTable();
     });
 
+    $(".sortColumn").mouseover(function() {
+        $(this).css('cursor', 'pointer'); 
+    });
+
     //sortiranje
     $('.sortColumn').on('click', function(){
         var column = $(this).data('column');
@@ -133,4 +137,13 @@ $(document).ready(function(){
         }
         return searchedData;
     }
+
+    $("#reset").click(function(){
+        $('#roleSelect').val('All').change();
+        $('#customerTypeSelect').val('All').change();
+        $('#searchName').val('');
+        $('#searchSurname').val('');
+        $('#searchUsername').val('');
+    });
+
 });
