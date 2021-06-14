@@ -7,7 +7,6 @@ $(document).ready(function(){
             buildTable(data);
         }
     });
-    
     function buildTable(data){
         $("#users > tbody").html("");
         for(let users of data){
@@ -17,6 +16,7 @@ $(document).ready(function(){
                 let username = $('<td>' + users.username + '</td>');
                 let gender = $('<td>' + users.gender + '</td>');
                 let role = $('<td>' + users.role + '</td>');
+                let discountPoints = $('<td>' + users.discountPoints + '</td>');
                 //datum rodjenja
                 let date = new Date(users.birthDate);
                 var day = date.getDate();
@@ -26,7 +26,7 @@ $(document).ready(function(){
                 let birthDate = ($('<td>' + formattedDate + '</td>'));
                 //kreiranje tabele
                 let tr = $('<tr></tr>');
-                tr.append(name).append(surname).append(username).append(role).append(gender).append(birthDate);
+                tr.append(name).append(surname).append(username).append(role).append(gender).append(birthDate).append(discountPoints);
                 tbody.append(tr);
             }
     }
@@ -46,6 +46,22 @@ $(document).ready(function(){
     });
     $("#searchUsername").on('keyup', function(){
         filterTable();
+    });
+
+    //sortiranje
+    $('.sortColumn').on('click', function(){
+        var column = $(this).data('column');
+        var order = $(this).data('order');
+        //console.log(column + " " + order);
+        if(order == 'desc'){
+            $(this).data('order', 'asc');
+            users = users.sort((a,b) => a[column] > b[column] ? 1 : -1);
+        }
+        else{
+            $(this).data('order', 'desc');
+            users = users.sort((a,b) => a[column] < b[column] ? 1 : -1);
+        }
+        buildTable(users);
     });
 
     function filterTable(){
@@ -87,6 +103,7 @@ $(document).ready(function(){
             if(role == roleInput) tmpUsers.push(allUsers[i]);
         }
         allUsers = tmpUsers;
+        currentUsers = allUsers;
         buildTable(allUsers);
     }
 
