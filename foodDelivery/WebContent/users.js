@@ -52,15 +52,20 @@ $(document).ready(function(){
     $('.sortColumn').on('click', function(){
         var column = $(this).data('column');
         var order = $(this).data('order');
+        var text = $(this).html();
+        text = text.substring(0, text.length-1);
         //console.log(column + " " + order);
         if(order == 'desc'){
             $(this).data('order', 'asc');
             users = users.sort((a,b) => a[column] > b[column] ? 1 : -1);
+            text += '&#9660';
         }
         else{
             $(this).data('order', 'desc');
             users = users.sort((a,b) => a[column] < b[column] ? 1 : -1);
+            text += '&#9650';
         }
+        $(this).html(text);
         buildTable(users);
     });
 
