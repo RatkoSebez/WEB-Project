@@ -148,4 +148,14 @@ public class UserService {
 		}
 		return "";
 	}
+	
+	@POST
+	@Path("/getCustomerType")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getCustomerType(String username) {
+		return username;
+		//if(user.getCustomerType() == null) return null;
+		//else return user.getCustomerType().getType().toString();
+	}
 }

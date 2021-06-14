@@ -9,6 +9,7 @@
     <script src="users.js"></script>
     <script src="home.js"></script>
     <link rel="stylesheet" href="homeStyle.css">
+    <link rel="stylesheet" href="users.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <script>
@@ -42,14 +43,37 @@
             <a href="account.html" class="a-menu" id="account" hidden><li>Account</li></a>
         </ul>
     </div>
-    <table border="1" id="korisnici">
+
+    <div class="filters">
+        <input type="text" id="searchName" placeholder="name">
+        <input type="text" id="searchSurname" placeholder="surname">
+        <input type="text" id="searchUsername" placeholder="username">
+        <select name="role" id="roleSelect">
+            <option value="All" selected>Role</option>
+            <option value="Customer">Customer</option>
+            <option value="Manager">Manager</option>
+            <option value="Admin">Admin</option>
+            <option value="Deliverer">Deliverer</option>
+        </select>
+        <select name="type" id="customerTypeSelect">
+            <option value="All" selected>Customer Type</option>
+            <option value="Gold">Gold</option>
+            <option value="Silver">Silver</option>
+            <option value="Bronze">Bronze</option>
+        </select>
+    </div>
+
+    <table id="users">
         <thead>
+            <th>Name</th>
+            <th>Surname</th>
         	<th>Username</th>
-            <th>Password</th>
+            <th>Role</th>
+            <th>Gender</th>
+            <th>Birth Date</th>
         </thead>
         <tbody>
         </tbody>
     </table>
-    <a href="register.html">register</a>
 </body>
 </html>

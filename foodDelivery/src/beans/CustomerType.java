@@ -1,7 +1,7 @@
 package beans;
 
 public class CustomerType {
-	private enum Type{Bronze, Silver, Gold}
+	public enum Type{Bronze, Silver, Gold}
 	private Type type;
 	private double discount;
 	private int pointsRequired;
