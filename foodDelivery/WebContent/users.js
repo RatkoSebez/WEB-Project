@@ -7,6 +7,7 @@ $(document).ready(function(){
             buildTable(data);
         }
     });
+    
     function buildTable(data){
         $("#users > tbody").html("");
         for(let users of data){

@@ -78,6 +78,16 @@ public class UserService {
 		}
 	}
 	
+	@POST
+	@Path("/checkPassword")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean checkPassword(@Context HttpServletRequest request, User user) {
+		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
+		//System.out.println(fileUsers.checkPassword(user.getUsername(), user.getPassword()));
+		return fileUsers.checkPassword(user.getUsername(), user.getPassword());
+	}
+	
 	@GET
 	@Path("/testLogin")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -115,6 +125,27 @@ public class UserService {
 		fileUsers.write();
 		//uloguj korisnika kad se registruje
 		request.getSession().setAttribute("user", user);
+		return true;
+	}
+	
+	@POST
+	@Path("/editUser")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean editUser(@Context HttpServletRequest request, User user) {
+		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
+		@SuppressWarnings("unchecked")
+		ArrayList<User> users = (ArrayList<User>) ctx.getAttribute("users");
+		for(int i=0; i<users.size(); i++) {
+			//System.out.println(users.get(i).getUsername() + ", " + user.getUsername());
+			if(users.get(i).getUsername().equals(user.getUsername())) {
+				users.get(i).setName(user.getName());
+				users.get(i).setSurname(user.getSurname());
+				users.get(i).setBirthDate(user.getBirthDate());
+				if(!user.getPassword().equals("")) users.get(i).setPassword(user.getPassword());
+			}
+		}
+		fileUsers.write();
 		return true;
 	}
 	

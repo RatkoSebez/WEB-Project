@@ -13,6 +13,7 @@ thead {
 
 th {
   padding: 10px;
+  font-weight: normal;
 }
 
 td {
@@ -20,7 +21,7 @@ td {
 }
 
 tr:nth-child(even) {
-  background-color: whitesmoke;
+  background-color: #e8e8e8;
 }
 
 .filters {

@@ -68,10 +68,17 @@ public class FileUsers {
 	}
 	
 	public User getUserForLogin(String username, String password) {
-		//System.out.println(users.size());
 		for(int i=0; i<users.size(); i++) {
 			if(users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password)) return users.get(i);
 		}
 		return null;
+	}
+	
+	public boolean checkPassword(String username, String password) {
+		for(int i=0; i<users.size(); i++) {
+			if(users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password)) return true;
+			//System.out.println(users.get(i).getPassword() + ", " + password);
+		}
+		return false;
 	}
 }
