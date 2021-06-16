@@ -46,46 +46,44 @@
         </ul>
     </div>
     
-    <div class="container">
-        <div class="form">
-            <div class="header">
-                <h1>Account </h1>
-            </div>
-    
-            <form id="loginForm" action="index.html" method="GET">
-                <table id="registerTable" align="center">
-                    <tr hidden>
-                        <td>username</td>
-                        <td><input type="text" name="username" /></td>
-                    </tr>
-                    <tr>
-                        <td>name</td>
-                        <td><input type="text" name="name" /></td>
-                    </tr>
-                    <tr>
-                        <td>surname</td>
-                        <td><input type="text" name="surname" /></td>
-                    </tr>
-                    <tr>
-                        <td>birth date</td>
-                        <td><input type="date" name="birthDate" /></td>
-                    </tr>
-                    <tr>
-                        <td>old password</td>
-                        <td><input type="password" name="oldPassword"/></td>
-                    </tr>
-                    <tr>
-                        <td>new password</td>
-                        <td><input type="password" name="newPassword" /></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><input type="submit" value="save" /></td>
-                    </tr>
-                </table>
-            </form>
-            <button id="reset">reset</button>
-            <p id="errorMessage" style="color: red;"></p>
+    <div class="form">
+        <div class="header">
+            <h1>Account </h1>
         </div>
+        <form id="loginForm" action="index.html" method="GET">
+            <table id="registerTable" align="center">
+                <tr hidden>
+                    <td>username</td>
+                    <td><input type="text" name="username" /></td>
+                </tr>
+                <tr>
+                    <td>name</td>
+                    <td><input type="text" name="name" /></td>
+                </tr>
+                <tr>
+                    <td>surname</td>
+                    <td><input type="text" name="surname" /></td>
+                </tr>
+                <tr>
+                    <td>birth date</td>
+                    <td><input type="date" name="birthDate" /></td>
+                </tr>
+                <tr>
+                    <td>password</td>
+                    <td><input type="password" name="oldPassword"/></td>
+                </tr>
+                <tr>
+                    <td>new password</td>
+                    <td><input type="password" name="newPassword" /></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" value="save"/></td>
+                    <td><button type="button" id="reset">reset</button></td>
+                </tr>
+            </table>
+        </form>
+        
+        <p id="errorMessage" style="color: red;"></p>
     </div>
 
 </body>
