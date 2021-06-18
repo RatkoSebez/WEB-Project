@@ -58,6 +58,21 @@ body {
   transform: scale(1.1);
 }
 
+/* .restaurants {
+  vertical-align: top;
+  display: inline-block;
+  text-align: center;
+  width: 120px;
+  background-color: yellowgreen;
+  display: inline-block;
+}
+
+.subRestaurantsDiv {
+  width: max-content;
+  display: inline-block;
+  background-color: yellow;
+} */
+
 .container {
   margin: 50px 50px 50px 5%;
   width: 90%;
@@ -68,7 +83,7 @@ body {
   width: max-content;
   margin: 25px;
   border: 1px solid #184d47;
-  border-radius: 0 0 50px 50px;
+  /* border-radius: 0 0 50px 50px; */
   display: inline-block;
 }
 
@@ -79,14 +94,14 @@ body {
 .item-image {
   height: 200px;
   width: 200px;
-  border-radius: 0 0 50px 50px;
   padding: 10px;
 }
 
 .image-title {
   text-align: center;
   padding: 10px;
-  font-weight: bold;
+  /* font-weight: bold; */
+  color: black;
 }
 
 a {

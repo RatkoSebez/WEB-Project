@@ -1,25 +1,26 @@
 package beans;
 
-import java.awt.Image;
 import java.util.List;
 
 public class Restaurant {
 	private String name;
-	private enum Type{Italian, Chinese, FastFood}
+	public enum Type{Italian, Chinese, FastFood}
 	private Type type;
 	private List<Item> items;
 	private boolean isOpened;
 	private Location location;
-	private Image image;
+	private String imagePath;
 	
-	public Restaurant(String name, Type type, List<Item> items, boolean isOpened, Location location, Image image) {
+	public Restaurant() {}
+	
+	public Restaurant(String name, Type type, List<Item> items, boolean isOpened, Location location, String imagePath) {
 		super();
 		this.name = name;
 		this.type = type;
 		this.items = items;
 		this.isOpened = isOpened;
 		this.location = location;
-		this.image = image;
+		this.imagePath = imagePath;
 	}
 
 	public String getName() {
@@ -62,11 +63,11 @@ public class Restaurant {
 		this.location = location;
 	}
 
-	public Image getImage() {
-		return image;
+	public String getImage() {
+		return imagePath;
 	}
 
-	public void setImage(Image image) {
-		this.image = image;
+	public void setImage(String imagePath) {
+		this.imagePath = imagePath;
 	}
 }

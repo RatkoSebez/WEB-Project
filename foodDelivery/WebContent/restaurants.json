@@ -1,0 +1,38 @@
+[
+  {
+    "name": "kfc",
+    "type": "FastFood",
+    "items": null,
+    "location": {
+      "latitude": 45.2889,
+      "longitude": 19.7245,
+      "address": "Narodnog Fronta 26, Novi Sad, 21000"
+    },
+    "image": "images/restaurant100002.png",
+    "opened": false
+  },
+  {
+    "name": "mcdonalds",
+    "type": "FastFood",
+    "items": null,
+    "location": {
+      "latitude": 45.2889,
+      "longitude": 19.7245,
+      "address": "Narodnog Fronta 26, Novi Sad, 21000"
+    },
+    "image": "images/restaurant100001.png",
+    "opened": false
+  },
+  {
+    "name": "garibaldi",
+    "type": "Italian",
+    "items": null,
+    "location": {
+      "latitude": 45.2889,
+      "longitude": 19.7245,
+      "address": "Narodnog Fronta 26, Novi Sad, 21000"
+    },
+    "image": "images/restaurant100003.jpg",
+    "opened": false
+  }
+]

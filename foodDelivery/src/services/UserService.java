@@ -19,8 +19,12 @@ import javax.ws.rs.core.MediaType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import beans.Location;
+import beans.Restaurant;
+import beans.Restaurant.Type;
 import beans.User;
 import beans.User.Role;
+import repository.FileRestaurant;
 import repository.FileUsers;
 
 @Path("/userService")
@@ -50,15 +54,38 @@ public class UserService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}*/
+		
+		
+		
+		
 		String contextPath = ctx.getRealPath("");
 		FileUsers fileUsers = FileUsers.getInstance(contextPath + "/users.json");
+		FileRestaurant fileRestaurant = FileRestaurant.getInstance(contextPath + "/restaurants.json");
+		
+		
+		/*ArrayList<Restaurant> restaurantss = fileRestaurant.getRestaurants();
+		Restaurant restoran = new Restaurant();
+		restoran.setName("garibaldi");
+		restoran.setImage("images/restaurant.jpg");
+		restoran.setLocation(new Location(50, 50, "Narodnog Fronta 26, Novi Sad, 21000"));
+		restoran.setType(Type.Italian);
+		restaurantss.add(restoran);
+		fileRestaurant.write();*/
+		
 		
 		if(ctx.getAttribute("users") == null) {
 			List<User> users = fileUsers.getUsers();
 			ctx.setAttribute("users", users);
 		}
+		if(ctx.getAttribute("restaurants") == null) {
+			List<Restaurant> restaurants = fileRestaurant.getRestaurants();
+			ctx.setAttribute("restaurants", restaurants);
+		}
 		if(ctx.getAttribute("fileUsers") == null) {
 			ctx.setAttribute("fileUsers", fileUsers);
+		}
+		if(ctx.getAttribute("fileRestaurant") == null) {
+			ctx.setAttribute("fileRestaurant", fileRestaurant);
 		}
 	}
 	
@@ -188,5 +215,21 @@ public class UserService {
 		return username;
 		//if(user.getCustomerType() == null) return null;
 		//else return user.getCustomerType().getType().toString();
+	}
+	
+	@GET
+	@Path("/getRestaurants")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getRestaurants() {
+		@SuppressWarnings("unchecked")
+		ArrayList<Restaurant> restaurants = (ArrayList<Restaurant>) ctx.getAttribute("restaurants");
+		try {
+			String usersJson = mapper.writeValueAsString(restaurants);
+			return usersJson;
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 }
