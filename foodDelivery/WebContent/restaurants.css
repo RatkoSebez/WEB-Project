@@ -1,0 +1,32 @@
+.container {
+  margin: 50px 50px 50px 5%;
+  width: 90%;
+  text-align: center;
+}
+
+.categories {
+  width: max-content;
+  margin: 25px;
+  border: 1px solid #184d47;
+  display: inline-block;
+}
+
+.categories:hover {
+  box-shadow: 0 0 10px 3px #184d47;
+}
+
+.item-image {
+  height: 200px;
+  width: 200px;
+  padding: 10px;
+}
+
+.image-title {
+  text-align: center;
+  padding: 10px;
+  color: black;
+}
+
+a {
+  text-decoration: none;
+}

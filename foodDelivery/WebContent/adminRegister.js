@@ -5,7 +5,6 @@ $(document).ready(function(){
         let role = "";
         if($('#roleManager').prop('checked')) role = "Manager";
         if($('#roleDeliverer').prop('checked')) role = "Deliverer";
-        //console.log($('#roleManager').prop('checked'))
         $('#roleDeliverer').prop('checked');
         let data = {
         'username' : $('input[name="username"]').val(),
@@ -15,7 +14,6 @@ $(document).ready(function(){
         'birthDate' : $('input[name="birthDate"]').val(),
         'role' : role
         }
-
         $.post({
             url: "rest/userService/register",
             data: JSON.stringify(data),

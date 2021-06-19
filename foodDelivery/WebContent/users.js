@@ -131,7 +131,6 @@ $(document).ready(function(){
                     cutomerType = data2;
                 },
             });
-            //alert(customerType);
             if(customerType == input){
                 searchedData.push(users[i]);
             }
@@ -146,5 +145,4 @@ $(document).ready(function(){
         $('#searchSurname').val('');
         $('#searchUsername').val('');
     });
-
 });

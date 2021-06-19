@@ -59,8 +59,8 @@ public class UserService {
 		
 		
 		String contextPath = ctx.getRealPath("");
-		FileUsers fileUsers = FileUsers.getInstance(contextPath + "/users.json");
-		FileRestaurant fileRestaurant = FileRestaurant.getInstance(contextPath + "/restaurants.json");
+		FileUsers fileUsers = FileUsers.getInstance(contextPath + "/data/users.json");
+		FileRestaurant fileRestaurant = FileRestaurant.getInstance(contextPath + "/data/restaurants.json");
 		
 		
 		/*ArrayList<Restaurant> restaurantss = fileRestaurant.getRestaurants();

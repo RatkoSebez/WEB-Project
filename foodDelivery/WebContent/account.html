@@ -7,28 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="jquery-3.3.1.min.js"></script>
-    <script src="home.js"></script>
     <script src="account.js"></script>
-    <link rel="stylesheet" href="homeStyle.css">
+    <script src="main.js"></script>
     <link rel="stylesheet" href="account.css">
+    <link rel="stylesheet" href="main.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <script>
-        function stickyMenu() {
-            var sticky = document.getElementById('sticky');
-            if (window.pageYOffset > 220) {
-                sticky.classList.add('sticky');
-            }
-            else {
-                sticky.classList.remove('sticky');
-            }
-        }
-
-        window.onscroll = function () {
-            stickyMenu();
-        }
-    </script>
 </head>
+
+<!-- menu -->
 
 <body>
     <div class="parallax">
@@ -38,7 +25,6 @@
         <ul class="menu-ul">
             <a href="index.html" class="a-menu"><li>Home</li></a>
             <a href="users.html" class="a-menu" id="users" hidden><li>Users</li></a>
-            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="a-menu" id="rickroll"><li>Free Order</li></a>
             <a href="adminRegister.html" class="a-menu" id="adminRegister" hidden><li>Register User</li></a>
             <a href="login.html" class="a-menu" id="login" hidden><li>Login</li></a>
             <a href="register.html" class="a-menu" id="register" hidden><li>Register</li></a>
@@ -46,7 +32,9 @@
             <a href="account.html" class="a-menu" id="account" hidden><li>Account</li></a>
         </ul>
     </div>
-    
+
+<!-- menu -->
+
     <div class="form">
         <div class="header">
             <h1>Account </h1>
@@ -77,7 +65,7 @@
                     <td>new password</td>
                     <td><input type="password" name="newPassword" /></td>
                 </tr>
-                <tr>
+                <tr align="center">
                     <td><input type="submit" value="save"/></td>
                     <td><button type="button" id="reset">reset</button></td>
                 </tr>

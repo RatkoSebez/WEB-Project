@@ -1,10 +1,8 @@
 $(document).ready(function(){
+    // proveri da li je korisnik ulogovan i ako jeste koju ima ulogu pa mu prikazi njegove funkcionalnosti
     $.get({
         url: "rest/userService/getLoggedInUser",
         success: function(user){
-            //alert(user);
-            //var isLoggedIn;
-            //ako je korisnik ulogovan
             if(!user){
                 $("#login").show();
                 $("#register").show();
@@ -27,10 +25,19 @@ $(document).ready(function(){
                     $("#adminRegister").hide();
                 }
             }
-
-            
-            //alert(user.role);
-            //alert(isLoggedIn);
         }
     });
+    // funkcija za sticky menu
+    function stickyMenu() {
+        var sticky = document.getElementById('sticky');
+        if (window.pageYOffset > 220) {
+            sticky.classList.add('sticky');
+        }
+        else {
+            sticky.classList.remove('sticky');
+        }
+    }
+    window.onscroll = function () {
+        stickyMenu();
+    }
 });
