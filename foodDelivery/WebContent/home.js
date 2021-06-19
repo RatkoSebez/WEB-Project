@@ -11,6 +11,7 @@ $(document).ready(function(){
                 $("#logout").hide();
                 $("#account").hide();
                 $("#users").hide();
+                $("#adminRegister").hide();
             }
             else{
                 $("#login").hide();
@@ -18,10 +19,12 @@ $(document).ready(function(){
                 $("#logout").show();
                 $("#account").show();
                 if(user.role == "Admin"){
-                $("#users").show();
+                    $("#users").show();
+                    $("#adminRegister").show();
                 }
                 else{
                     $("#users").hide();
+                    $("#adminRegister").hide();
                 }
             }
 

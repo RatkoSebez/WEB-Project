@@ -1,0 +1,73 @@
+body {
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+}
+
+.header {
+  margin: 0 0 30px 0;
+  border-bottom: 2px solid black;
+}
+
+.form {
+  margin: auto;
+  padding: 30px;
+  background-color: white;
+  max-width: 350px;
+  text-align: center;
+  border-radius: 35px;
+  font-size: 16px;
+}
+
+#loginForm {
+  text-align: left;
+}
+
+input[type="text"] {
+  margin: 8px 0;
+  padding: 4px 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type="password"] {
+  margin: 8px 0;
+  padding: 4px 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type="submit"] {
+  margin: 8px 0;
+  padding: 5px 23px;
+  background-color: #5b8c5a;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+}
+
+input[type="submit"]:hover {
+  background-color: #93b993;
+}
+
+input[type="radio"] {
+  margin: 8px 0;
+  padding: 4px 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type="date"] {
+  margin: 8px 0;
+  padding: 4px 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
+}

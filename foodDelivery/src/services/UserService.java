@@ -143,7 +143,7 @@ public class UserService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public boolean register(@Context HttpServletRequest request, User user) {
 		//User user2 = mapper.readValue(request.getReader(), User.class);
-		user.setRole(Role.Customer);
+		if(user.getRole() == null) user.setRole(Role.Customer);
 		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
 		@SuppressWarnings("unchecked")
 		ArrayList<User> users = (ArrayList<User>) ctx.getAttribute("users");
@@ -151,7 +151,7 @@ public class UserService {
 		System.out.println(users.size());
 		fileUsers.write();
 		//uloguj korisnika kad se registruje
-		request.getSession().setAttribute("user", user);
+		if(user.getRole() == Role.Customer) request.getSession().setAttribute("user", user);
 		return true;
 	}
 	
