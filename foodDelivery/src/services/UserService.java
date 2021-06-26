@@ -1,10 +1,14 @@
 package services;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,13 +23,12 @@ import javax.ws.rs.core.MediaType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import beans.Location;
 import beans.Restaurant;
-import beans.Restaurant.Type;
 import beans.User;
 import beans.User.Role;
 import repository.FileRestaurant;
 import repository.FileUsers;
+
 
 @Path("/userService")
 public class UserService {
@@ -148,7 +151,7 @@ public class UserService {
 		@SuppressWarnings("unchecked")
 		ArrayList<User> users = (ArrayList<User>) ctx.getAttribute("users");
 		users.add(user);
-		System.out.println(users.size());
+		//System.out.println(users.size());
 		fileUsers.write();
 		//uloguj korisnika kad se registruje
 		if(user.getRole() == Role.Customer) request.getSession().setAttribute("user", user);
@@ -231,5 +234,35 @@ public class UserService {
 			e.printStackTrace();
 		}
 		return "";
+	}
+	
+	@POST
+	@Path("/newRestaurant")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean newRestaurant(@Context HttpServletRequest request, Restaurant restaurant) {
+		FileRestaurant fileRestaurant = (FileRestaurant) ctx.getAttribute("fileRestaurant");
+		@SuppressWarnings("unchecked")
+		ArrayList<Restaurant> restaurants = (ArrayList<Restaurant>) ctx.getAttribute("restaurants");
+		restaurants.add(restaurant);
+		fileRestaurant.write();
+		//System.out.println(restaurants.size() + ", " + fileRestaurant.getRestaurants().size());
+		return true;
+	}
+	
+	@POST
+	@Path("/saveImage")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean saveImage(String data) throws IOException {
+		System.out.println("ovde sam");
+		//System.out.println(base64Image.charAt(20));
+		String base64Image = data.split(",")[1];
+		byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
+		BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageBytes));
+		// write the image to a file
+		File outputfile = new File(ctx.getRealPath("") + "/images/proba.png");
+		ImageIO.write(image, "png", outputfile);
+		return true;
 	}
 }

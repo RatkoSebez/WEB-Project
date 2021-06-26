@@ -16,7 +16,7 @@ $(document).ready(function(){
                 let location = restaurants[i].location.address;
                 let tokens = location.split(',');
                 textDiv.append(tokens[0] + '<br>');
-                textDiv.append(tokens[1] + tokens[2] + '<br>');
+                textDiv.append(tokens[1] + ' ' + tokens[2] + '<br>');
                 textDiv.append(restaurants[i].location.latitude + ', ').append(restaurants[i].location.longitude);
 
                 categoriesDiv.append(img).append(textDiv);

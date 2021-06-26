@@ -7,15 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="jquery-3.3.1.min.js"></script>
-    <script src="account.js"></script>
     <script src="main.js"></script>
-    <link rel="stylesheet" href="account.css">
+    <script src="newRestaurant.js"></script>
+    <link rel="stylesheet" href="newRestaurant.css">
     <link rel="stylesheet" href="main.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
 
-<!-- menu -->
+<body>
+
+    <!-- menu -->
 
 <body>
     <div class="parallax">
@@ -34,47 +36,59 @@
         </ul>
     </div>
 
-<!-- menu -->
+    <!-- menu -->
 
     <div class="form">
         <div class="header">
-            <h1>Account </h1>
+            <h1>New restaurant</h1>
         </div>
-        <form id="loginForm" action="index.html" method="GET">
+        <form method="GET">
             <table id="registerTable" align="center">
-                <tr hidden>
-                    <td>username</td>
-                    <td><input type="text" name="username" /></td>
-                </tr>
                 <tr>
                     <td>name</td>
                     <td><input type="text" name="name" /></td>
                 </tr>
                 <tr>
-                    <td>surname</td>
-                    <td><input type="text" name="surname" /></td>
+                    <td>restaurant type</td>
+                    <td>
+                        <select name="type" id="type">
+                            <option value="FastFood">Fast Food</option>
+                            <option value="Italian">Italian</option>
+                            <option value="Chinese">Chinese</option>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
-                    <td>birth date</td>
-                    <td><input type="date" name="birthDate" /></td>
+                    <td>latitude</td>
+                    <td><input type="text" name="latitude"></td>
                 </tr>
                 <tr>
-                    <td>password</td>
-                    <td><input type="password" name="oldPassword"/></td>
+                    <td>longitude</td>
+                    <td><input type="text" name="longitude"></td>
                 </tr>
                 <tr>
-                    <td>new password</td>
-                    <td><input type="password" name="newPassword" /></td>
+                    <td>city</td>
+                    <td><input type="text" name="city"></td>
+                </tr>
+                <tr>
+                    <td>street</td>
+                    <td><input type="text" name="street"></td>
+                </tr>
+                <tr>
+                    <td>zip code</td>
+                    <td><input type="text" name="zipCode"></td>
+                </tr>
+                <tr>
+                    <td>image</td>
+                    <td><input type="file" id="img" accept="image/*" onchange="encodeImageFileAsURL(this)"></td>
                 </tr>
                 <tr align="center">
-                    <td><input type="submit" value="save"/></td>
-                    <td><button type="button" id="reset">reset</button></td>
+                    <td colspan="2"><input type="submit" value="submit" /></td>
                 </tr>
             </table>
         </form>
-        
+        <img src="" id="output_image">
         <p id="errorMessage" style="color: red;"></p>
     </div>
-
 </body>
 </html>

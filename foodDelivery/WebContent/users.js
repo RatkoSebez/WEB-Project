@@ -83,7 +83,7 @@ $(document).ready(function(){
         var allUsers = users;
         var tmpUsers = [];
         //name
-        console.log(nameInput + ", " + surnameInput);
+        //console.log(nameInput + ", " + surnameInput);
         for(var i=0; i<allUsers.length; i++){
             var name = allUsers[i].name.toLowerCase();
             if(name.includes(nameInput)) tmpUsers.push(allUsers[i]);
@@ -105,7 +105,7 @@ $(document).ready(function(){
         allUsers = tmpUsers;
         tmpUsers = [];
         //role
-        console.log(roleInput);
+        //console.log(roleInput);
         if(roleInput == 'role') tmpUsers = allUsers;
         for(var i=0; i<allUsers.length; i++){
             if(roleInput == 'role') break;
@@ -139,6 +139,7 @@ $(document).ready(function(){
     }
 
     $("#reset").click(function(){
+        console.log("yoo");
         $('#roleSelect').val('All').change();
         $('#customerTypeSelect').val('All').change();
         $('#searchName').val('');

@@ -5,7 +5,6 @@ $(document).ready(function(){
         let role = "";
         if($('#roleManager').prop('checked')) role = "Manager";
         if($('#roleDeliverer').prop('checked')) role = "Deliverer";
-        $('#roleDeliverer').prop('checked');
         let data = {
         'username' : $('input[name="username"]').val(),
         'password' : $('input[name="password"]').val(),

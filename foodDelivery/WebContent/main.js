@@ -10,6 +10,7 @@ $(document).ready(function(){
                 $("#account").hide();
                 $("#users").hide();
                 $("#adminRegister").hide();
+                $("#newRestaurant").hide();
             }
             else{
                 $("#login").hide();
@@ -19,10 +20,12 @@ $(document).ready(function(){
                 if(user.role == "Admin"){
                     $("#users").show();
                     $("#adminRegister").show();
+                    $("#newRestaurant").show();
                 }
                 else{
                     $("#users").hide();
                     $("#adminRegister").hide();
+                    $("#newRestaurant").hide();
                 }
             }
         }
