@@ -269,4 +269,32 @@ public class UserService {
 		ImageIO.write(image, "png", outputfile);
 		return true;
 	}
+	
+	@GET
+	@Path("/getFreeManagers")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getFreeManagers() throws JsonProcessingException {
+		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
+		ArrayList<User> managers = fileUsers.getFreeManagers();
+		String usersJson = mapper.writeValueAsString(managers);
+		//System.out.println(managers.size());
+		return usersJson;
+	}
+	
+	@POST
+	@Path("/setManagersRestaurant")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean setManagersRestaurant(String username) throws IOException {
+		if(username.equals("no free managers")) return false;
+		FileRestaurant fileRestaurant = (FileRestaurant) ctx.getAttribute("fileRestaurant");
+		Restaurant restaurant = fileRestaurant.getLastRestaurant();
+		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
+		User manager = fileUsers.getUser(username);
+		manager.setRestaurant(restaurant);
+		fileUsers.write();
+		//System.out.println(username + "yo");
+		return true;
+	}
 }

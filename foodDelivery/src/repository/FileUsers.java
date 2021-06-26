@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import beans.User;
+import beans.User.Role;
 
 public class FileUsers {
 	private ArrayList<User> users;
@@ -80,5 +81,21 @@ public class FileUsers {
 			//System.out.println(users.get(i).getPassword() + ", " + password);
 		}
 		return false;
+	}
+	
+	public ArrayList<User> getFreeManagers(){
+		ArrayList<User> freeManagers = new ArrayList<User>();
+		for(int i=0; i<users.size(); i++) {
+			if(users.get(i).getRestaurant() == null && users.get(i).getRole() == Role.Manager) freeManagers.add(users.get(i));
+		}
+		return freeManagers;
+	}
+	
+	public User getUser(String username) {
+		User user = new User();
+		for(int i=0; i<users.size(); i++) {
+			if(users.get(i).getUsername().equals(username)) user = users.get(i);
+		}
+		return user;
 	}
 }

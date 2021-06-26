@@ -1,10 +1,23 @@
 var imageInBase64;
 
 $(document).ready(function(){
+    //dobijam menadzere koji nisu zaduzeni ni za jedan restoran i stavljam ih u combobox
+    $.get({
+        url: "rest/userService/getFreeManagers",
+        success: function(managers){
+            var managersSelectList = $('#managers');
+            //console.log(managers.length);
+            for (var i = 0; i < managers.length; i++) {
+                managersSelectList.append(new Option(managers[i].username, 'value'));
+            }
+            if(managers.length == 0) managersSelectList.append(new Option('no free managers', 'value'));
+        }
+    });
+    
     let form = $('form');
     form.submit(function(event){
         event.preventDefault();
-
+        var managersUsername = $("#managers option:selected").text();
         let latitude = $('input[name="latitude"]').val();
         let longitude = $('input[name="longitude"]').val();
         let city = $('input[name="city"]').val();
@@ -30,12 +43,20 @@ $(document).ready(function(){
                     contentType: "application/json",
                     success: function(data2){
                         console.log(imageInBase64);
-                        if(data2 == true) window.location.replace("index.html");
+                        //if(data2 == true) window.location.replace("index.html");
                     }
+                });
+                //rest za dodavanje restorana menadzeru
+                $.post({
+                    url: "rest/userService/setManagersRestaurant",
+                    data: managersUsername,
+                    contentType: "application/json",
                 });
             }
         });
         
+        //nemoj odmah redirektovati jer se onda slika nece poslati, njoj treba vremena da stigne pa probaj naci nacin da redirektujes tek kad se slanje zavrsi
+        //window.location.replace("index.html")
     });
 });
 
