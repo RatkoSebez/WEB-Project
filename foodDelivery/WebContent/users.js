@@ -139,7 +139,7 @@ $(document).ready(function(){
     }
 
     $("#reset").click(function(){
-        console.log("yoo");
+        //console.log("yoo");
         $('#roleSelect').val('All').change();
         $('#customerTypeSelect').val('All').change();
         $('#searchName').val('');

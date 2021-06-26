@@ -36,6 +36,23 @@
 
 <!-- menu -->
 
+    <div class="filters">
+        <input type="text" id="searchName" placeholder="name">
+        <input type="text" id="searchType" placeholder="type">
+        <input type="text" id="searchLocation" placeholder="city">
+        <select name="type" id="typeSelect">
+            <option value="All" selected>Type</option>
+            <option value="Italian">Italian</option>
+            <option value="Chinese">Chinese</option>
+            <option value="FastFood">FastFood</option>
+        </select>
+        <select name="opened" id="openedSelect">
+            <option value="All" selected>All</option>
+            <option value="Opened">Opened</option>
+        </select>
+        <button id="reset">reset</button>
+    </div>
+
     <div class="container"></div>
 </body>
 </html>
