@@ -7,7 +7,11 @@ $(document).ready(function(){
             for(let i=0; i<restaurants.length; i++){
                 var link = $('<a href="#home"></a>');
                 var categoriesDiv = $('<div class="categories"></div>');
-                var img = $('<img src="' + restaurants[i].image + '" class="item-image"></img>');
+
+                var img = new Image();
+                img.src = restaurants[i].image;
+                img.classList.add('item-image');
+                //var img = $('<img src="' + restaurants[i].image + '" class="item-image"></img>');
 
                 var textDiv = $('<div class="image-title"></div>');
                 textDiv.append('<b>' + restaurants[i].name + '</b>' + '<br>' + restaurants[i].type + '<br>');

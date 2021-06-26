@@ -19,6 +19,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.xml.bind.DatatypeConverter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -255,13 +256,16 @@ public class UserService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public boolean saveImage(String data) throws IOException {
-		System.out.println("ovde sam");
+		FileRestaurant fileRestaurant = (FileRestaurant) ctx.getAttribute("fileRestaurant");
+		//System.out.println("ovde sam");
 		//System.out.println(base64Image.charAt(20));
 		String base64Image = data.split(",")[1];
-		byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
+		byte[] imageBytes = DatatypeConverter.parseBase64Binary(base64Image);
 		BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageBytes));
-		// write the image to a file
-		File outputfile = new File(ctx.getRealPath("") + "/images/proba.png");
+		Restaurant restaurant = fileRestaurant.getLastRestaurant();
+		File outputfile = new File(ctx.getRealPath("") + "/images/" + restaurant.getName() + ".png");
+		restaurant.setImage(data);
+		fileRestaurant.write();
 		ImageIO.write(image, "png", outputfile);
 		return true;
 	}

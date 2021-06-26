@@ -5,21 +5,6 @@ $(document).ready(function(){
     form.submit(function(event){
         event.preventDefault();
 
-        //var file_data = $('#img').prop('files')[0];
-        //console.log(file_data);
-
-        // let reader = new FileReader();
-        // reader.readAsDataURL(this.img[0]);
-        //console.log(imageInBase64);
-
-        var fd = new FormData();
-        var image = $("#img")[0].files[0];
-        fd.append('file', image);
-        var imageTest = $('#img').val();
-        var stringOfImage = URL.createObjectURL(image);
-        //console.log(stringOfImage);
-        //console.log(image);
-
         let latitude = $('input[name="latitude"]').val();
         let longitude = $('input[name="longitude"]').val();
         let city = $('input[name="city"]').val();
@@ -31,23 +16,26 @@ $(document).ready(function(){
         'location' : location,
         'type' : $('#type').val()
         }
+        
+        //prvo saljem sve osim slike restorana pa kad budem siguran da je restoran dodat onda cu da uploadujem i sliku
         $.post({
             url: "rest/userService/newRestaurant",
             data: JSON.stringify(data),
             contentType: "application/json",
-            success: function(data2){
-                //if(data2 == true) window.location.replace("index.html");
+            success: function(){
+                //rest za sliku
+                $.post({
+                    url: "rest/userService/saveImage",
+                    data: imageInBase64,
+                    contentType: "application/json",
+                    success: function(data2){
+                        console.log(imageInBase64);
+                        if(data2 == true) window.location.replace("index.html");
+                    }
+                });
             }
         });
-        $.post({
-            url: "rest/userService/saveImage",
-            data: imageInBase64,
-            contentType: "application/json",
-            success: function(data2){
-                console.log(imageInBase64);
-                //if(data2 == true) window.location.replace("index.html");
-            }
-        });
+        
     });
 });
 

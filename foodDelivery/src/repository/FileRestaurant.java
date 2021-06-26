@@ -65,4 +65,9 @@ public class FileRestaurant {
 	public ArrayList<Restaurant> getRestaurants(){
 		return restaurants;
 	}
+	
+	//uzimam ime poslednjeg dodatog restorana i ovo koristim da bu postavio ime slike
+	public Restaurant getLastRestaurant() {
+		return restaurants.get(restaurants.size()-1);
+	}
 }

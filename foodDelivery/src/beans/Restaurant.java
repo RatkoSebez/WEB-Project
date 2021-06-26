@@ -9,18 +9,18 @@ public class Restaurant {
 	private List<Item> items;
 	private boolean isOpened;
 	private Location location;
-	private String imagePath;
+	private String imageData;
 	
 	public Restaurant() {}
 	
-	public Restaurant(String name, Type type, List<Item> items, boolean isOpened, Location location, String imagePath) {
+	public Restaurant(String name, Type type, List<Item> items, boolean isOpened, Location location, String imageData) {
 		super();
 		this.name = name;
 		this.type = type;
 		this.items = items;
 		this.isOpened = isOpened;
 		this.location = location;
-		this.imagePath = imagePath;
+		this.imageData = imageData;
 	}
 
 	public String getName() {
@@ -64,10 +64,10 @@ public class Restaurant {
 	}
 
 	public String getImage() {
-		return imagePath;
+		return imageData;
 	}
 
 	public void setImage(String imagePath) {
-		this.imagePath = imagePath;
+		this.imageData = imagePath;
 	}
 }
