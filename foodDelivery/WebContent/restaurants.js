@@ -30,6 +30,12 @@ $(document).ready(function(){
     $('#openedSelect').on('change', function() {
         filterRestaurants();
     });
+    $('#sortSelect').on('change', function() {
+        filterRestaurants();
+    });
+    $('#ascDescSelect').on('change', function() {
+        filterRestaurants();
+    });
 
     $("#reset").click(function(){
         $('#searchName').val('');
@@ -37,6 +43,7 @@ $(document).ready(function(){
         $('#searchLocation').val('');
         $('#typeSelect').val('All').change();
         $('#openedSelect').val('All').change();
+        $('#sortSelect').val('All').change();
         //ne znam zasto se ovde ne bilduje kad promenim vrednost tekstualnih polja a kod tabele korisnika da
         //izgleda da se ne aktivira trigger
         buildRestaurants(restaurants);
@@ -73,11 +80,14 @@ function buildRestaurants(restaurants){
 }
 
 function filterRestaurants(){
+    //console.log('vucicu pederu');
     var nameInput = $('#searchName').val().toLowerCase();
     var typeInput = $('#searchType').val().toLowerCase();
     var locationInput = $('#searchLocation').val().toLowerCase();
     var typeSelect = $('#typeSelect').find(":selected").text().toLowerCase();
     var openedSelect = $('#openedSelect').find(":selected").text().toLowerCase();
+    var sortSelect = $('#sortSelect').find(":selected").text().toLowerCase();
+    var ascDescSelect = $('#ascDescSelect').find(":selected").text().toLowerCase();
     var allRestaurants = restaurants;
     var tmpRestaurants = [];
     //name
@@ -112,6 +122,7 @@ function filterRestaurants(){
     allRestaurants = tmpRestaurants;
     tmpRestaurants = [];
     //opened select
+    //console.log(openedSelect);
     if(openedSelect == 'all') tmpRestaurants = allRestaurants;
     for(var i=0; i<allRestaurants.length; i++){
         if(openedSelect == 'all') break;
@@ -120,5 +131,49 @@ function filterRestaurants(){
     }
     allRestaurants = tmpRestaurants;
     tmpRestaurants = [];
+    
+    //sortiram allRestaurants
+    if(sortSelect == 'name'){
+        function compareAscending1(a, b) {
+        if (a.name < b.name) return -1;
+        if (a.name > b.name) return 1;
+        return 0;
+        }
+        function compareDescending1(a, b) {
+        if (a.name > b.name) return -1;
+        if (a.name < b.name) return 1;
+        return 0;
+        }
+        if(ascDescSelect == 'ascending'){
+            allRestaurants.sort(compareAscending1);
+            //console.log('asc');
+        }
+        if(ascDescSelect == 'descending'){
+            allRestaurants.sort(compareDescending1);
+            //console.log('desc');
+        }
+    }
+    //za lokaciju sortira prvo po ulici, moza prebaciti da gleda grad, nisu napisali u specifikaciji detaljno
+    if(sortSelect == 'location'){
+        function compareAscending2(a, b) {
+        if (a.location.address < b.location.address) return -1;
+        if (a.location.address > b.location.address) return 1;
+        return 0;
+        }
+        function compareDescending2(a, b) {
+        if (a.location.address > b.location.address) return -1;
+        if (a.location.address < b.location.address) return 1;
+        return 0;
+        }
+        if(ascDescSelect == 'ascending'){
+            allRestaurants.sort(compareAscending2);
+            //console.log('asc');
+        }
+        if(ascDescSelect == 'descending'){
+            allRestaurants.sort(compareDescending2);
+            //console.log('desc');
+        }
+    }
+
     buildRestaurants(allRestaurants);
 }

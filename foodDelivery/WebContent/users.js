@@ -55,6 +55,7 @@ $(document).ready(function(){
 
     //sortiranje
     $('.sortColumn').on('click', function(){
+        var usersForSort = filterTable();
         var column = $(this).data('column');
         var order = $(this).data('order');
         var text = $(this).html();
@@ -62,16 +63,16 @@ $(document).ready(function(){
         //console.log(column + " " + order);
         if(order == 'desc'){
             $(this).data('order', 'asc');
-            users = users.sort((a,b) => a[column] > b[column] ? 1 : -1);
+            usersForSort = usersForSort.sort((a,b) => a[column] > b[column] ? 1 : -1);
             text += '&#9660';
         }
         else{
             $(this).data('order', 'desc');
-            users = users.sort((a,b) => a[column] < b[column] ? 1 : -1);
+            usersForSort = usersForSort.sort((a,b) => a[column] < b[column] ? 1 : -1);
             text += '&#9650';
         }
         $(this).html(text);
-        buildTable(users);
+        buildTable(usersForSort);
     });
 
     function filterTable(){
@@ -115,6 +116,7 @@ $(document).ready(function(){
         allUsers = tmpUsers;
         currentUsers = allUsers;
         buildTable(allUsers);
+        return allUsers;
     }
 
     function searchTableSelectCustomerType(input){
