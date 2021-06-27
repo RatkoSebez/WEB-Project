@@ -1,14 +1,14 @@
 package services;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
+//import java.awt.image.BufferedImage;
+//import java.io.ByteArrayInputStream;
+//import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.imageio.ImageIO;
+//import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +19,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.xml.bind.DatatypeConverter;
+//import javax.xml.bind.DatatypeConverter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -211,16 +211,6 @@ public class UserService {
 		return "";
 	}
 	
-	@POST
-	@Path("/getCustomerType")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public String getCustomerType(String username) {
-		return username;
-		//if(user.getCustomerType() == null) return null;
-		//else return user.getCustomerType().getType().toString();
-	}
-	
 	@GET
 	@Path("/getRestaurants")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -256,17 +246,18 @@ public class UserService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public boolean saveImage(String data) throws IOException {
+		//pre sam hteo da slike cuvam u falju ali nema potrebe jer se one nalaze u objektu restorana
 		FileRestaurant fileRestaurant = (FileRestaurant) ctx.getAttribute("fileRestaurant");
 		//System.out.println("ovde sam");
 		//System.out.println(base64Image.charAt(20));
-		String base64Image = data.split(",")[1];
-		byte[] imageBytes = DatatypeConverter.parseBase64Binary(base64Image);
-		BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageBytes));
+		//String base64Image = data.split(",")[1];
+		//byte[] imageBytes = DatatypeConverter.parseBase64Binary(base64Image);
+		//BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageBytes));
 		Restaurant restaurant = fileRestaurant.getLastRestaurant();
-		File outputfile = new File(ctx.getRealPath("") + "/images/" + restaurant.getName() + ".png");
+		//File outputfile = new File(ctx.getRealPath("") + "/images/" + restaurant.getName() + ".png");
 		restaurant.setImage(data);
 		fileRestaurant.write();
-		ImageIO.write(image, "png", outputfile);
+		//ImageIO.write(image, "png", outputfile);
 		return true;
 	}
 	

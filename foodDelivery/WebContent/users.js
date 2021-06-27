@@ -36,8 +36,7 @@ $(document).ready(function(){
         filterTable();
     });
     $('#customerTypeSelect').on('change', function() {
-        var filteredData = searchTableSelectCustomerType(this.value);
-        buildTable(filteredData);
+        filterTable();
     });
     $("#searchName").on('keyup', function(){
         filterTable();
@@ -114,30 +113,27 @@ $(document).ready(function(){
             if(role == roleInput) tmpUsers.push(allUsers[i]);
         }
         allUsers = tmpUsers;
+        tmpUsers = [];
+        //customer type
+        //console.log(roleInput);
+        //console.log(tmpUsers.length);
+        if(customerTypeInput == 'customer type') tmpUsers = allUsers;
+        //console.log(tmpUsers.length);
+        for(var i=0; i<allUsers.length; i++){
+            //console.log(i);
+            if(customerTypeInput == 'customer type') break;
+            //ako korisnik nije specijalni (nema popusta) idi dalje
+            if(!allUsers[i].customerType) continue;
+            if(!allUsers[i].customerType.type) continue;
+            var customerType = allUsers[i].customerType.type.toLowerCase();
+            if(customerType == customerTypeInput) tmpUsers.push(allUsers[i]);
+        }
+        //console.log(allUsers.length);
+        allUsers = tmpUsers;
+        //console.log(allUsers.length);
         currentUsers = allUsers;
         buildTable(allUsers);
         return allUsers;
-    }
-
-    function searchTableSelectCustomerType(input){
-        var searchedData = [];
-        if(input == "All") return users;
-        input = input.toLowerCase();
-        var customerType;
-        for(var i=0; i<users.length; i++){
-            $.post({
-                url: "rest/userService/getCustomerType",
-                data: JSON.stringify(users[i].username),
-                contentType: "application/json",
-                success: function(data2){
-                    cutomerType = data2;
-                },
-            });
-            if(customerType == input){
-                searchedData.push(users[i]);
-            }
-        }
-        return searchedData;
     }
 
     $("#reset").click(function(){
@@ -147,5 +143,6 @@ $(document).ready(function(){
         $('#searchName').val('');
         $('#searchSurname').val('');
         $('#searchUsername').val('');
+        filterTable();
     });
 });
