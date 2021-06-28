@@ -322,9 +322,10 @@ public class UserService {
 	@Path("/getItems")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String getItems() throws JsonProcessingException {
+	public String getItems(@QueryParam("name") String name) throws JsonProcessingException {
+		//System.out.println("ime: " + name);
 		FileItems fileItems = (FileItems) ctx.getAttribute("fileItems");
-		ArrayList<Item> items = fileItems.getItems();
+		ArrayList<Item> items = fileItems.getItems(name);
 		String usersJson = mapper.writeValueAsString(items);
 		//System.out.println(managers.size());
 		return usersJson;

@@ -67,6 +67,17 @@ public class FileItems {
 		return items;
 	}
 	
+	public ArrayList<Item> getItems(String restaurantsName) {
+		ArrayList<Item> retval = new ArrayList<Item>();
+		for(int i=0; i<items.size(); i++) {
+			//System.out.println(items.get(i).getRestaurant());
+			if(items.get(i).getRestaurant().equals(restaurantsName)) {
+				retval.add(items.get(i));
+			}
+		}
+		return retval;
+	}
+	
 	public Item getLastItem() {
 		return items.get(items.size()-1);
 	}
