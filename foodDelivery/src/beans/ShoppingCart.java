@@ -8,6 +8,8 @@ public class ShoppingCart {
 	private String user;
 	private double price;
 	
+	public ShoppingCart() {}
+	
 	public ShoppingCart(HashMap<String, Integer> itemAndQuantity, String user, double price) {
 		super();
 		this.itemAndQuantity = itemAndQuantity;

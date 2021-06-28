@@ -1,18 +1,18 @@
 package beans;
 
-import java.awt.Image;
-
 public class Item {
 	private String name;
 	private double price;
-	private enum Type{Food, Drink}
+	public enum Type{Food, Drink}
 	private Type type;
 	private String restaurant; //ime restorana je unikatno, pa je to kljuc koji povezuje item sa restoranom kom pripada
 	private double quantity; //u gramima ili mililitrima
 	private String description;
-	private Image image;
+	private String imageData;
 	
-	public Item(String name, double price, Type type, String restaurant, double quantity, String description, Image image) {
+	public Item() {}
+	
+	public Item(String name, double price, Type type, String restaurant, double quantity, String description, String imageData) {
 		super();
 		this.name = name;
 		this.price = price;
@@ -20,7 +20,7 @@ public class Item {
 		this.restaurant = restaurant;
 		this.quantity = quantity;
 		this.description = description;
-		this.image = image;
+		this.imageData = imageData;
 	}
 
 	public String getName() {
@@ -71,11 +71,11 @@ public class Item {
 		this.description = description;
 	}
 
-	public Image getImage() {
-		return image;
+	public String getImage() {
+		return imageData;
 	}
 
-	public void setImage(Image image) {
-		this.image = image;
+	public void setImage(String imageData) {
+		this.imageData = imageData;
 	}
 }

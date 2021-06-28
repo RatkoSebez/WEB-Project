@@ -13,34 +13,35 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import beans.Restaurant;
+import beans.Item;
 
-public class FileRestaurant {
-	private ArrayList<Restaurant> restaurants;
+public class FileItems {
+	private ArrayList<Item> items;
 	private String path;
 	ObjectMapper objectMapper = new ObjectMapper();
-	private static FileRestaurant instance = null;
-	public static FileRestaurant getInstance(String path) { 
+	private static FileItems instance = null;
+	public static FileItems getInstance(String path) { 
 		if (instance == null) {
-			instance = new FileRestaurant(path);
+			instance = new FileItems(path);
 		}
 		return instance;
 	}
 	
-	private FileRestaurant(String path) {
+	private FileItems(String path) {
 		objectMapper.configure(Feature.AUTO_CLOSE_SOURCE, true);
 		this.path = path;
 		read();
-		if(restaurants == null) restaurants = new ArrayList<Restaurant>();
+		if(items == null) items = new ArrayList<Item>();
 	}
 	
 	public void write(){
 		try {
-			String json = objectMapper.writeValueAsString(restaurants);
+			String json = objectMapper.writeValueAsString(items);
 			FileWriter myWriter = new FileWriter(path);
 			myWriter.write(json);
 			myWriter.flush();
 			myWriter.close();
+			//objectMapper.writeValue(new File(path), s);
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -52,7 +53,7 @@ public class FileRestaurant {
 	
 	public void read() {
 		try {
-			restaurants = objectMapper.readValue(new File(path), new TypeReference<List<Restaurant>>(){});
+			items = objectMapper.readValue(new File(path), new TypeReference<List<Item>>(){});
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -62,21 +63,11 @@ public class FileRestaurant {
 		}
 	}
 	
-	public Restaurant getRestaurant(String name){
-		for(int i=0; i<restaurants.size(); i++) {
-			if(restaurants.get(i).getName().equals(name)) {
-				return restaurants.get(i);
-			}
-		}
-		return null;
+	public ArrayList<Item> getItems() {
+		return items;
 	}
 	
-	public ArrayList<Restaurant> getRestaurants(){
-		return restaurants;
-	}
-	
-	//uzimam ime poslednjeg dodatog restorana i ovo koristim da bu postavio ime slike
-	public Restaurant getLastRestaurant() {
-		return restaurants.get(restaurants.size()-1);
+	public Item getLastItem() {
+		return items.get(items.size()-1);
 	}
 }

@@ -6,6 +6,8 @@ public class CustomerType {
 	private double discount;
 	private int pointsRequired;
 	
+	public CustomerType() {}
+	
 	public CustomerType(int type) {
 		if(type == 0) {
 			this.type = Type.Bronze;

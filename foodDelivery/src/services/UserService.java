@@ -17,6 +17,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 //import javax.xml.bind.DatatypeConverter;
@@ -24,9 +25,13 @@ import javax.ws.rs.core.MediaType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import beans.Item;
+//import beans.Item;
+//import beans.Item.Type;
 import beans.Restaurant;
 import beans.User;
 import beans.User.Role;
+import repository.FileItems;
 import repository.FileRestaurant;
 import repository.FileUsers;
 
@@ -65,6 +70,7 @@ public class UserService {
 		String contextPath = ctx.getRealPath("");
 		FileUsers fileUsers = FileUsers.getInstance(contextPath + "/data/users.json");
 		FileRestaurant fileRestaurant = FileRestaurant.getInstance(contextPath + "/data/restaurants.json");
+		FileItems fileItems = FileItems.getInstance(contextPath + "/data/items.json");
 		
 		
 		/*ArrayList<Restaurant> restaurantss = fileRestaurant.getRestaurants();
@@ -91,6 +97,12 @@ public class UserService {
 		if(ctx.getAttribute("fileRestaurant") == null) {
 			ctx.setAttribute("fileRestaurant", fileRestaurant);
 		}
+		if(ctx.getAttribute("fileItems") == null) {
+			ctx.setAttribute("fileItems", fileItems);
+		}
+		//ArrayList<Item> items = fileItems.getItems();
+		//items.add(new Item("pizza2", 900.99, Type.Food, "Garibaldi", 500.22, "opis", "data slike"));
+		//fileItems.write();
 	}
 	
 	@POST
@@ -149,8 +161,9 @@ public class UserService {
 		//User user2 = mapper.readValue(request.getReader(), User.class);
 		if(user.getRole() == null) user.setRole(Role.Customer);
 		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
-		@SuppressWarnings("unchecked")
-		ArrayList<User> users = (ArrayList<User>) ctx.getAttribute("users");
+		//@SuppressWarnings("unchecked")
+		ArrayList<User> users = fileUsers.getUsers();
+		//ArrayList<User> users = (ArrayList<User>) ctx.getAttribute("users");
 		users.add(user);
 		//System.out.println(users.size());
 		fileUsers.write();
@@ -212,6 +225,23 @@ public class UserService {
 	}
 	
 	@GET
+	@Path("/getRestaurant")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getRestaurant(@QueryParam("name") String name) {
+		//System.out.println(name + "yo");
+		FileRestaurant fileRestaurant = (FileRestaurant) ctx.getAttribute("fileRestaurant");
+		Restaurant restaurant = fileRestaurant.getRestaurant(name);
+		try {
+			String usersJson = mapper.writeValueAsString(restaurant);
+			return usersJson;
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	@GET
 	@Path("/getRestaurants")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -233,8 +263,7 @@ public class UserService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public boolean newRestaurant(@Context HttpServletRequest request, Restaurant restaurant) {
 		FileRestaurant fileRestaurant = (FileRestaurant) ctx.getAttribute("fileRestaurant");
-		@SuppressWarnings("unchecked")
-		ArrayList<Restaurant> restaurants = (ArrayList<Restaurant>) ctx.getAttribute("restaurants");
+		ArrayList<Restaurant> restaurants = fileRestaurant.getRestaurants();
 		restaurants.add(restaurant);
 		fileRestaurant.write();
 		//System.out.println(restaurants.size() + ", " + fileRestaurant.getRestaurants().size());
@@ -286,6 +315,44 @@ public class UserService {
 		manager.setRestaurant(restaurant);
 		fileUsers.write();
 		//System.out.println(username + "yo");
+		return true;
+	}
+	
+	@GET
+	@Path("/getItems")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getItems() throws JsonProcessingException {
+		FileItems fileItems = (FileItems) ctx.getAttribute("fileItems");
+		ArrayList<Item> items = fileItems.getItems();
+		String usersJson = mapper.writeValueAsString(items);
+		//System.out.println(managers.size());
+		return usersJson;
+	}
+	
+	@POST
+	@Path("/saveItemImage")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean saveItemImage(String data) throws IOException {
+		FileItems fileItems = (FileItems) ctx.getAttribute("fileItems");
+		Item item = fileItems.getLastItem();
+		//File outputfile = new File(ctx.getRealPath("") + "/images/" + restaurant.getName() + ".png");
+		item.setImage(data);
+		fileItems.write();
+		//ImageIO.write(image, "png", outputfile);
+		return true;
+	}
+	
+	@POST
+	@Path("/newItem")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean newItem(Item item) {
+		FileItems fileItems = (FileItems) ctx.getAttribute("fileItems");
+		ArrayList<Item> items = fileItems.getItems();
+		items.add(item);
+		fileItems.write();
 		return true;
 	}
 }

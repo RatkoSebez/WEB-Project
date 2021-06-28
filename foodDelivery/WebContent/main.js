@@ -11,6 +11,7 @@ $(document).ready(function(){
                 $("#users").hide();
                 $("#adminRegister").hide();
                 $("#newRestaurant").hide();
+                $("#newItem").hide();
             }
             else{
                 $("#login").hide();
@@ -22,10 +23,15 @@ $(document).ready(function(){
                     $("#adminRegister").show();
                     $("#newRestaurant").show();
                 }
+                else if(user.role == "Manager"){
+                    //ako je menadzer zaduzen za restoran
+                    if(user.restaurant) $("#newItem").show();
+                }
                 else{
                     $("#users").hide();
                     $("#adminRegister").hide();
                     $("#newRestaurant").hide();
+                    $("#newItem").hide();
                 }
             }
         }

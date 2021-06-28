@@ -54,7 +54,7 @@ function buildRestaurants(restaurants){
     $('.container').html('');
     let mainDiv = $('.container');
     for(let i=0; i<restaurants.length; i++){
-        var link = $('<a href="#home"></a>');
+        var link = $('<a href="restaurant.html?name=' + restaurants[i].name + '"></a>');
         var categoriesDiv = $('<div class="categories"></div>');
 
         var img = new Image();

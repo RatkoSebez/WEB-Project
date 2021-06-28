@@ -6,6 +6,8 @@ public class Comment {
 	private String comment;
 	private int rating;
 	
+	public Comment() {}
+	
 	public Comment(String user, String restaurant, String comment, int rating) {
 		super();
 		this.user = user;

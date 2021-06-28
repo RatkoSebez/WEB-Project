@@ -1,0 +1,38 @@
+[ 
+  {
+    "name": "pizza",
+    "price": 900.99,
+    "type": "Food",
+    "restaurant": "Garibaldi",
+    "quantity": 500.22,
+    "description": "opis",
+    "image": "data slike"
+  },
+  {
+    "name": "pizza2",
+    "price": 900.99,
+    "type": "Food",
+    "restaurant": "Garibaldi",
+    "quantity": 500.22,
+    "description": "opis",
+    "image": "data slike"
+  },
+  {
+    "name": "pizza2",
+    "price": 900.99,
+    "type": "Food",
+    "restaurant": "Garibaldi",
+    "quantity": 500.22,
+    "description": "opis",
+    "image": "data slike"
+  },
+  {
+    "name": "pizza2",
+    "price": 900.99,
+    "type": "Food",
+    "restaurant": "Garibaldi",
+    "quantity": 500.22,
+    "description": "opis",
+    "image": "data slike"
+  }
+]

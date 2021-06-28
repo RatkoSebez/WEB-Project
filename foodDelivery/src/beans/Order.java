@@ -15,6 +15,8 @@ public class Order {
 	private enum Status{Processing, InPreparation, WaitingForDeliveryMan, InTransport, Delivered, Canceled}
 	private Status status;
 	
+	public Order() {}
+	
 	public Order(String orderId, List<Item> items, String resrourant, Date date, double price, Pair<String, String> customersNameAndSurname, Status status) {
 		super();
 		this.orderId = orderId;
