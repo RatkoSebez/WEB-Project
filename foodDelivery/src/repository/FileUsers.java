@@ -98,4 +98,13 @@ public class FileUsers {
 		}
 		return user;
 	}
+	
+	public void saveUser(User user) {
+		for(int i=0; i<users.size(); i++) {
+			if(users.get(i).getUsername().equals(user.getUsername())) {
+				users.set(i, user);
+			}
+		}
+		write();
+	}
 }

@@ -6,7 +6,7 @@
 
 .categories {
   width: max-content;
-  margin: 0px 25px;
+  margin: 25px 25px;
   border: 1px solid #184d47;
   display: inline-block;
 }

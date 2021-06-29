@@ -26,6 +26,8 @@
 .itemsContainer {
   margin: 10px;
   /* width: 90%; */
+  /* display: flex; */
+  /* display: table; */
   text-align: center;
 }
 
@@ -34,6 +36,7 @@
   margin: 20px 20px;
   border: 1px solid #184d47;
   display: inline-block;
+  /* align-items: stretch; */
 }
 
 .itemsImage {

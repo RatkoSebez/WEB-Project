@@ -8,7 +8,7 @@ import javafx.util.Pair;
 public class Order {
 	private String orderId; //10 karaktera
 	private List<Item> items;
-	private String resrourant;
+	private String restaurant;
 	private Date date;
 	private double price;
 	private Pair<String, String> customersNameAndSurname;
@@ -17,11 +17,11 @@ public class Order {
 	
 	public Order() {}
 	
-	public Order(String orderId, List<Item> items, String resrourant, Date date, double price, Pair<String, String> customersNameAndSurname, Status status) {
+	public Order(String orderId, List<Item> items, String restaurant, Date date, double price, Pair<String, String> customersNameAndSurname, Status status) {
 		super();
 		this.orderId = orderId;
 		this.items = items;
-		this.resrourant = resrourant;
+		this.restaurant = restaurant;
 		this.date = date;
 		this.price = price;
 		this.customersNameAndSurname = customersNameAndSurname;
@@ -45,11 +45,11 @@ public class Order {
 	}
 
 	public String getResrourant() {
-		return resrourant;
+		return restaurant;
 	}
 
-	public void setResrourant(String resrourant) {
-		this.resrourant = resrourant;
+	public void setResrourant(String restaurant) {
+		this.restaurant = restaurant;
 	}
 
 	public Date getDate() {

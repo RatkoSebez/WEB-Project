@@ -12,6 +12,7 @@ $(document).ready(function(){
                 $("#adminRegister").hide();
                 $("#newRestaurant").hide();
                 $("#newItem").hide();
+                $("#shoppingCart").hide();
             }
             else{
                 $("#login").hide();
@@ -27,11 +28,15 @@ $(document).ready(function(){
                     //ako je menadzer zaduzen za restoran
                     if(user.restaurant) $("#newItem").show();
                 }
+                else if(user.role == "Customer"){
+                    $("#shoppingCart").show();
+                }
                 else{
                     $("#users").hide();
                     $("#adminRegister").hide();
                     $("#newRestaurant").hide();
                     $("#newItem").hide();
+                    $("#shoppingCart").hide();
                 }
             }
         }

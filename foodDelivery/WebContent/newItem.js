@@ -15,9 +15,16 @@ $(document).ready(function(){
                 'restaurant' : user.restaurant.name,
                 'type' : $('#type').val()
                 }
+                console.log(data.name)
+                console.log(data.price)
+                console.log(data.description)
+                console.log(data.quantity)
+                console.log(data.restaurant)
+                console.log(data.type)
                 
                 $.post({
-                    url: "rest/userService/newItem",
+                    url:
+                    "rest/userService/newItem",
                     data: JSON.stringify(data),
                     contentType: "application/json",
                     success: function(){

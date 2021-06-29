@@ -5,7 +5,9 @@ package services;
 //import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 //import javax.imageio.ImageIO;
@@ -29,6 +31,7 @@ import beans.Item;
 //import beans.Item;
 //import beans.Item.Type;
 import beans.Restaurant;
+import beans.ShoppingCart;
 import beans.User;
 import beans.User.Role;
 import repository.FileItems;
@@ -116,6 +119,10 @@ public class UserService {
 			return false;
 		}
 		else {
+			if(newUser.getShoppingCart() == null && newUser.getRole() == Role.Customer) {
+				newUser.setShoppingCart(new ShoppingCart(new HashMap<String, Integer>(), newUser.getUsername(), 0));
+				fileUsers.saveUser(newUser);
+			}
 			request.getSession().setAttribute("user", newUser);
 			return true;
 		}
@@ -266,6 +273,7 @@ public class UserService {
 		ArrayList<Restaurant> restaurants = fileRestaurant.getRestaurants();
 		restaurants.add(restaurant);
 		fileRestaurant.write();
+		//System.out.println(restaurants.size());
 		//System.out.println(restaurants.size() + ", " + fileRestaurant.getRestaurants().size());
 		return true;
 	}
@@ -354,6 +362,26 @@ public class UserService {
 		ArrayList<Item> items = fileItems.getItems();
 		items.add(item);
 		fileItems.write();
+		return true;
+	}
+	
+	@GET
+	@Path("/addItemToCart")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean addItemToCart(@QueryParam("name") String name, @QueryParam("quantity") int quantity, @Context HttpServletRequest request) {
+		//deluje da radi, stavljam item i quantity u mapu u korpi
+		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
+		User user = (User) request.getSession().getAttribute("user");
+		Map<String, Integer> mp = user.getShoppingCart().getItemAndQuantity();
+		if(mp.containsKey(name) == false) {
+			mp.put(name, quantity);
+		}
+		else {
+			mp.put(name, mp.get(name) + quantity);
+		}
+		fileUsers.saveUser(user);
+		System.out.println(name + ", " + quantity);
 		return true;
 	}
 }

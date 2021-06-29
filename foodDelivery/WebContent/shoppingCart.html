@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="jquery-3.3.1.min.js"></script>
-    <script src="restaurant.js"></script>
+    <script src="shoppingCart.js"></script>
     <script src="main.js"></script>
-    <link rel="stylesheet" href="restaurant.css">
+    <link rel="stylesheet" href="shoppingCart.css">
     <link rel="stylesheet" href="main.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
@@ -38,9 +38,31 @@
     </div>
     <!-- menu -->
 
-    <div class="container"></div>
-    <div class="itemsContainer"></div>
-    
+    <!-- <form action="rest/userService/addItemToCart" onsubmit="prevent(event)">
+        <input type="hidden" name="name" value="pepsi" />
+        <input type="hidden" name="quantity" value="2" />
+        <input type="submit" value="add" style="display: inline;">
+    </form> -->
+
+    <button id="add" onclick="addItemToShoppingCart('dsaf')">add</button>
+
+    <!-- shoppingCartDiv.append('<button id="add" onclick="addItemToShoppingCart(items[i].name + ',' + $('#' + i).val())">add</button>); -->
+
+    <script>
+        /*function prevent(event) {
+            event.preventDefault();
+            console.log('YOO');
+        }
+        let form = $('form');
+        form.submit(function (event) {
+            //event.preventDefault();
+            console.log('yo');
+        });*/
+        function addItemToShoppingCart(name) {
+            //console.log(item.name);
+            console.log("here" + name);
+        }
+    </script>
 
     </body>
 </html> 
