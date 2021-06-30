@@ -1,4 +1,15 @@
+var itemNames = [];
+var itemQuantity = [];
+var price = 0;
+var infoDiv;
+var items = [];
+var mainDiv;
+
 $(document).ready(function(){
+    start();
+});
+
+function start(){
     $.get({
         url: "rest/userService/getUserItems",
         success: function(items){
@@ -6,72 +17,101 @@ $(document).ready(function(){
             //ali ne znam da li je mapa ili sta god jer nijednu funkciju nisam mogao iskoristiti
             //rucno cu isparsirati string i pretvoriti u neki tip
             let itemsJson = JSON.stringify(items);
-            console.log(itemsJson);
+            //console.log(items);
+            if(itemsJson.length < 4){
+                //console.log('ovde');
+                //$('.itemsContainer').val('');
+                //return;
+            }
+            //console.log(itemsJson);
             //skloni viticaste zagrade sa pocetka i kraja stringa
+            itemNames = [];
+            itemQuantity = [];
             itemsJson = itemsJson.substring(0, itemsJson.length - 1);
             itemsJson = itemsJson.substring(1, itemsJson.length);
             let pairs = itemsJson.split(',');
-            let itemNames = [];
-            let itemQuantity = [];
             //var data = [];
             for(let i=0; i<pairs.length; i++){
                 itemNames[i] = pairs[i].split(':')[0];
                 itemNames[i] = itemNames[i].substring(0, itemNames[i].length - 1);
                 itemNames[i] = itemNames[i].substring(1, itemNames[i].length);
                 itemQuantity[i] = pairs[i].split(':')[1];
-                //data.push([itemNames[i], itemQuantity[i]]);
-                //console.log(itemNames[i] + '---' + itemQuantity[i]);
-                //console.log(data.length);
             }
-
+            //console.log('item names:' + itemNames.length);
             buildItems(itemNames, itemQuantity);
-            
-            /*for(let i=0; i<data.length; i++){
-                console.log(data[i]);
-            }*/
-
-            //console.log(pairs[0]);
-            //items.split(':');
-            //var d = [];
-            //d.push([label, value]);
-            //console.log(items instanceof String)
-            //console.log(typeof items);
         }
     });
-});
+}
 
 function buildItems(itemNames, itemQuantity){
     //console.log('ovde sam' + items.length)
     $('.itemsContainer').html('');
-    let mainDiv = $('.itemsContainer');
-    let price = 0;
-    for(let i=0; i<itemNames.length; i++){
-        $.get({
-            url: "rest/userService/getItem?name=" + itemNames[i],
-            success: function(item){
-                //console.log(item)
+    mainDiv = $('.itemsContainer');
+    $.post({
+        url: "rest/userService/getItemsForShoppingCart",
+        data: JSON.stringify({names: itemNames}),
+        contentType: "application/json",
+        success: function(data){
+            items = data;
+            //java ce vratiti null ako je prazna lista itema pa onda prekidam funkciju
+            if(!items[0]) return;
+            //console.log(data);
+            price = 0;
+            for(let i=0; i<items.length; i++){
+                //console.log('i:' + i);
                 var categoriesDiv = $('<div class="itemsCategories"></div>');
                 var img = new Image();
-                img.src = item.image;
+                img.src = items[i].image;
                 img.classList.add('itemsImage');
                 var textDiv = $('<div class="itemImageTitle"></div>');
-                textDiv.append('<b>' + item.name + '</b>' + '<br>' + item.type + '<br>' + item.price + '$<br>');
-                if(item.type == 'Drink' && item.quantity) textDiv.append(item.quantity + 'ml<br>');
-                if(item.type == 'Food' && item.quantity) textDiv.append(item.quantity + 'g<br>');
-                if(item.description) textDiv.append(item.description + '<br>');
-                var shoppingCartDiv = $('<div class="shoppingCartDiv" hidden></div>');
-                shoppingCartDiv.append('quantity: <input type="text" name="quantity" id="' + i + '" size="2">');
-                shoppingCartDiv.append('<button id="add" onclick="addItemToShoppingCart(\'' + item.name + ',' + i + '\')">add</button>');
+                textDiv.append('<b>' + items[i].name + '</b>' + '<br>' + items[i].type + '<br>' + items[i].price + '$<br>');
+                if(items[i].type == 'Drink' && items[i].quantity) textDiv.append(items[i].quantity + 'ml<br>');
+                if(items[i].type == 'Food' && items[i].quantity) textDiv.append(items[i].quantity + 'g<br>');
+                if(items[i].description) textDiv.append(items[i].description + '<br>');
+                var shoppingCartDiv = $('<div class="shoppingCartDiv"></div>');
+                shoppingCartDiv.append('quantity: <input type="text" name="quantity" id="' + i + '" size="2" value="' + itemQuantity[i] + '" oninput="editItemQuantity(' + i + ')">');
+                shoppingCartDiv.append('<button id="remove" onclick="removeItem(' + i + ')">remove</button>');
                 textDiv.append(shoppingCartDiv);
                 categoriesDiv.append(img).append(textDiv);
                 mainDiv.append(categoriesDiv);
-                price += item.price;  
+                price += items[i].price * itemQuantity[i];
                 if(i == itemNames.length - 1){
-                    var infoDiv = $('<div class="info"></div>');
+                    infoDiv = $('<div class="info"></div>');
                     infoDiv.append('total price' + price + '$');
                     mainDiv.append(infoDiv);
                 }
             }
-        });
-    }
+        }
+    });
+}
+
+function editItemQuantity(i){
+    price -= itemQuantity[i] * items[i].price;
+    let quantity = $('#' + i).val();
+    itemQuantity[i] = quantity;
+    price += itemQuantity[i] * items[i].price;
+    infoDiv = $('<div class="info"></div>');
+    infoDiv.append('total price' + price + '$');
+    $('.itemsContainer').children().last().remove();
+    mainDiv.append(infoDiv);
+    $.get({
+        url: "rest/userService/addItemToCart?name=" + items[i].name + "&quantity=" + itemQuantity[i] + "&flag=yes",
+        success: function(){
+        }
+    });
+}
+
+function removeItem(i){
+    price -= itemQuantity[i] * items[i].price;
+    infoDiv = $('<div class="info"></div>');
+    infoDiv.append('total price' + price + '$');
+    $('.itemsContainer').children().last().remove();
+    mainDiv.append(infoDiv);
+
+    $.get({
+        url: "rest/userService/removeItemFromCart?name=" + items[i].name,
+        success: function(){
+            start();
+        }
+    });
 }

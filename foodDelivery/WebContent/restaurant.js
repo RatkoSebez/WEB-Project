@@ -108,7 +108,7 @@ function addItemToShoppingCart(params){
     //console.log(name + ' ' + quantity);
 
     $.get({
-        url: "rest/userService/addItemToCart?name=" + name + "&quantity=" + quantity,
+        url: "rest/userService/addItemToCart?name=" + name + "&quantity=" + quantity + "&flag=no",
         success: function(){
             //console.log('check');
             //console.log(restaurant.name);

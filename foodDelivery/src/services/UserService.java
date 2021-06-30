@@ -382,16 +382,19 @@ public class UserService {
 	@Path("/addItemToCart")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public boolean addItemToCart(@QueryParam("name") String name, @QueryParam("quantity") int quantity, @Context HttpServletRequest request) {
-		//deluje da radi, stavljam item i quantity u mapu u korpi
+	public boolean addItemToCart(@QueryParam("name") String name, @QueryParam("quantity") int quantity, @QueryParam("flag") String flag, @Context HttpServletRequest request) {
+		//ako je flag yes to znaci da je funkcija pozvana iz shopping carta i onda samo treba da azuriram vrednost quantity
+		//ako je flag no ona je pozvana is restaurant.js i onda dodajem quantity na njegovu staru vrednost
 		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
 		User user = (User) request.getSession().getAttribute("user");
 		Map<String, Integer> mp = user.getShoppingCart().getItemAndQuantity();
+		//System.out.println(flag);
 		if(mp.containsKey(name) == false) {
 			mp.put(name, quantity);
 		}
 		else {
-			mp.put(name, mp.get(name) + quantity);
+			if(flag.equals("yes")) mp.put(name, quantity);
+			else mp.put(name, mp.get(name) + quantity);
 		}
 		fileUsers.saveUser(user);
 		//System.out.println(name + ", " + quantity);
@@ -409,6 +412,42 @@ public class UserService {
 		//System.out.println(mp.size());
 		String usersJson = mapper.writeValueAsString(mp);
 		//System.out.println(usersJson);
+		return usersJson;
+	}
+	
+	@GET
+	@Path("/removeItemFromCart")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean removeItemFromCart(@QueryParam("name") String name, @Context HttpServletRequest request) {
+		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
+		User user = (User) request.getSession().getAttribute("user");
+		Map<String, Integer> mp = user.getShoppingCart().getItemAndQuantity();
+		//System.out.println(user.getShoppingCart().getItemAndQuantity().size());
+		mp.remove(name);
+		//System.out.println(user.getShoppingCart().getItemAndQuantity().size());
+		fileUsers.saveUser(user);
+		//System.out.println(name + ", " + quantity);
+		return true;
+	}
+	
+	@POST
+	@Path("/getItemsForShoppingCart")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getItemsForShoppingCart(String data) throws IOException {
+		data = data.substring(10);
+		data = data.substring(0, data.length() - 2);
+		data = data.replace("\"", "");
+		String [] names = data.split(",");
+		
+		FileItems fileItems = (FileItems) ctx.getAttribute("fileItems");
+		ArrayList<Item> items = new ArrayList<Item>();
+		for(int i=0; i<names.length; i++) {
+			items.add(fileItems.getItem(names[i]));
+		}
+		String usersJson = mapper.writeValueAsString(items);
+		//System.out.println(data);
 		return usersJson;
 	}
 }
