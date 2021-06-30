@@ -81,4 +81,11 @@ public class FileItems {
 	public Item getLastItem() {
 		return items.get(items.size()-1);
 	}
+	
+	public Item getItem(String name) {
+		for(int i=0; i<items.size(); i++) {
+			if(items.get(i).getName().equals(name)) return items.get(i);
+		}
+		return null;
+	}
 }

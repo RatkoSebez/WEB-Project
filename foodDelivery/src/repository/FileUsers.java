@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -106,5 +108,13 @@ public class FileUsers {
 			}
 		}
 		write();
+	}
+	
+	public Map<String, Integer> getUserItems(String username) {
+		Map<String, Integer> mp = Collections.<String, Integer>emptyMap();
+		for(int i=0; i<users.size(); i++) {
+			if(users.get(i).getUsername().equals(username)) mp = users.get(i).getShoppingCart().getItemAndQuantity();
+		}
+		return mp;
 	}
 }

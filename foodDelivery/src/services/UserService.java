@@ -339,6 +339,19 @@ public class UserService {
 		return usersJson;
 	}
 	
+	@GET
+	@Path("/getItem")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getItem(@QueryParam("name") String name) throws JsonProcessingException {
+		//System.out.println("ime: " + name);
+		FileItems fileItems = (FileItems) ctx.getAttribute("fileItems");
+		Item item = fileItems.getItem(name);
+		String usersJson = mapper.writeValueAsString(item);
+		//System.out.println(managers.size());
+		return usersJson;
+	}
+	
 	@POST
 	@Path("/saveItemImage")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -381,7 +394,21 @@ public class UserService {
 			mp.put(name, mp.get(name) + quantity);
 		}
 		fileUsers.saveUser(user);
-		System.out.println(name + ", " + quantity);
+		//System.out.println(name + ", " + quantity);
 		return true;
+	}
+	
+	@GET
+	@Path("/getUserItems")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getUserItems(@Context HttpServletRequest request) throws JsonProcessingException {
+		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
+		User user = (User)request.getSession().getAttribute("user");
+		Map<String, Integer> mp = fileUsers.getUserItems(user.getUsername());
+		//System.out.println(mp.size());
+		String usersJson = mapper.writeValueAsString(mp);
+		//System.out.println(usersJson);
+		return usersJson;
 	}
 }
