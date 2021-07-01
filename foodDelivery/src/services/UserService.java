@@ -460,7 +460,7 @@ public class UserService {
 	@Path("/createOrder")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String createOrder(Order order, @Context HttpServletRequest request) throws IOException {
+	public boolean createOrder(Order order, @Context HttpServletRequest request) throws IOException {
 		//nisam uspeo da posaljem ime restorana pa cu ga ovako setovati, preduslov je da su svi itemi iz istog restorana
 		order.setResrourant(order.getItems().get(0).getRestaurant());
 		order.setStatus(Status.Processing);
@@ -482,6 +482,6 @@ public class UserService {
 		orders.add(order);
 		user.setCustomersOrders(orders);
 		fileUsers.write();
-		return "";
+		return true;
 	}
 }

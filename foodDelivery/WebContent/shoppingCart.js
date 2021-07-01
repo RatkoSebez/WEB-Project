@@ -127,8 +127,9 @@ function createOrder(){
         url: "rest/userService/createOrder",
         data: JSON.stringify(data),
         contentType: "application/json",
-        success: function(data2){
-            //if(data2 == true) window.location.replace("index.html");
+        success: function(){
+            //console.log('here');
+            start();
         }
     });
 }
