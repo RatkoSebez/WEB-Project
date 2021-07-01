@@ -484,4 +484,19 @@ public class UserService {
 		fileUsers.write();
 		return true;
 	}
+	
+	@GET
+	@Path("/getCustomerOrders")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getCustomerOrders(@Context HttpServletRequest request) throws JsonProcessingException {
+		User user = (User)request.getSession().getAttribute("user");
+		ArrayList<Order> allOrders = user.getCustomersOrders();
+		ArrayList<Order> orders = new ArrayList<Order>();
+		for(int i=0; i<allOrders.size(); i++) {
+			if(allOrders.get(i).getStatus() != Status.Delivered) orders.add(allOrders.get(i));
+		}
+		String usersJson = mapper.writeValueAsString(orders);
+		return usersJson;
+	}
 }

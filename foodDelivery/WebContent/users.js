@@ -11,25 +11,25 @@ $(document).ready(function(){
     function buildTable(data){
         $("#users > tbody").html("");
         for(let users of data){
-                let tbody = $('#users tbody');
-                let name = $('<td>' + users.name + '</td>');
-                let surname = $('<td>' + users.surname + '</td>');
-                let username = $('<td>' + users.username + '</td>');
-                let gender = $('<td>' + users.gender + '</td>');
-                let role = $('<td>' + users.role + '</td>');
-                let discountPoints = $('<td>' + users.discountPoints + '</td>');
-                //datum rodjenja
-                let date = new Date(users.birthDate);
-                var day = date.getDate();
-                var month =  date.getMonth() + 1;
-                var year = date.getFullYear();
-                formattedDate = day + "." + month + "." + year + ".";
-                let birthDate = ($('<td>' + formattedDate + '</td>'));
-                //kreiranje tabele
-                let tr = $('<tr></tr>');
-                tr.append(name).append(surname).append(username).append(role).append(gender).append(birthDate).append(discountPoints);
-                tbody.append(tr);
-            }
+            let tbody = $('#users tbody');
+            let name = $('<td>' + users.name + '</td>');
+            let surname = $('<td>' + users.surname + '</td>');
+            let username = $('<td>' + users.username + '</td>');
+            let gender = $('<td>' + users.gender + '</td>');
+            let role = $('<td>' + users.role + '</td>');
+            let discountPoints = $('<td>' + users.discountPoints + '</td>');
+            //datum rodjenja
+            let date = new Date(users.birthDate);
+            var day = date.getDate();
+            var month =  date.getMonth() + 1;
+            var year = date.getFullYear();
+            formattedDate = day + "." + month + "." + year + ".";
+            let birthDate = ($('<td>' + formattedDate + '</td>'));
+            //kreiranje tabele
+            let tr = $('<tr></tr>');
+            tr.append(name).append(surname).append(username).append(role).append(gender).append(birthDate).append(discountPoints);
+            tbody.append(tr);
+        }
     }
 
     $('#roleSelect').on('change', function() {

@@ -1,6 +1,15 @@
-$(document).ready(function(){
+	$(document).ready(function(){
     let form = $('form');
     setInputFieldsData();
+
+    $.get({
+        url: "rest/userService/getCustomerOrders",
+        success: function(data){
+            //console.log(data.length);
+            buildTable(data);
+        }
+    });
+
     form.submit(function(event){
         event.preventDefault();
         let data = {
@@ -52,3 +61,30 @@ function setInputFieldsData(){
         }
     });
 }
+
+function buildTable(data){
+        $("#orders > tbody").html("");
+        for(let orders of data){
+            let tbody = $('#orders tbody');
+            let restaurant = $('<td class="ordersTd">' + orders.restaurant + '</td>');
+            //let date = $('<td class="ordersTd">' + orders.date + '</td>');
+            let status = $('<td class="ordersTd">' + orders.status + '</td>');
+            let price = $('<td class="ordersTd">' + orders.price + '$' + '</td>');
+            //datum rodjenja
+            let dateTmp = new Date(orders.date);
+            var day = dateTmp.getDate();
+            var month =  dateTmp.getMonth() + 1;
+            var year = dateTmp.getFullYear();
+            formattedDate = day + "." + month + "." + year + ".";
+            let date = ($('<td class="ordersTd">' + formattedDate + '</td>'));
+            let items = ($('<td class="ordersTd"></td>'));
+            for(let i=0; i<orders.items.length; i++){
+                items.append(orders.items[i].name);
+                if(i != orders.items.length - 1) items.append(' | ');
+            }
+            //kreiranje tabele
+            let tr = $('<tr class="ordersTr"></tr>');
+            tr.append(restaurant).append(date).append(items).append(status).append(price);
+            tbody.append(tr);
+        }
+    }

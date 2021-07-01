@@ -79,8 +79,8 @@ function buildItems(itemNames, itemQuantity){
                     infoDiv = $('<div class="info"></div>');
                     infoDiv.append('total price' + price + '$');
                     mainDiv.append(infoDiv);
+                    mainDiv.append('<button id="createOrder" onclick="createOrder()">Create Order</button>');
                 }
-                mainDiv.append('<button id="createOrder" onclick="createOrder()">Create Order</button>');
             }
         }
     });

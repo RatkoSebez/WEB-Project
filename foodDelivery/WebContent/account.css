@@ -15,3 +15,35 @@
 #loginForm {
   text-align: left;
 }
+
+#orders {
+  margin: auto;
+  text-align: center;
+  border-spacing: 0;
+  border-radius: 10px;
+}
+
+.ordersThead {
+  background-color: #184d47;
+  color: white;
+  text-decoration: none;
+}
+
+.ordersTh {
+  padding: 10px;
+  font-weight: normal;
+}
+
+.ordersTd {
+  padding: 7px 5px;
+}
+
+.ordersTr:nth-child(even) {
+  background-color: #e8e8e8;
+}
+
+.filters {
+  margin: auto;
+  text-align: center;
+  padding: 20px;
+}
