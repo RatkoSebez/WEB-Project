@@ -117,4 +117,15 @@ public class FileUsers {
 		}
 		return mp;
 	}
+	
+	public long generateOrdersId() {
+		long id = 1000000000;
+		for(int i=0; i<users.size(); i++) {
+			if(users.get(i).getCustomersOrders() == null) continue;
+			for(int j=0; j<users.get(i).getCustomersOrders().size(); j++) {
+				id = Math.max(id, users.get(i).getCustomersOrders().get(j).getOrderId());
+			}
+		}
+		return id + 1;
+	}
 }

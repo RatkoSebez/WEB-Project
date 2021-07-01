@@ -5,6 +5,7 @@ package services;
 //import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import beans.Item;
+import beans.Order;
+import beans.Order.Status;
 //import beans.Item;
 //import beans.Item.Type;
 import beans.Restaurant;
@@ -388,6 +391,7 @@ public class UserService {
 		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
 		User user = (User) request.getSession().getAttribute("user");
 		Map<String, Integer> mp = user.getShoppingCart().getItemAndQuantity();
+		if(mp.size() == 0) mp = new HashMap<String, Integer>();
 		//System.out.println(flag);
 		if(mp.containsKey(name) == false) {
 			mp.put(name, quantity);
@@ -396,6 +400,7 @@ public class UserService {
 			if(flag.equals("yes")) mp.put(name, quantity);
 			else mp.put(name, mp.get(name) + quantity);
 		}
+		user.getShoppingCart().setItemAndQuantity(mp);
 		fileUsers.saveUser(user);
 		//System.out.println(name + ", " + quantity);
 		return true;
@@ -449,5 +454,34 @@ public class UserService {
 		String usersJson = mapper.writeValueAsString(items);
 		//System.out.println(data);
 		return usersJson;
+	}
+	
+	@POST
+	@Path("/createOrder")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String createOrder(Order order, @Context HttpServletRequest request) throws IOException {
+		//nisam uspeo da posaljem ime restorana pa cu ga ovako setovati, preduslov je da su svi itemi iz istog restorana
+		order.setResrourant(order.getItems().get(0).getRestaurant());
+		order.setStatus(Status.Processing);
+		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
+		User user = (User)request.getSession().getAttribute("user");
+		//praznim korpu korisnika
+		Map<String, Integer> mp = user.getShoppingCart().getItemAndQuantity();
+		mp = Collections.<String, Integer>emptyMap();
+		user.getShoppingCart().setItemAndQuantity(mp);
+		//ukupna_cena_porudžbine/1000 * 133
+		int points = (int) Math.round((order.getPrice()/10)*133);
+		int currentPoints = user.getDiscountPoints();
+		user.setDiscountPoints(currentPoints + points);
+		order.setCustomersName(user.getName());
+		order.setCustomersSurname(user.getSurname());
+		order.setOrderId(fileUsers.generateOrdersId());
+		ArrayList<Order> orders = user.getCustomersOrders();
+		if(orders == null) orders = new ArrayList<Order>();
+		orders.add(order);
+		user.setCustomersOrders(orders);
+		fileUsers.write();
+		return "";
 	}
 }

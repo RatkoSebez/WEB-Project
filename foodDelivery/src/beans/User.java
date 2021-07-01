@@ -1,7 +1,7 @@
 package beans;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class User {
 	private String username; //jedinstveno
@@ -13,10 +13,11 @@ public class User {
 	private Date birthDate;
 	public enum Role{Admin, Manager, Deliverer, Customer}
 	private Role role;
-	private List<Order> customersOrders;
+	private ArrayList<Order> customersOrders;
 	private ShoppingCart shoppingCart;
 	private Restaurant restaurant;
-	private List<Order> delivererOrders;
+	private ArrayList<Order> delivererOrders;
+	//treba biti double
 	private int discountPoints;
 	private CustomerType customerType;
 	
@@ -31,7 +32,7 @@ public class User {
 	}
 	
 	//konstruktor za registrovanje kupca
-	public User(String username, String password, String name, String surname, Gender gender, Date birthDate, List<Order> customersOrders, ShoppingCart shoppingCart) {
+	public User(String username, String password, String name, String surname, Gender gender, Date birthDate, ArrayList<Order> customersOrders, ShoppingCart shoppingCart) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -85,11 +86,11 @@ public class User {
 		this.role = role;
 	}
 
-	public List<Order> getCustomersOrders() {
+	public ArrayList<Order> getCustomersOrders() {
 		return customersOrders;
 	}
 
-	public void setCustomersOrders(List<Order> customersOrders) {
+	public void setCustomersOrders(ArrayList<Order> customersOrders) {
 		this.customersOrders = customersOrders;
 	}
 
@@ -109,11 +110,11 @@ public class User {
 		this.restaurant = restaurant;
 	}
 
-	public List<Order> getDelivererOrders() {
+	public ArrayList<Order> getDelivererOrders() {
 		return delivererOrders;
 	}
 
-	public void setDelivererOrders(List<Order> delivererOrders) {
+	public void setDelivererOrders(ArrayList<Order> delivererOrders) {
 		this.delivererOrders = delivererOrders;
 	}
 

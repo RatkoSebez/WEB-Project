@@ -80,6 +80,7 @@ function buildItems(itemNames, itemQuantity){
                     infoDiv.append('total price' + price + '$');
                     mainDiv.append(infoDiv);
                 }
+                mainDiv.append('<button id="createOrder" onclick="createOrder()">Create Order</button>');
             }
         }
     });
@@ -112,6 +113,22 @@ function removeItem(i){
         url: "rest/userService/removeItemFromCart?name=" + items[i].name,
         success: function(){
             start();
+        }
+    });
+}
+
+function createOrder(){
+    let data = {
+    'items' : items,
+    'price' : price,
+    'date' : new Date()
+    }
+    $.post({
+        url: "rest/userService/createOrder",
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        success: function(data2){
+            //if(data2 == true) window.location.replace("index.html");
         }
     });
 }
