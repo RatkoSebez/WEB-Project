@@ -1,4 +1,5 @@
 var orders;
+var loggedInUser;
 
 $(document).ready(function(){
     let form = $('form');
@@ -12,6 +13,13 @@ $(document).ready(function(){
             if(data.length > 0) $('#orders').show();
             if(data.length > 0) $('.filters').show();
             buildTable(data);
+        }
+    });
+
+    $.get({
+        url: "rest/userService/getLoggedInUser",
+        success: function(user){
+            loggedInUser = user;
         }
     });
 
@@ -161,6 +169,10 @@ function buildTable(data){
                     $("#restaurantName").hide();
                     tr.append(date).append(items).append(status).append(price);
                 }
+                if(loggedInUser.role == "Customer" && orders.status == "Processing"){
+                    var button = $('<button onclick="cancelOrder(' + orders.orderId + "," + orders.price + ')">cancel</button>');
+                    tr.append(button);
+                }
                 tbody.append(tr);
                 }
             }
@@ -242,6 +254,7 @@ function filterTable(){
     return allOrders;
 }
 
+//probaj sa post zahtevom
 function getRestaurantType(restaurant){
     $.get({
         url: "rest/userService/getRestaurantType?restaurant=" + restaurant,
@@ -252,3 +265,22 @@ function getRestaurantType(restaurant){
     });
 }
 
+function cancelOrder(id, price){
+    //console.log(id + ", " + price);
+    $.post({
+        url: "rest/userService/cancelOrder",
+        data: JSON.stringify({id: id, price: price}),
+        contentType: "application/json",
+        success: function(){
+            $.get({
+                url: "rest/userService/getOrders",
+                success: function(data){
+                    orders = data;
+                    if(data.length > 0) $('#orders').show();
+                    if(data.length > 0) $('.filters').show();
+                    buildTable(data);
+                }
+            });
+        }
+    });
+}
