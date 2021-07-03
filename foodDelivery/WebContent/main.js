@@ -13,6 +13,8 @@ $(document).ready(function(){
                 $("#newRestaurant").hide();
                 $("#newItem").hide();
                 $("#shoppingCart").hide();
+                $("#searchRestaurant").hide();
+                $("#restaurantTypeSelect").hide();
             }
             else{
                 $("#login").hide();
@@ -30,6 +32,12 @@ $(document).ready(function(){
                 }
                 else if(user.role == "Customer"){
                     $("#shoppingCart").show();
+                    $("#searchRestaurant").show();
+                    $("#restaurantTypeSelect").show();
+                }
+                else if(user.role == "Deliverer"){
+                    $("#searchRestaurant").show();
+                    $("#restaurantTypeSelect").show();
                 }
                 else{
                     $("#users").hide();
@@ -37,6 +45,8 @@ $(document).ready(function(){
                     $("#newRestaurant").hide();
                     $("#newItem").hide();
                     $("#shoppingCart").hide();
+                    $("#searchRestaurant").hide();
+                    $("#restaurantTypeSelect").hide();
                 }
             }
         }

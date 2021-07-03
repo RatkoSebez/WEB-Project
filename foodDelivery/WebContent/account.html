@@ -79,7 +79,7 @@
     </div>
 
     <div class="filters" hidden>
-        <input type="text" id="searchRestaurant" placeholder="restaurant">
+        <input type="text" id="searchRestaurant" placeholder="restaurant" hidden>
         <input type="text" id="searchPriceFrom" placeholder="price from">
         <input type="text" id="searchPriceTo" placeholder="price to">
         <input type="text" id="searchDateFrom" placeholder="date from">
@@ -93,7 +93,7 @@
             <option value="Delivered">Delivered</option>
             <option value="Canceled">Canceled</option>
         </select>
-        <select name="type" id="restaurantTypeSelect">
+        <select name="type" id="restaurantTypeSelect" hidden>
             <option value="All" selected>Restaurant Type</option>
             <option value="Italian">Italian</option>
             <option value="FastFood">FastFood</option>
@@ -103,7 +103,7 @@
 
     <table id="orders" hidden>
         <thead class="ordersThead">
-            <th class="ordersTh sortColumn" data-column="restaurant" data-order="desc">Restaurant &#9650</th>
+            <th class="ordersTh sortColumn" id="restaurantName" data-column="restaurant" data-order="desc" hidden>Restaurant &#9650</th>
             <th class="ordersTh sortColumn" data-column="date" data-order="desc">Date &#9650</th>
             <th class="ordersTh">Items</th>
             <th class="ordersTh">Status</th>

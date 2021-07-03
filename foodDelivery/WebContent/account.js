@@ -128,30 +128,43 @@ $.get({
 }
 
 function buildTable(data){
-    $("#orders > tbody").html("");
-    for(let orders of data){
-        let tbody = $('#orders tbody');
-        let restaurant = $('<td class="ordersTd">' + orders.restaurant + '</td>');
-        //let date = $('<td class="ordersTd">' + orders.date + '</td>');
-        let status = $('<td class="ordersTd">' + orders.status + '</td>');
-        let price = $('<td class="ordersTd">' + orders.price + '$' + '</td>');
-        //datum rodjenja
-        let dateTmp = new Date(orders.date);
-        var day = dateTmp.getDate();
-        var month =  dateTmp.getMonth() + 1;
-        var year = dateTmp.getFullYear();
-        formattedDate = day + "." + month + "." + year + ".";
-        let date = ($('<td class="ordersTd">' + formattedDate + '</td>'));
-        let items = ($('<td class="ordersTd"></td>'));
-        for(let i=0; i<orders.items.length; i++){
-            items.append(orders.items[i].name);
-            if(i != orders.items.length - 1) items.append(' | ');
-        }
-        //kreiranje tabele
-        let tr = $('<tr class="ordersTr"></tr>');
-        tr.append(restaurant).append(date).append(items).append(status).append(price);
-        tbody.append(tr);
-    }
+    $.get({
+        url: "rest/userService/getLoggedInUser",
+        success: function(user){
+            $("#orders > tbody").html("");
+            for(let orders of data){
+                let tbody = $('#orders tbody');
+                let restaurant = $('<td class="ordersTd">' + orders.restaurant + '</td>');
+                //let date = $('<td class="ordersTd">' + orders.date + '</td>');
+                let status = $('<td class="ordersTd">' + orders.status + '</td>');
+                let price = $('<td class="ordersTd">' + orders.price + '$' + '</td>');
+                //datum rodjenja
+                let dateTmp = new Date(orders.date);
+                var day = dateTmp.getDate();
+                var month =  dateTmp.getMonth() + 1;
+                var year = dateTmp.getFullYear();
+                formattedDate = day + "." + month + "." + year + ".";
+                let date = ($('<td class="ordersTd">' + formattedDate + '</td>'));
+                let items = ($('<td class="ordersTd"></td>'));
+                for(let i=0; i<orders.items.length; i++){
+                    items.append(orders.items[i].name);
+                    if(i != orders.items.length - 1) items.append(' | ');
+                }
+                //kreiranje tabele
+                let tr = $('<tr class="ordersTr"></tr>');
+
+                if(user.role == "Customer" || user.role == "Deliverer"){
+                    $("#restaurantName").show();
+                    tr.append(restaurant).append(date).append(items).append(status).append(price);
+                }
+                else{
+                    $("#restaurantName").hide();
+                    tr.append(date).append(items).append(status).append(price);
+                }
+                tbody.append(tr);
+                }
+            }
+    });
 }
 
 function filterTable(){
@@ -202,7 +215,7 @@ function filterTable(){
     tmpOrders = [];
 
     //restaurant type, get zahtev za tip restorana ne radi dobro, izgleda da se desila greska pa ne vraca success funkciju vec error
-    //if(restaurantTypeSelect == 'restaurant Type') tmpUsers = allUsers;
+    /*//if(restaurantTypeSelect == 'restaurant Type') tmpUsers = allUsers;
     for(var i=0; i<allOrders.length; i++){
         //if(restaurantTypeSelect == 'restaurant Type') break;
         var type = getRestaurantType(allOrders[i].restaurant);
@@ -211,7 +224,7 @@ function filterTable(){
         //if(role == roleInput) tmpUsers.push(allUsers[i]);
     }
     //allUsers = tmpUsers;
-    //tmpUsers = [];
+    //tmpUsers = [];*/
     
     //order status
     if(statusSelect == 'delivery status') tmpOrders = allOrders;
