@@ -15,6 +15,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import beans.Order;
+import beans.Order.Status;
 import beans.User;
 import beans.User.Role;
 
@@ -127,5 +129,35 @@ public class FileUsers {
 			}
 		}
 		return id + 1;
+	}
+	
+	public ArrayList<Order> getDelivererOrders(String username){
+		ArrayList<Order> orders = new ArrayList<Order>();
+		for(int i=0; i<users.size(); i++) {
+			if(users.get(i).getUsername().equals(username)) {
+				if(users.get(i).getDelivererOrders() == null || users.get(i).getDelivererOrders().size() == 0) continue;
+				for(int j=0; j<users.get(i).getDelivererOrders().size(); j++) {
+					if(users.get(i).getDelivererOrders().get(j).getStatus() != Status.Delivered) orders.add(users.get(i).getDelivererOrders().get(j));
+				}
+			}
+			else {
+				if(users.get(i).getCustomersOrders() == null || users.get(i).getCustomersOrders().size() == 0) continue;
+				for(int j=0; j<users.get(i).getCustomersOrders().size(); j++) {
+					if(users.get(i).getCustomersOrders().get(j).getStatus() == Status.WaitingForDeliveryMan) orders.add(users.get(i).getCustomersOrders().get(j));
+				}
+			}
+		}
+		return orders;
+	}
+	
+	public ArrayList<Order> getManagerOrders(String restaurant){
+		ArrayList<Order> orders = new ArrayList<Order>();
+		for(int i=0; i<users.size(); i++) {
+			if(users.get(i).getCustomersOrders() == null || users.get(i).getCustomersOrders().size() == 0) continue;
+			for(int j=0; j<users.get(i).getCustomersOrders().size(); j++) {
+				if(users.get(i).getCustomersOrders().get(j).getResrourant().equals(restaurant)) orders.add(users.get(i).getCustomersOrders().get(j));
+			}
+		}
+		return orders;
 	}
 }

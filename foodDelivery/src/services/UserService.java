@@ -482,21 +482,50 @@ public class UserService {
 		orders.add(order);
 		user.setCustomersOrders(orders);
 		fileUsers.write();
+		//System.out.println(order.getResrourant());
 		return true;
 	}
 	
 	@GET
-	@Path("/getCustomerOrders")
+	@Path("/getOrders")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String getCustomerOrders(@Context HttpServletRequest request) throws JsonProcessingException {
+	public String getOrders(@Context HttpServletRequest request) throws JsonProcessingException {
+		//ovde moze if pa da u zavisnosti od uloge vratis one porudzbine koje treba da budu vidljive
+		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
 		User user = (User)request.getSession().getAttribute("user");
-		ArrayList<Order> allOrders = user.getCustomersOrders();
-		ArrayList<Order> orders = new ArrayList<Order>();
-		for(int i=0; i<allOrders.size(); i++) {
-			if(allOrders.get(i).getStatus() != Status.Delivered) orders.add(allOrders.get(i));
+		if(user.getRole() == Role.Customer) {
+			ArrayList<Order> allOrders = user.getCustomersOrders();
+			ArrayList<Order> orders = new ArrayList<Order>();
+			for(int i=0; i<allOrders.size(); i++) {
+				if(allOrders.get(i).getStatus() != Status.Delivered) orders.add(allOrders.get(i));
+			}
+			String usersJson = mapper.writeValueAsString(orders);
+			return usersJson;
 		}
-		String usersJson = mapper.writeValueAsString(orders);
+		else if(user.getRole() == Role.Deliverer) {
+			ArrayList<Order> orders = fileUsers.getDelivererOrders(user.getUsername());
+			String usersJson = mapper.writeValueAsString(orders);
+			return usersJson;
+		}
+		else if(user.getRole() == Role.Manager) {
+			ArrayList<Order> orders = fileUsers.getManagerOrders(user.getRestaurant().getName());
+			String usersJson = mapper.writeValueAsString(orders);
+			return usersJson;
+		}
+		return "";
+	}
+	
+	@GET
+	@Path("/getRestaurantType")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getRestaurantType(@QueryParam("restaurant") String restaurant) throws JsonProcessingException {
+		FileRestaurant fileRestaurant = (FileRestaurant) ctx.getAttribute("fileRestaurant");
+		//System.out.println(fileRestaurant.getRestaurantType(restaurant));
+		String type = fileRestaurant.getRestaurantType(restaurant);
+		//System.out.println(type);
+		String usersJson = mapper.writeValueAsString(type);
 		return usersJson;
 	}
 }

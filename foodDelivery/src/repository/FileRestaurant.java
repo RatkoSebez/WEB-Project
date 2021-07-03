@@ -79,4 +79,14 @@ public class FileRestaurant {
 	public Restaurant getLastRestaurant() {
 		return restaurants.get(restaurants.size()-1);
 	}
+	
+	public String getRestaurantType(String restaurant) {
+		String type = "";
+		for(int i=0; i<restaurants.size(); i++) {
+			//System.out.println(i + ": " + restaurants.get(i).getType().toString());
+			if(restaurants.get(i).getName().equals(restaurant)) type = restaurants.get(i).getType().toString();
+		}
+		//System.out.println(type);
+		return type;
+	}
 }

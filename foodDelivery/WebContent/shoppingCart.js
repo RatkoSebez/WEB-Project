@@ -78,8 +78,8 @@ function buildItems(itemNames, itemQuantity){
                 if(i == itemNames.length - 1){
                     infoDiv = $('<div class="info"></div>');
                     infoDiv.append('total price' + price + '$');
+                    infoDiv.append('<button id="createOrder" onclick="createOrder()">Create Order</button>');
                     mainDiv.append(infoDiv);
-                    mainDiv.append('<button id="createOrder" onclick="createOrder()">Create Order</button>');
                 }
             }
         }

@@ -78,13 +78,36 @@
         <p id="errorMessage" style="color: red;"></p>
     </div>
 
-    <table id="orders">
+    <div class="filters" hidden>
+        <input type="text" id="searchRestaurant" placeholder="restaurant">
+        <input type="text" id="searchPriceFrom" placeholder="price from">
+        <input type="text" id="searchPriceTo" placeholder="price to">
+        <input type="text" id="searchDateFrom" placeholder="date from">
+        <input type="text" id="searchDateTo" placeholder="date to">
+        <select name="status" id="statusSelect">
+            <option value="All" selected>Delivery status</option>
+            <option value="Processing">Processing</option>
+            <option value="InPreparation">InPreparation</option>
+            <option value="WaitingForDeliveryMan">WaitingForDeliveryMan</option>
+            <option value="InTransport">InTransport</option>
+            <option value="Delivered">Delivered</option>
+            <option value="Canceled">Canceled</option>
+        </select>
+        <select name="type" id="restaurantTypeSelect">
+            <option value="All" selected>Restaurant Type</option>
+            <option value="Italian">Italian</option>
+            <option value="FastFood">FastFood</option>
+        </select>
+        <button id="resetTable">reset</button>
+    </div>
+
+    <table id="orders" hidden>
         <thead class="ordersThead">
-            <th class="ordersTh" data-column="restaurant" data-order="desc" class="sortColumn">Restaurant &#9650</th>
-            <th class="ordersTh" data-column="date" data-order="desc" class="sortColumn">Date &#9650</th>
-            <th class="ordersTh" data-column="items" data-order="desc" class="sortColumn">Items &#9650</th>
+            <th class="ordersTh sortColumn" data-column="restaurant" data-order="desc">Restaurant &#9650</th>
+            <th class="ordersTh sortColumn" data-column="date" data-order="desc">Date &#9650</th>
+            <th class="ordersTh">Items</th>
             <th class="ordersTh">Status</th>
-            <th class="ordersTh">Price</th>
+            <th class="ordersTh sortColumn" data-column="price" data-order="desc">Price &#9650</th>
         </thead>
         <tbody>
         </tbody>
