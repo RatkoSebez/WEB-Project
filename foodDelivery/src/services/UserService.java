@@ -53,6 +53,7 @@ public class UserService {
 	
 	@PostConstruct
 	public void init() {
+		//System.out.println(ctx.getRealPath(""));
 		/*ArrayList<User> admins = new ArrayList<User>();
 		admins.add(new User("pera", "123", "pera", "peric", Gender.Male, new Date()));
 		admins.add(new User("marko", "123", "marko", "markovic", Gender.Male, new Date()));
@@ -566,8 +567,28 @@ public class UserService {
 		long id = Integer.parseInt(tokenId[1]);
 		//System.out.println(id + ", " + price);
 		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
-		User user = (User)request.getSession().getAttribute("user");
-		fileUsers.processOrder(user.getUsername(), id);
+		//User user = (User)request.getSession().getAttribute("user");
+		fileUsers.processOrder(id);
+		fileUsers.write();
+		//System.out.println(id);
+		return true;
+	}
+	
+	@POST
+	@Path("/inTransportOrder")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean inTransportOrder(String data, @Context HttpServletRequest request) {
+		//System.out.println(data);
+		data = data.substring(1, data.length() - 1);
+		data = data.replace("\"", "");
+		String tokens[] = data.split(",");
+		String tokenId[] = tokens[0].split(":");
+		long id = Integer.parseInt(tokenId[1]);
+		//System.out.println(id + ", " + price);
+		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
+		//User user = (User)request.getSession().getAttribute("user");
+		fileUsers.inTransportOrder(id);
 		fileUsers.write();
 		//System.out.println(id);
 		return true;

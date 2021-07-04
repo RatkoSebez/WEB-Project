@@ -179,6 +179,11 @@ function buildTable(data){
                     var button = $('<button onclick="processedOrder(' + orders.orderId + ')">processed</button>');
                     tr.append(button);
                 }
+                if(loggedInUser.role == "Deliverer" && orders.status == "InTransport"){
+                    //console.log('unutra');
+                    var button = $('<button onclick="inTransportOrder(' + orders.orderId + ')">processed</button>');
+                    tr.append(button);
+                }
                 tbody.append(tr);
                 }
             }
@@ -294,6 +299,25 @@ function cancelOrder(id, price){
 function processedOrder(id){
     $.post({
         url: "rest/userService/processedOrder",
+        data: JSON.stringify({id: id}),
+        contentType: "application/json",
+        success: function(){
+            $.get({
+                url: "rest/userService/getOrders",
+                success: function(data){
+                    orders = data;
+                    if(data.length > 0) $('#orders').show();
+                    if(data.length > 0) $('.filters').show();
+                    buildTable(data);
+                }
+            });
+        }
+    });
+}
+
+function inTransportOrder(id){
+    $.post({
+        url: "rest/userService/inTransportOrder",
         data: JSON.stringify({id: id}),
         contentType: "application/json",
         success: function(){
