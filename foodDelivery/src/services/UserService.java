@@ -552,4 +552,24 @@ public class UserService {
 		//System.out.println(id);
 		return true;
 	}
+	
+	@POST
+	@Path("/processedOrder")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean processedOrder(String data, @Context HttpServletRequest request) {
+		//System.out.println(data);
+		data = data.substring(1, data.length() - 1);
+		data = data.replace("\"", "");
+		String tokens[] = data.split(",");
+		String tokenId[] = tokens[0].split(":");
+		long id = Integer.parseInt(tokenId[1]);
+		//System.out.println(id + ", " + price);
+		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
+		User user = (User)request.getSession().getAttribute("user");
+		fileUsers.processOrder(user.getUsername(), id);
+		fileUsers.write();
+		//System.out.println(id);
+		return true;
+	}
 }

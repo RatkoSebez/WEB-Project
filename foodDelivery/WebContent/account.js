@@ -173,6 +173,12 @@ function buildTable(data){
                     var button = $('<button onclick="cancelOrder(' + orders.orderId + "," + orders.price + ')">cancel</button>');
                     tr.append(button);
                 }
+                //console.log(loggedInUser.role)
+                if(loggedInUser.role == "Manager" && orders.status == "Processing"){
+                    //console.log('unutra');
+                    var button = $('<button onclick="processedOrder(' + orders.orderId + ')">processed</button>');
+                    tr.append(button);
+                }
                 tbody.append(tr);
                 }
             }
@@ -270,6 +276,25 @@ function cancelOrder(id, price){
     $.post({
         url: "rest/userService/cancelOrder",
         data: JSON.stringify({id: id, price: price}),
+        contentType: "application/json",
+        success: function(){
+            $.get({
+                url: "rest/userService/getOrders",
+                success: function(data){
+                    orders = data;
+                    if(data.length > 0) $('#orders').show();
+                    if(data.length > 0) $('.filters').show();
+                    buildTable(data);
+                }
+            });
+        }
+    });
+}
+
+function processedOrder(id){
+    $.post({
+        url: "rest/userService/processedOrder",
+        data: JSON.stringify({id: id}),
         contentType: "application/json",
         success: function(){
             $.get({

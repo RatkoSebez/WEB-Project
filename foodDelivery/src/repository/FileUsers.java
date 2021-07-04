@@ -173,4 +173,16 @@ public class FileUsers {
 			}
 		}
 	}
+	
+	public void processOrder(String restaurant, long orderId) {
+		for(int i=0; i<users.size(); i++) {
+			if(users.get(i).getCustomersOrders() == null) continue;
+			for(int j=0; j<users.get(i).getCustomersOrders().size(); j++) {
+				if(users.get(i).getCustomersOrders().get(j).getOrderId() == orderId) {
+					users.get(i).getCustomersOrders().get(j).setStatus(Status.WaitingForDeliveryMan);
+					break;
+				}
+			}
+		}
+	}
 }
