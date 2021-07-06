@@ -18,8 +18,10 @@ $(document).ready(function(){
                     $.get({
                         url: "rest/userService/getComments?restaurant=" + restaurantsName,
                         success: function(comments){
-                            //console.log(comments.length);
-                            buildTable(comments);
+                            if(comments.length > 0){
+                                $("#comments").show();
+                                buildTable(comments);
+                            }
                         }
                     });
                 }

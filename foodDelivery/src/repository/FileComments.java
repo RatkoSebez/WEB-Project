@@ -106,7 +106,7 @@ public class FileComments {
 				}
 			}
 		}
-		if(role == Role.Customer || role == Role.Deliverer) {
+		else{
 			//System.out.println("ovde");
 			for(int i=0; i<comments.size(); i++) {
 				if(comments.get(i).isAccepted() == null) continue;

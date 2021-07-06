@@ -10,9 +10,11 @@ $(document).ready(function(){
         success: function(data){
             //console.log(data.length);
             orders = data;
-            if(data.length > 0) $('#orders').show();
-            if(data.length > 0) $('.filters').show();
-            buildTable(data);
+            if(data){
+                if(data.length > 0) $('#orders').show();
+                if(data.length > 0) $('.filters').show();
+                buildTable(data);
+            }
         }
     });
 

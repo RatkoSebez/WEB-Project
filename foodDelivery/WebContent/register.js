@@ -12,7 +12,7 @@ $(document).ready(function(){
         });
 
         if(valid == false){
-            $('#errorMessage').text('Wrong input.');
+            $('#errorMessage').text('*wrong input');
             return;
         }
 
@@ -34,7 +34,11 @@ $(document).ready(function(){
             data: JSON.stringify(data),
             contentType: "application/json",
             success: function(data2){
-                if(data2 == true) window.location.replace("index.html");
+                if(data2) window.location.replace("index.html");
+                if(!data2) $('#errorMessage').text('*username is already taken');
+            },
+            error: function(){
+                console.log('error');
             }
         });
     });

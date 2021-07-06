@@ -182,11 +182,12 @@ public class UserService {
 		//User user2 = mapper.readValue(request.getReader(), User.class);
 		if(user.getRole() == null) user.setRole(Role.Customer);
 		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
+		//da li username vec postoji
+		//System.out.println(fileUsers.usernameExists(user.getUsername()));
+		if(fileUsers.usernameExists(user.getUsername())) return false;
 		//@SuppressWarnings("unchecked")
 		ArrayList<User> users = fileUsers.getUsers();
-		//ArrayList<User> users = (ArrayList<User>) ctx.getAttribute("users");
 		users.add(user);
-		//System.out.println(users.size());
 		fileUsers.write();
 		//uloguj korisnika kad se registruje
 		if(user.getRole() == Role.Customer) request.getSession().setAttribute("user", user);
@@ -218,16 +219,18 @@ public class UserService {
 	@Path("/getUsers")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String getUsers() {
-		@SuppressWarnings("unchecked")
-		ArrayList<User> users = (ArrayList<User>) ctx.getAttribute("users");
-		try {
-			String usersJson = mapper.writeValueAsString(users);
-			return usersJson;
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
+	public String getUsers(@Context HttpServletRequest request) throws JsonProcessingException {
+		User user = (User) request.getSession().getAttribute("user");
+		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
+		ArrayList<User> users = new ArrayList<User>();
+		if(user.getRole() == Role.Admin) {
+			users = fileUsers.getUsers();
 		}
-		return "";
+		else if(user.getRole() == Role.Manager) {
+			users = fileUsers.getUsersForManager(user.getRestaurant().getName());
+		}
+		String usersJson = mapper.writeValueAsString(users);
+		return usersJson;
 	}
 	
 	@GET
@@ -508,8 +511,10 @@ public class UserService {
 		if(user.getRole() == Role.Customer) {
 			ArrayList<Order> allOrders = user.getCustomersOrders();
 			ArrayList<Order> orders = new ArrayList<Order>();
-			for(int i=0; i<allOrders.size(); i++) {
-				if(allOrders.get(i).getStatus() != Status.Delivered) orders.add(allOrders.get(i));
+			if(allOrders != null) {
+				for(int i=0; i<allOrders.size(); i++) {
+					if(allOrders.get(i).getStatus() != Status.Delivered) orders.add(allOrders.get(i));
+				}
 			}
 			String usersJson = mapper.writeValueAsString(orders);
 			return usersJson;
@@ -520,11 +525,12 @@ public class UserService {
 			return usersJson;
 		}
 		else if(user.getRole() == Role.Manager) {
+			if(user.getRestaurant() == null) return null;
 			ArrayList<Order> orders = fileUsers.getManagerOrders(user.getRestaurant().getName());
 			String usersJson = mapper.writeValueAsString(orders);
 			return usersJson;
 		}
-		return "";
+		return null;
 	}
 	
 	@GET
@@ -665,8 +671,9 @@ public class UserService {
 	public String getComments(@QueryParam("restaurant") String restaurant, @Context HttpServletRequest request) throws JsonProcessingException {
 		User user = (User)request.getSession().getAttribute("user");
 		FileComments fileComments = (FileComments) ctx.getAttribute("fileComments");
-		ArrayList<Comment> comments = fileComments.getCommentsForRestaurant(restaurant, user.getRole());
-		//System.out.println(comments.size());
+		ArrayList<Comment> comments;
+		if(user == null) comments = fileComments.getCommentsForRestaurant(restaurant, null);
+		else comments = fileComments.getCommentsForRestaurant(restaurant, user.getRole());
 		String usersJson = mapper.writeValueAsString(comments);
 		return usersJson;
 	}

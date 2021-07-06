@@ -211,4 +211,26 @@ public class FileUsers {
 		}
 		return restaurants;
 	}
+	
+	public boolean usernameExists(String username) {
+		for(int i=0; i<users.size(); i++) {
+			if(users.get(i).getUsername().equals(username)) return true;
+		}
+		return false;
+	}
+	
+	public ArrayList<User> getUsersForManager(String restaurant){
+		ArrayList<User> ret = new ArrayList<User>();
+		for(int i=0; i<users.size(); i++) {
+			if(users.get(i).getCustomersOrders() != null) {
+				for(int j=0; j<users.get(i).getCustomersOrders().size(); j++) {
+					if(users.get(i).getCustomersOrders().get(j).getResrourant().equals(restaurant)) {
+						ret.add(users.get(i));
+						break;
+					}
+				}
+			}
+		}
+		return ret;
+	}
 }
