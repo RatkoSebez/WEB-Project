@@ -626,10 +626,35 @@ public class UserService {
 		User user = (User)request.getSession().getAttribute("user");
 		comment.setUser(user.getUsername());
 		FileComments fileComments = (FileComments) ctx.getAttribute("fileComments");
+		comment.setId(fileComments.generateCommentsId());
 		ArrayList<Comment> comments = fileComments.getComments();
 		comments.add(comment);
 		fileComments.write();
-		System.out.println(comment.getRestaurant());
+		//System.out.println(comment.getComment());
+		return true;
+	}
+	
+	@GET
+	@Path("/getCommentsForRestaurant")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getCommentsForRestaurant(@QueryParam("name") String name) throws JsonProcessingException {
+		FileComments fileComments = (FileComments) ctx.getAttribute("fileComments");
+		ArrayList<Comment> comments = fileComments.getCommentsForRestaurant(name);
+		//System.out.println(comments.size());
+		String usersJson = mapper.writeValueAsString(comments);
+		return usersJson;
+	}
+	
+	@GET
+	@Path("/updateCommentApproval")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean updateCommentApproval(@QueryParam("id") long id, @QueryParam("approve") Boolean approve) throws JsonProcessingException {
+		//System.out.println(id + ", " + approve);
+		FileComments fileComments = (FileComments) ctx.getAttribute("fileComments");
+		fileComments.updateCommentApproval(id, approve);
+		fileComments.write();
 		return true;
 	}
 }

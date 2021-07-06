@@ -67,4 +67,32 @@ public class FileComments {
 		if(comments == null) comments = new ArrayList<Comment>();
 		return comments;
 	}
+	
+	public ArrayList<Comment> getCommentsForRestaurant(String name){
+		ArrayList<Comment> ret = new ArrayList<Comment>();
+		for(int i=0; i<comments.size(); i++) {
+			if(comments.get(i).getRestaurant().equals(name)) {
+				ret.add(comments.get(i));
+			}
+		}
+		return ret;
+	}
+	
+	public long generateCommentsId() {
+		long id = 1000000000;
+		for(int i=0; i<comments.size(); i++) {
+			for(int j=0; j<comments.size(); j++) {
+				id = Math.max(id, comments.get(i).getId());
+			}
+		}
+		return id + 1;
+	}
+	
+	public void updateCommentApproval(long id, Boolean approval) {
+		for(int i=0; i<comments.size(); i++) {
+			if(comments.get(i).getId() == id) {
+				comments.get(i).setAccepted(approval);
+			}
+		}
+	}
 }

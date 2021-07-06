@@ -1,26 +1,10 @@
 [
   {
-    "user": "Marko",
-    "restaurant": "kfc",
-    "comment": "komentar",
-    "rating": 5
-  },
-  {
-    "user": "Marko",
-    "restaurant": "kfc",
-    "comment": "komentar",
-    "rating": 5
-  },
-  {
-    "user": "Marko",
-    "restaurant": "kfc",
-    "comment": "komentar",
-    "rating": 5
-  },
-  {
-    "user": "Marko",
-    "restaurant": "kfc",
-    "comment": "komentar",
-    "rating": 5
+    "user": "stefan",
+    "restaurant": "McDonald's",
+    "comment": "top",
+    "rating": 5,
+    "id": 1000000001,
+    "accepted": true
   }
 ]

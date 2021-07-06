@@ -30,6 +30,7 @@ $(document).ready(function(){
                 else if(user.role == "Manager"){
                     //ako je menadzer zaduzen za restoran
                     if(user.restaurant) $("#newItem").show();
+                    $("#feedback").show();
                 }
                 else if(user.role == "Customer"){
                     $("#shoppingCart").show();
