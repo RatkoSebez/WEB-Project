@@ -197,4 +197,18 @@ public class FileUsers {
 			}
 		}
 	}
+	
+	public ArrayList<String> getRestaurantsForComment(String username){
+		ArrayList<String> restaurants = new ArrayList<String>();
+		for(int i=0; i<users.size(); i++) {
+			if(users.get(i).getUsername().equals(username)) {
+				for(int j=0; j<users.get(i).getCustomersOrders().size(); j++) {
+					if(users.get(i).getCustomersOrders().get(j).getStatus() == Status.Delivered) {
+						restaurants.add(users.get(i).getCustomersOrders().get(j).getResrourant());
+					}
+				}
+			}
+		}
+		return restaurants;
+	}
 }

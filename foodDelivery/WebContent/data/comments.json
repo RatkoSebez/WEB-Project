@@ -1,0 +1,26 @@
+[
+  {
+    "user": "Marko",
+    "restaurant": "kfc",
+    "comment": "komentar",
+    "rating": 5
+  },
+  {
+    "user": "Marko",
+    "restaurant": "kfc",
+    "comment": "komentar",
+    "rating": 5
+  },
+  {
+    "user": "Marko",
+    "restaurant": "kfc",
+    "comment": "komentar",
+    "rating": 5
+  },
+  {
+    "user": "Marko",
+    "restaurant": "kfc",
+    "comment": "komentar",
+    "rating": 5
+  }
+]

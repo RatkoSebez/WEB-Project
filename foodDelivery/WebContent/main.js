@@ -15,6 +15,7 @@ $(document).ready(function(){
                 $("#shoppingCart").hide();
                 $("#searchRestaurant").hide();
                 $("#restaurantTypeSelect").hide();
+                $("#feedback").hide();
             }
             else{
                 $("#login").hide();
@@ -34,6 +35,7 @@ $(document).ready(function(){
                     $("#shoppingCart").show();
                     $("#searchRestaurant").show();
                     $("#restaurantTypeSelect").show();
+                    $("#feedback").show();
                 }
                 else if(user.role == "Deliverer"){
                     $("#searchRestaurant").show();
@@ -47,6 +49,7 @@ $(document).ready(function(){
                     $("#shoppingCart").hide();
                     $("#searchRestaurant").hide();
                     $("#restaurantTypeSelect").hide();
+                    $("#feedback").hide();
                 }
             }
         }

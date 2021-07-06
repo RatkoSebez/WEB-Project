@@ -23,11 +23,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-//import javax.xml.bind.DatatypeConverter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import beans.Comment;
 import beans.Item;
 import beans.Order;
 import beans.Order.Status;
@@ -37,6 +37,7 @@ import beans.Restaurant;
 import beans.ShoppingCart;
 import beans.User;
 import beans.User.Role;
+import repository.FileComments;
 import repository.FileItems;
 import repository.FileRestaurant;
 import repository.FileUsers;
@@ -78,6 +79,7 @@ public class UserService {
 		FileUsers fileUsers = FileUsers.getInstance(contextPath + "/data/users.json");
 		FileRestaurant fileRestaurant = FileRestaurant.getInstance(contextPath + "/data/restaurants.json");
 		FileItems fileItems = FileItems.getInstance(contextPath + "/data/items.json");
+		FileComments fileComments = FileComments.getInstance(contextPath + "/data/comments.json");
 		
 		
 		/*ArrayList<Restaurant> restaurantss = fileRestaurant.getRestaurants();
@@ -107,6 +109,14 @@ public class UserService {
 		if(ctx.getAttribute("fileItems") == null) {
 			ctx.setAttribute("fileItems", fileItems);
 		}
+		if(ctx.getAttribute("fileComments") == null) {
+			ctx.setAttribute("fileComments", fileComments);
+		}
+		
+		//ArrayList<Comment> comments = fileComments.getComments();
+		//comments.add(new Comment("Marko", "kfc", "komentar", 5));
+		//fileComments.write();
+		
 		//ArrayList<Item> items = fileItems.getItems();
 		//items.add(new Item("pizza2", 900.99, Type.Food, "Garibaldi", 500.22, "opis", "data slike"));
 		//fileItems.write();
@@ -591,6 +601,35 @@ public class UserService {
 		fileUsers.inTransportOrder(id);
 		fileUsers.write();
 		//System.out.println(id);
+		return true;
+	}
+	
+	@GET
+	@Path("/getRestaurantsForComments")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getRestaurantsForComments(@QueryParam("username") String username) throws JsonProcessingException {
+		//prolazim kroz ordere kupca i koji je order delivered taj restoran mogu da komentarisem
+		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
+		//dobijam imena restorana koje mogu komentarisati
+		ArrayList<String> restaurants = fileUsers.getRestaurantsForComment(username);
+		//System.out.println(restaurants.size() + ", " + username);
+		String usersJson = mapper.writeValueAsString(restaurants);
+		return usersJson;
+	}
+	
+	@POST
+	@Path("/newComment")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean newComment(Comment comment, @Context HttpServletRequest request) {
+		User user = (User)request.getSession().getAttribute("user");
+		comment.setUser(user.getUsername());
+		FileComments fileComments = (FileComments) ctx.getAttribute("fileComments");
+		ArrayList<Comment> comments = fileComments.getComments();
+		comments.add(comment);
+		fileComments.write();
+		System.out.println(comment.getRestaurant());
 		return true;
 	}
 }
