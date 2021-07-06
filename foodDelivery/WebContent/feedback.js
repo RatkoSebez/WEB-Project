@@ -55,7 +55,6 @@ function buildTable(data){
     for(let comment of data){
         let tbody = $('#comments tbody');
         let user = $('<td class="commentTd">' + comment.user + '</td>');
-        let restaurant = $('<td class="commentTd">' + comment.restaurant + '</td>');
         let rating = $('<td class="commentTd">' + comment.rating + '</td>');
         let restaurantComment = $('<td class="commentTd">' + comment.comment + '</td>');
         let accepted = comment.accepted;
@@ -88,24 +87,7 @@ function buildTable(data){
                 }
             });
         }).end();
-        //let buttonApprove = $('<button onclick="approveComment(' + comment.comment + "," + comment.user + ')">approve</button>');
-        //let buttonReject = $('<td><button onclick="rejectComment(' + functionParameter + ')">reject</button></td>');
-        tr.append(user).append(restaurant).append(rating).append(restaurantComment).append(isAccepted).append(buttonApprove).append(buttonReject);
-        /*if(loggedInUser.role == "Customer" && comment.status == "Processing"){
-            var button = $('<button onclick="cancelOrder(' + comment.orderId + "," + comment.price + ')">cancel</button>');
-            tr.append(button);
-        }
-        //console.log(loggedInUser.role)
-        if(loggedInUser.role == "Manager" && comment.status == "Processing"){
-            //console.log('unutra');
-            var button = $('<button onclick="processedOrder(' + comment.orderId + ')">processed</button>');
-            tr.append(button);
-        }
-        if(loggedInUser.role == "Deliverer" && comment.status == "InTransport"){
-            //console.log('unutra');
-            var button = $('<button onclick="inTransportOrder(' + comment.orderId + ')">processed</button>');
-            tr.append(button);
-        }*/
+        tr.append(user).append(rating).append(restaurantComment).append(isAccepted).append(buttonApprove).append(buttonReject);
         tbody.append(tr);
     }
 }

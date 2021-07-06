@@ -50,3 +50,31 @@
   padding: 10px;
   color: black;
 }
+
+#comments {
+  margin: auto;
+  text-align: center;
+  border-spacing: 0;
+  border-radius: 10px;
+  /* margin: 20px; */
+  padding: 20px;
+}
+
+.commentsThead {
+  background-color: #184d47;
+  color: white;
+  text-decoration: none;
+}
+
+.commentsTh {
+  padding: 10px;
+  font-weight: normal;
+}
+
+.commentTd {
+  padding: 7px 5px;
+}
+
+.commentTr:nth-child(even) {
+  background-color: #e8e8e8;
+}

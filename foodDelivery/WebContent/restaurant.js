@@ -15,6 +15,13 @@ $(document).ready(function(){
                 success: function(items){
                     //console.log(items.length)
                     buildItems(items);
+                    $.get({
+                        url: "rest/userService/getComments?restaurant=" + restaurantsName,
+                        success: function(comments){
+                            //console.log(comments.length);
+                            buildTable(comments);
+                        }
+                    });
                 }
             });
         }
@@ -120,4 +127,16 @@ function prevent(event){
     event.preventDefault();
     console.log('hello');
     //console.log($('#quantity').val());
+}
+
+function buildTable(data){
+    $("#comments > tbody").html("");
+    for(let comment of data){
+        let tbody = $('#comments tbody');
+        let rating = $('<td class="commentTd">' + comment.rating + '</td>');
+        let restaurantComment = $('<td class="commentTd">' + comment.comment + '</td>');
+        let tr = $('<tr class="commentTr"></tr>');
+        tr.append(rating).append(restaurantComment);
+        tbody.append(tr);
+    }
 }

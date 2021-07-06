@@ -657,4 +657,17 @@ public class UserService {
 		fileComments.write();
 		return true;
 	}
+	
+	@GET
+	@Path("/getComments")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getComments(@QueryParam("restaurant") String restaurant, @Context HttpServletRequest request) throws JsonProcessingException {
+		User user = (User)request.getSession().getAttribute("user");
+		FileComments fileComments = (FileComments) ctx.getAttribute("fileComments");
+		ArrayList<Comment> comments = fileComments.getCommentsForRestaurant(restaurant, user.getRole());
+		//System.out.println(comments.size());
+		String usersJson = mapper.writeValueAsString(comments);
+		return usersJson;
+	}
 }

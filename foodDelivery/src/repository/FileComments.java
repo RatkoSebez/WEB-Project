@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import beans.Comment;
+import beans.User.Role;
 
 public class FileComments {
 	private ArrayList<Comment> comments;
@@ -94,5 +95,26 @@ public class FileComments {
 				comments.get(i).setAccepted(approval);
 			}
 		}
+	}
+	
+	public ArrayList<Comment> getCommentsForRestaurant(String name, Role role){
+		ArrayList<Comment> ret = new ArrayList<Comment>();
+		if(role == Role.Manager || role == Role.Admin) {
+			for(int i=0; i<comments.size(); i++) {
+				if(comments.get(i).getRestaurant().equals(name) && comments.get(i).isAccepted() != null) {
+					ret.add(comments.get(i));
+				}
+			}
+		}
+		if(role == Role.Customer || role == Role.Deliverer) {
+			//System.out.println("ovde");
+			for(int i=0; i<comments.size(); i++) {
+				if(comments.get(i).isAccepted() == null) continue;
+				if(comments.get(i).getRestaurant().equals(name) && comments.get(i).isAccepted() == true) {
+					ret.add(comments.get(i));
+				}
+			}
+		}
+		return ret;
 	}
 }
