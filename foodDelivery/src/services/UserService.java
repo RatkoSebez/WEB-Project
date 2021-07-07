@@ -390,6 +390,7 @@ public class UserService {
 	public boolean newItem(Item item) {
 		FileItems fileItems = (FileItems) ctx.getAttribute("fileItems");
 		ArrayList<Item> items = fileItems.getItems();
+		if(fileItems.itemNameEqists(item.getName())) return false;
 		items.add(item);
 		fileItems.write();
 		return true;

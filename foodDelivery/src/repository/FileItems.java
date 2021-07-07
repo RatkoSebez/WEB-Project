@@ -88,4 +88,11 @@ public class FileItems {
 		}
 		return null;
 	}
+	
+	public boolean itemNameEqists(String name) {
+		for(int i=0; i<items.size(); i++) {
+			if(items.get(i).getName().equals(name)) return true;
+		}
+		return false;
+	}
 }

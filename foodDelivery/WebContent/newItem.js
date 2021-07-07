@@ -15,29 +15,28 @@ $(document).ready(function(){
                 'restaurant' : user.restaurant.name,
                 'type' : $('#type').val()
                 }
-                console.log(data.name)
-                console.log(data.price)
-                console.log(data.description)
-                console.log(data.quantity)
-                console.log(data.restaurant)
-                console.log(data.type)
-                
+
                 $.post({
                     url:
                     "rest/userService/newItem",
                     data: JSON.stringify(data),
                     contentType: "application/json",
-                    success: function(){
+                    success: function(ok){
                         //rest za sliku
-                        $.post({
-                            url: "rest/userService/saveItemImage",
-                            data: imageInBase64,
-                            contentType: "application/json",
-                            success: function(data2){
-                                console.log(imageInBase64);
-                                //if(data2 == true) window.location.replace("index.html");
-                            }
-                        });
+                        if(ok){
+                            $.post({
+                                url: "rest/userService/saveItemImage",
+                                data: imageInBase64,
+                                contentType: "application/json",
+                                success: function(data2){
+                                    console.log(imageInBase64);
+                                    //if(data2 == true) window.location.replace("index.html");
+                                }
+                            });
+                        }
+                        else{
+                            $("#errorMessage").text('*item name already exists');
+                        }
                     }
                 });
                 //nemoj odmah redirektovati jer se onda slika nece poslati, njoj treba vremena da stigne pa probaj naci nacin da redirektujes tek kad se slanje zavrsi
