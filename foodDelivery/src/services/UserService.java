@@ -674,7 +674,19 @@ public class UserService {
 		ArrayList<Comment> comments;
 		if(user == null) comments = fileComments.getCommentsForRestaurant(restaurant, null);
 		else comments = fileComments.getCommentsForRestaurant(restaurant, user.getRole());
+		//System.out.println(comments.size());
 		String usersJson = mapper.writeValueAsString(comments);
+		return usersJson;
+	}
+	
+	@GET
+	@Path("/getAverageRating")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getAverageRating(@QueryParam("restaurant") String restaurant) throws JsonProcessingException {
+		FileComments fileComments = (FileComments) ctx.getAttribute("fileComments");
+		double averageRating = fileComments.getAverageRating(restaurant);
+		String usersJson = mapper.writeValueAsString(averageRating);
 		return usersJson;
 	}
 }

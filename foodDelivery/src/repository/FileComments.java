@@ -117,4 +117,19 @@ public class FileComments {
 		}
 		return ret;
 	}
+	
+	public double getAverageRating(String restaurant) {
+		//racunam rejting samo za komentare koji su odobreni
+		double avg = 0;
+		int cnt = 0;
+		for(int i=0; i<comments.size(); i++) {
+			if(comments.get(i).isAccepted() == null) continue;
+			if(comments.get(i).getRestaurant().equals(restaurant) && comments.get(i).isAccepted() == true) { 
+				avg += comments.get(i).getRating();
+				cnt++;
+			}
+		}
+		if(avg == 0 || cnt == 0) return 0;
+		return avg/cnt;
+	}
 }

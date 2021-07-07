@@ -25,6 +25,7 @@
         <input type="text" id="searchName" placeholder="name">
         <input type="text" id="searchType" placeholder="type">
         <input type="text" id="searchLocation" placeholder="city">
+        <input type="text" id="searchAverageRating" placeholder="rating">
         <select name="type" id="typeSelect">
             <option value="All" selected>Type</option>
             <option value="Italian">Italian</option>
@@ -38,15 +39,17 @@
         <select name="sort" id="sortSelect">
             <option value="All" selected>Sort by</option>
             <option value="Name">Name</option>
+            <option value="Rating">Rating</option>
             <option value="Location">Location</option>
         </select>
         <select name="ascDesc" id="ascDescSelect">
             <option value="Ascending" selected>Ascending</option>
             <option value="Descending">Descending</option>
         </select>
-        <button id="reset">reset</button>
+        <!-- iskljucio sam ga jer ne radi kako treba kad zovem javu da dobijem podatke o rejtingu -->
+        <!-- <button id="reset">reset</button> -->
     </div>
 
-    <div class="container"></div>
+    <div class="container" id="container"></div>
 </body>
 </html>

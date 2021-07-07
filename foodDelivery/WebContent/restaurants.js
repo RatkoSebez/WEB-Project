@@ -1,4 +1,5 @@
 var restaurants = [];
+var ratingMap = new Map();
 
 $(document).ready(function(){
     $.get({
@@ -24,6 +25,9 @@ $(document).ready(function(){
     $("#searchLocation").on('keyup', function(){
         filterRestaurants();
     });
+    $("#searchAverageRating").on('keyup', function(){
+        filterRestaurants();
+    });
     $('#typeSelect').on('change', function() {
         filterRestaurants();
     });
@@ -41,6 +45,7 @@ $(document).ready(function(){
         $('#searchName').val('');
         $('#searchType').val('');
         $('#searchLocation').val('');
+        $('#searchAverageRating').val('');
         $('#typeSelect').val('All').change();
         $('#openedSelect').val('All').change();
         $('#sortSelect').val('All').change();
@@ -51,31 +56,37 @@ $(document).ready(function(){
 });
 
 function buildRestaurants(restaurants){
-    $('.container').html('');
+    $('#container').html('');
+    $('#container').empty();
     let mainDiv = $('.container');
     for(let i=0; i<restaurants.length; i++){
-        var link = $('<a href="restaurant.html?name=' + restaurants[i].name + '"></a>');
-        var categoriesDiv = $('<div class="categories"></div>');
-
-        var img = new Image();
-        img.src = restaurants[i].image;
-        img.classList.add('item-image');
-        //var img = $('<img src="' + restaurants[i].image + '" class="item-image"></img>');
-
-        var textDiv = $('<div class="image-title"></div>');
-        textDiv.append('<b>' + restaurants[i].name + '</b>' + '<br>' + restaurants[i].type + '<br>');
-        if(restaurants[i].opened == true) textDiv.append('opened<br>');
-        if(restaurants[i].opened == false) textDiv.append('closed<br>');
-        let location = restaurants[i].location.address;
-        let tokens = location.split(',');
-        textDiv.append(tokens[0] + '<br>');
-        textDiv.append(tokens[1] + ' ' + tokens[2] + '<br>');
-        textDiv.append(restaurants[i].location.latitude + ', ').append(restaurants[i].location.longitude);
-
-        categoriesDiv.append(img).append(textDiv);
-        link.append(categoriesDiv);
-        
-        mainDiv.append(link);
+        //console.log(i);
+        $.get({
+            url: "rest/userService/getAverageRating?restaurant=" + restaurants[i].name,
+            success: function(data){
+                ratingMap.set(restaurants[i].name, data);
+                var link = $('<a href="restaurant.html?name=' + restaurants[i].name + '"></a>');
+                var categoriesDiv = $('<div class="categories"></div>');
+                var img = new Image();
+                img.src = restaurants[i].image;
+                img.classList.add('item-image');
+                var textDiv = $('<div class="image-title"></div>');
+                textDiv.append('<b>' + restaurants[i].name + '</b>' + '<br>' + restaurants[i].type + '<br>');
+                if(restaurants[i].opened == true) textDiv.append('opened<br>');
+                if(restaurants[i].opened == false) textDiv.append('closed<br>');
+                let location = restaurants[i].location.address;
+                let tokens = location.split(',');
+                textDiv.append(tokens[0] + '<br>');
+                textDiv.append(tokens[1] + ' ' + tokens[2] + '<br>');
+                textDiv.append(restaurants[i].location.latitude + ', ').append(restaurants[i].location.longitude + '<br>');
+                data = data.toFixed(1);
+                if(data == 0) data = 0;
+                textDiv.append('average rating: ' + data + '/5<br>');
+                categoriesDiv.append(img).append(textDiv);
+                link.append(categoriesDiv);
+                mainDiv.append(link);
+            }
+        });
     }
 }
 
@@ -84,6 +95,7 @@ function filterRestaurants(){
     var nameInput = $('#searchName').val().toLowerCase();
     var typeInput = $('#searchType').val().toLowerCase();
     var locationInput = $('#searchLocation').val().toLowerCase();
+    var ratingInput = $('#searchAverageRating').val().toLowerCase();
     var typeSelect = $('#typeSelect').find(":selected").text().toLowerCase();
     var openedSelect = $('#openedSelect').find(":selected").text().toLowerCase();
     var sortSelect = $('#sortSelect').find(":selected").text().toLowerCase();
@@ -109,6 +121,13 @@ function filterRestaurants(){
         var location = allRestaurants[i].location.address.toLowerCase();
         var tokens = location.split(',');
         if(tokens[1].includes(locationInput)) tmpRestaurants.push(allRestaurants[i]);
+    }
+    allRestaurants = tmpRestaurants;
+    tmpRestaurants = [];
+    //rating
+    for(var i=0; i<allRestaurants.length; i++){
+        var rating = ratingMap.get(allRestaurants[i].name).toString();
+        if(rating.includes(ratingInput)) tmpRestaurants.push(allRestaurants[i]);
     }
     allRestaurants = tmpRestaurants;
     tmpRestaurants = [];
@@ -151,6 +170,23 @@ function filterRestaurants(){
         if(ascDescSelect == 'descending'){
             allRestaurants.sort(compareDescending1);
             //console.log('desc');
+        }
+    }
+    //sortiram po rejtingu
+    if(sortSelect == 'rating'){
+        for(let i=0; i<allRestaurants.length; i++){
+            for(let j=i+1; j<allRestaurants.length; j++){
+                if(ratingMap.get(allRestaurants[i].name) > ratingMap.get(allRestaurants[j].name) && ascDescSelect == 'ascending'){
+                    let tmp = allRestaurants[i];
+                    allRestaurants[i] = allRestaurants[j];
+                    allRestaurants[j] = tmp;
+                }
+                if(ratingMap.get(allRestaurants[i].name) < ratingMap.get(allRestaurants[j].name) && ascDescSelect == 'descending'){
+                    let tmp = allRestaurants[i];
+                    allRestaurants[i] = allRestaurants[j];
+                    allRestaurants[j] = tmp;
+                }
+            }
         }
     }
     //za lokaciju sortira prvo po ulici, moza prebaciti da gleda grad, nisu napisali u specifikaciji detaljno

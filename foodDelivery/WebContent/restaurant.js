@@ -18,6 +18,7 @@ $(document).ready(function(){
                     $.get({
                         url: "rest/userService/getComments?restaurant=" + restaurantsName,
                         success: function(comments){
+                            //console.log(comments.length)
                             if(comments.length > 0){
                                 $("#comments").show();
                                 buildTable(comments);
@@ -31,28 +32,31 @@ $(document).ready(function(){
 });
 
 function buildRestaurant(restaurant){
-    $('.container').html('');
-    let mainDiv = $('.container');
-    var categoriesDiv = $('<div class="categories"></div>');
-
-    var img = new Image();
-    img.src = restaurant.image;
-    img.classList.add('item-image');
-    //var img = $('<img src="' + restaurants[i].image + '" class="item-image"></img>');
-
-    var textDiv = $('<div class="image-title"></div>');
-    textDiv.append('<b>' + restaurant.name + '</b>' + '<br>' + restaurant.type + '<br>');
-    if(restaurant.opened == true) textDiv.append('opened<br>');
-    if(restaurant.opened == false) textDiv.append('closed<br>');
-    let location = restaurant.location.address;
-    let tokens = location.split(',');
-    textDiv.append(tokens[0] + '<br>');
-    textDiv.append(tokens[1] + ' ' + tokens[2] + '<br>');
-    textDiv.append(restaurant.location.latitude + ', ').append(restaurant.location.longitude);
-
-    categoriesDiv.append(img).append(textDiv);
-    
-    mainDiv.append(categoriesDiv);
+    $.get({
+        url: "rest/userService/getAverageRating?restaurant=" + restaurant.name,
+        success: function(data){
+            $('.container').html('');
+            let mainDiv = $('.container');
+            var categoriesDiv = $('<div class="categories"></div>');
+            var img = new Image();
+            img.src = restaurant.image;
+            img.classList.add('item-image');
+            var textDiv = $('<div class="image-title"></div>');
+            textDiv.append('<b>' + restaurant.name + '</b>' + '<br>' + restaurant.type + '<br>');
+            if(restaurant.opened == true) textDiv.append('opened<br>');
+            if(restaurant.opened == false) textDiv.append('closed<br>');
+            let location = restaurant.location.address;
+            let tokens = location.split(',');
+            textDiv.append(tokens[0] + '<br>');
+            textDiv.append(tokens[1] + ' ' + tokens[2] + '<br>');
+            textDiv.append(restaurant.location.latitude + ', ').append(restaurant.location.longitude + '<br>');
+            data = data.toFixed(1);
+            if(data == 0) data = 0;
+            textDiv.append('average rating: ' + data + '/5<br>');
+            categoriesDiv.append(img).append(textDiv);
+            mainDiv.append(categoriesDiv);
+        }
+    });
 }
 
 function buildItems(items){
