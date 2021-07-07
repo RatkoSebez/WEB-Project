@@ -93,6 +93,7 @@ function editItemQuantity(i){
     price += itemQuantity[i] * items[i].price;
     infoDiv = $('<div class="info"></div>');
     infoDiv.append('total price' + price + '$');
+    infoDiv.append('<button id="createOrder" onclick="createOrder()">Create Order</button>');
     $('.itemsContainer').children().last().remove();
     mainDiv.append(infoDiv);
     $.get({

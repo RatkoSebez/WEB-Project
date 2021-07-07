@@ -277,4 +277,13 @@ public class FileUsers {
 		}
 		return ret;
 	}
+	
+	public void deleteUser(String username) {
+		for(int i=0; i<users.size(); i++) {
+			if(users.get(i).getUsername().equals(username)) {
+				users.remove(i);
+				break;
+			}
+		}
+	}
 }

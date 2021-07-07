@@ -1,5 +1,14 @@
+var users;
+var loggedInUser;
+
 $(document).ready(function(){
-    var users;
+    $.get({
+        url: "rest/userService/getLoggedInUser",
+        success: function(user){
+            loggedInUser = user;
+        }
+    });
+
     $.get({
         url: "rest/userService/getUsers",
         success: function(data){
@@ -8,30 +17,6 @@ $(document).ready(function(){
         }
     });
     
-    function buildTable(data){
-        $("#users > tbody").html("");
-        for(let users of data){
-            let tbody = $('#users tbody');
-            let name = $('<td>' + users.name + '</td>');
-            let surname = $('<td>' + users.surname + '</td>');
-            let username = $('<td>' + users.username + '</td>');
-            let gender = $('<td>' + users.gender + '</td>');
-            let role = $('<td>' + users.role + '</td>');
-            let discountPoints = $('<td>' + users.discountPoints + '</td>');
-            //datum rodjenja
-            let date = new Date(users.birthDate);
-            var day = date.getDate();
-            var month =  date.getMonth() + 1;
-            var year = date.getFullYear();
-            formattedDate = day + "." + month + "." + year + ".";
-            let birthDate = ($('<td>' + formattedDate + '</td>'));
-            //kreiranje tabele
-            let tr = $('<tr></tr>');
-            tr.append(name).append(surname).append(username).append(role).append(gender).append(birthDate).append(discountPoints);
-            tbody.append(tr);
-        }
-    }
-
     $('#roleSelect').on('change', function() {
         filterTable();
     });
@@ -146,3 +131,48 @@ $(document).ready(function(){
         filterTable();
     });
 });
+
+function buildTable(data){
+    $("#users > tbody").html("");
+    let i = 0;
+    for(let users of data){
+        let tbody = $('#users tbody');
+        let name = $('<td>' + users.name + '</td>');
+        let surname = $('<td>' + users.surname + '</td>');
+        let username = $('<td>' + users.username + '</td>');
+        let gender = $('<td>' + users.gender + '</td>');
+        let role = $('<td>' + users.role + '</td>');
+        let discountPoints = $('<td>' + users.discountPoints + '</td>');
+        //datum rodjenja
+        let date = new Date(users.birthDate);
+        var day = date.getDate();
+        var month =  date.getMonth() + 1;
+        var year = date.getFullYear();
+        formattedDate = day + "." + month + "." + year + ".";
+        let birthDate = ($('<td>' + formattedDate + '</td>'));
+        let deleteUser = $('<td><button id="deleteUser" onclick="deleteUser(' + i + ')">delete</button></td>');
+        //kreiranje tabele
+        let tr = $('<tr></tr>');
+        tr.append(name).append(surname).append(username).append(role).append(gender).append(birthDate).append(discountPoints);
+        if(users.role != "Admin" && loggedInUser.role == "Admin") tr.append(deleteUser);
+        tbody.append(tr);
+        i++;
+    }
+}
+
+function deleteUser(i){
+    $.post({
+        url: "rest/userService/deleteUser",
+        data: JSON.stringify({username: users[i].username}),
+        contentType: "application/json",
+        success: function(){
+            $.get({
+                url: "rest/userService/getUsers",
+                success: function(data){
+                    users = data;
+                    buildTable(data);
+                }
+            });
+        }
+    });
+}

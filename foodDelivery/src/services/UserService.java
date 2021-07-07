@@ -750,4 +750,20 @@ public class UserService {
 		String usersJson = mapper.writeValueAsString(averageRating);
 		return usersJson;
 	}
+	
+	@POST
+	@Path("/deleteUser")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean deleteUser(String data, @Context HttpServletRequest request) {
+		data = data.substring(1, data.length() - 1);
+		data = data.replace("\"", "");
+		String tokens[] = data.split(",");
+		String tokenId[] = tokens[0].split(":");
+		String username = tokenId[1];
+		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
+		fileUsers.deleteUser(username);
+		fileUsers.write();
+		return true;
+	}
 }
