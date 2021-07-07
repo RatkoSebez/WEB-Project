@@ -1,3 +1,5 @@
+var isOpened = false;
+
 $(document).ready(function(){
     let searchParams = new URLSearchParams(window.location.search);
     let restaurantsName = '';
@@ -8,6 +10,7 @@ $(document).ready(function(){
     $.get({
         url: "rest/userService/getRestaurant?name=" + restaurantsName,
         success: function(restaurant){
+            isOpened = restaurant.opened;
             //console.log(restaurant.name);
             buildRestaurant(restaurant);
             $.get({
@@ -101,7 +104,7 @@ function buildItems(items){
                 $(".shoppingCartDiv").hide();
             }
             else{
-                if(user.role == "Customer"){
+                if(user.role == "Customer" && isOpened){
                     $(".shoppingCartDiv").show();
                 }
                 else{
