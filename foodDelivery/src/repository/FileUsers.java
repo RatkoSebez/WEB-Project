@@ -179,6 +179,18 @@ public class FileUsers {
 			if(users.get(i).getCustomersOrders() == null) continue;
 			for(int j=0; j<users.get(i).getCustomersOrders().size(); j++) {
 				if(users.get(i).getCustomersOrders().get(j).getOrderId() == orderId) {
+					users.get(i).getCustomersOrders().get(j).setStatus(Status.InPreparation);
+					break;
+				}
+			}
+		}
+	}
+	
+	public void prepareOrder(long orderId) {
+		for(int i=0; i<users.size(); i++) {
+			if(users.get(i).getCustomersOrders() == null) continue;
+			for(int j=0; j<users.get(i).getCustomersOrders().size(); j++) {
+				if(users.get(i).getCustomersOrders().get(j).getOrderId() == orderId) {
 					users.get(i).getCustomersOrders().get(j).setStatus(Status.WaitingForDeliveryMan);
 					break;
 				}

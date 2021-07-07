@@ -592,6 +592,23 @@ public class UserService {
 	}
 	
 	@POST
+	@Path("/prepareOrder")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean prepareOrder(String data, @Context HttpServletRequest request) {
+		//System.out.println(data);
+		data = data.substring(1, data.length() - 1);
+		data = data.replace("\"", "");
+		String tokens[] = data.split(",");
+		String tokenId[] = tokens[0].split(":");
+		long id = Integer.parseInt(tokenId[1]);
+		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
+		fileUsers.prepareOrder(id);
+		fileUsers.write();
+		return true;
+	}
+	
+	@POST
 	@Path("/inTransportOrder")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
