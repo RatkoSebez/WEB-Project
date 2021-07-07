@@ -91,7 +91,10 @@ public class UserService {
 		restaurantss.add(restoran);
 		fileRestaurant.write();*/
 		
-		
+		if(ctx.getAttribute("deliverers") == null) {
+			HashMap<Long, String> deliverers = new HashMap<Long, String>();
+			ctx.setAttribute("deliverers", deliverers);
+		}
 		if(ctx.getAttribute("users") == null) {
 			List<User> users = fileUsers.getUsers();
 			ctx.setAttribute("users", users);
@@ -604,6 +607,46 @@ public class UserService {
 		long id = Integer.parseInt(tokenId[1]);
 		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
 		fileUsers.prepareOrder(id);
+		fileUsers.write();
+		return true;
+	}
+	
+	@POST
+	@Path("/waitingForDeliveryMan")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean waitingForDeliveryMan(String data, @Context HttpServletRequest request) {
+		data = data.substring(1, data.length() - 1);
+		data = data.replace("\"", "");
+		String tokens[] = data.split(",");
+		String tokenId[] = tokens[0].split(":");
+		String username[] = tokens[1].split(":");
+		long id = Integer.parseInt(tokenId[1]);
+		@SuppressWarnings("unchecked")
+		HashMap<Long, String> deliverers = (HashMap<Long, String>) ctx.getAttribute("deliverers");
+		deliverers.put(id, username[1]);
+		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
+		fileUsers.waitingForDeliveryMan(id);
+		fileUsers.write();
+		return true;
+	}
+	
+	@POST
+	@Path("/waitingForApproval")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean waitingForApproval(String data, @Context HttpServletRequest request) {
+		//System.out.println(data);
+		data = data.substring(1, data.length() - 1);
+		data = data.replace("\"", "");
+		String tokens[] = data.split(",");
+		String tokenId[] = tokens[0].split(":");
+		long id = Integer.parseInt(tokenId[1]);
+		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
+		@SuppressWarnings("unchecked")
+		HashMap<Long, String> deliverers = (HashMap<Long, String>) ctx.getAttribute("deliverers");
+		fileUsers.waitingForApproval(id, deliverers.get(id));
+		//System.out.println(deliverers.get(id));
 		fileUsers.write();
 		return true;
 	}

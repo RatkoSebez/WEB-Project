@@ -183,6 +183,14 @@ function buildTable(data){
                     var button = $('<button onclick="prepareOrder(' + orders.orderId + ')">prepared</button>');
                     tr.append(button);
                 }
+                if(loggedInUser.role == "Manager" && orders.status == "WaitingForApproval"){
+                    var button = $('<button onclick="waitingForApproval(' + orders.orderId + ')">approve</button>');
+                    tr.append(button);
+                }
+                if(loggedInUser.role == "Deliverer" && orders.status == "WaitingForDeliveryMan"){
+                    var button = $('<button onclick="waitingForDeliveryMan(' + orders.orderId + ')">send request</button>');
+                    tr.append(button);
+                }
                 if(loggedInUser.role == "Deliverer" && orders.status == "InTransport"){
                     var button = $('<button onclick="inTransportOrder(' + orders.orderId + ')">processed</button>');
                     tr.append(button);
@@ -340,6 +348,44 @@ function prepareOrder(id){
 function inTransportOrder(id){
     $.post({
         url: "rest/userService/inTransportOrder",
+        data: JSON.stringify({id: id}),
+        contentType: "application/json",
+        success: function(){
+            $.get({
+                url: "rest/userService/getOrders",
+                success: function(data){
+                    orders = data;
+                    if(data.length > 0) $('#orders').show();
+                    if(data.length > 0) $('.filters').show();
+                    buildTable(data);
+                }
+            });
+        }
+    });
+}
+
+function waitingForDeliveryMan(id){
+    $.post({
+        url: "rest/userService/waitingForDeliveryMan",
+        data: JSON.stringify({id: id, username: loggedInUser.username}),
+        contentType: "application/json",
+        success: function(){
+            $.get({
+                url: "rest/userService/getOrders",
+                success: function(data){
+                    orders = data;
+                    if(data.length > 0) $('#orders').show();
+                    if(data.length > 0) $('.filters').show();
+                    buildTable(data);
+                }
+            });
+        }
+    });
+}
+
+function waitingForApproval(id){
+    $.post({
+        url: "rest/userService/waitingForApproval",
         data: JSON.stringify({id: id}),
         contentType: "application/json",
         success: function(){

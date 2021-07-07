@@ -143,7 +143,7 @@ public class FileUsers {
 			else {
 				if(users.get(i).getCustomersOrders() == null || users.get(i).getCustomersOrders().size() == 0) continue;
 				for(int j=0; j<users.get(i).getCustomersOrders().size(); j++) {
-					if(users.get(i).getCustomersOrders().get(j).getStatus() == Status.WaitingForDeliveryMan) orders.add(users.get(i).getCustomersOrders().get(j));
+					if(users.get(i).getCustomersOrders().get(j).getStatus() == Status.WaitingForDeliveryMan || users.get(i).getCustomersOrders().get(j).getStatus() == Status.WaitingForApproval) orders.add(users.get(i).getCustomersOrders().get(j));
 				}
 			}
 		}
@@ -198,6 +198,18 @@ public class FileUsers {
 		}
 	}
 	
+	public void waitingForDeliveryMan(long orderId) {
+		for(int i=0; i<users.size(); i++) {
+			if(users.get(i).getCustomersOrders() == null) continue;
+			for(int j=0; j<users.get(i).getCustomersOrders().size(); j++) {
+				if(users.get(i).getCustomersOrders().get(j).getOrderId() == orderId) {
+					users.get(i).getCustomersOrders().get(j).setStatus(Status.WaitingForApproval);
+					break;
+				}
+			}
+		}
+	}
+	
 	public void inTransportOrder(long orderId) {
 		for(int i=0; i<users.size(); i++) {
 			if(users.get(i).getCustomersOrders() == null) continue;
@@ -206,6 +218,26 @@ public class FileUsers {
 					users.get(i).getCustomersOrders().get(j).setStatus(Status.Delivered);
 					break;
 				}
+			}
+		}
+	}
+	
+	public void waitingForApproval(long orderId, String username) {
+		Order order = new Order();
+		for(int i=0; i<users.size(); i++) {
+			if(users.get(i).getCustomersOrders() == null) continue;
+			for(int j=0; j<users.get(i).getCustomersOrders().size(); j++) {
+				if(users.get(i).getCustomersOrders().get(j).getOrderId() == orderId) {
+					order = users.get(i).getCustomersOrders().get(j);
+					order.setStatus(Status.InTransport);
+					break;
+				}
+			}
+		}
+		for(int i=0; i<users.size(); i++) {
+			if(users.get(i).getUsername().equals(username)) {
+				if(users.get(i).getDelivererOrders() == null) users.get(i).setDelivererOrders(new ArrayList<Order>());	
+				users.get(i).getDelivererOrders().add(order);
 			}
 		}
 	}

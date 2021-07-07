@@ -11,7 +11,7 @@ public class Order {
 	private double price;
 	private String customersName;
 	private String customersSurname;
-	public enum Status{Processing, InPreparation, WaitingForDeliveryMan, InTransport, Delivered, Canceled}
+	public enum Status{Processing, InPreparation, WaitingForDeliveryMan, InTransport, Delivered, Canceled, WaitingForApproval}
 	private Status status;
 	
 	public Order() {}
