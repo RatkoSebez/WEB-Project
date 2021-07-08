@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class User {
-	private String username; //jedinstveno
+	private String username;
 	private String password;
 	private String name;
 	private String surname;
@@ -17,10 +17,27 @@ public class User {
 	private ShoppingCart shoppingCart;
 	private Restaurant restaurant;
 	private ArrayList<Order> delivererOrders;
-	//treba biti double
 	private int discountPoints;
 	private CustomerType customerType;
+	private boolean isSuspicious;
+	private boolean isBanned;
 	
+	public boolean isSuspicious() {
+		return isSuspicious;
+	}
+
+	public void setSuspicious(boolean isSuspicious) {
+		this.isSuspicious = isSuspicious;
+	}
+
+	public boolean isBanned() {
+		return isBanned;
+	}
+
+	public void setBanned(boolean isBanned) {
+		this.isBanned = isBanned;
+	}
+
 	public User() {}
 
 	public User(String username, String password, String name, String surname) {

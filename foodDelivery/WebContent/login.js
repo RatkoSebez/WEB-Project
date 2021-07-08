@@ -9,6 +9,7 @@ $(document).ready(function(){
             contentType: "application/json",
             success: function(data){
                 if(data == true) window.location.replace("index.html");
+                if(data == false) $('#errorMessage').text('*wrong credentials or user is banned');
             }
         });
     });

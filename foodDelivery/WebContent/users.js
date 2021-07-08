@@ -136,6 +136,7 @@ function buildTable(data){
     $("#users > tbody").html("");
     let i = 0;
     for(let users of data){
+        //console.log(users.suspicious)
         let tbody = $('#users tbody');
         let name = $('<td>' + users.name + '</td>');
         let surname = $('<td>' + users.surname + '</td>');
@@ -151,10 +152,13 @@ function buildTable(data){
         formattedDate = day + "." + month + "." + year + ".";
         let birthDate = ($('<td>' + formattedDate + '</td>'));
         let deleteUser = $('<td><button id="deleteUser" onclick="deleteUser(' + i + ')">delete</button></td>');
+        let banUser = $('<td><button id="banUser" onclick="banUser(' + i + ')">ban</button></td>');
         //kreiranje tabele
         let tr = $('<tr></tr>');
+        if(users.suspicious) 
+        tr.css('background-color', '#FF0000');
         tr.append(name).append(surname).append(username).append(role).append(gender).append(birthDate).append(discountPoints);
-        if(users.role != "Admin" && loggedInUser.role == "Admin") tr.append(deleteUser);
+        if(users.role != "Admin" && loggedInUser.role == "Admin") tr.append(deleteUser).append(banUser);
         tbody.append(tr);
         i++;
     }
@@ -163,6 +167,23 @@ function buildTable(data){
 function deleteUser(i){
     $.post({
         url: "rest/userService/deleteUser",
+        data: JSON.stringify({username: users[i].username}),
+        contentType: "application/json",
+        success: function(){
+            $.get({
+                url: "rest/userService/getUsers",
+                success: function(data){
+                    users = data;
+                    buildTable(data);
+                }
+            });
+        }
+    });
+}
+
+function banUser(i){
+    $.post({
+        url: "rest/userService/banUser",
         data: JSON.stringify({username: users[i].username}),
         contentType: "application/json",
         success: function(){

@@ -140,6 +140,7 @@ public class UserService {
 				newUser.setShoppingCart(new ShoppingCart(new HashMap<String, Integer>(), newUser.getUsername(), 0));
 				fileUsers.saveUser(newUser);
 			}
+			if(newUser.isBanned()) return false;
 			request.getSession().setAttribute("user", newUser);
 			return true;
 		}
@@ -225,6 +226,7 @@ public class UserService {
 	public String getUsers(@Context HttpServletRequest request) throws JsonProcessingException {
 		User user = (User) request.getSession().getAttribute("user");
 		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
+		fileUsers.userIsSuspicious();
 		ArrayList<User> users = new ArrayList<User>();
 		if(user.getRole() == Role.Admin) {
 			users = fileUsers.getUsers();
@@ -763,6 +765,22 @@ public class UserService {
 		String username = tokenId[1];
 		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
 		fileUsers.deleteUser(username);
+		fileUsers.write();
+		return true;
+	}
+	
+	@POST
+	@Path("/banUser")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean banUser(String data, @Context HttpServletRequest request) {
+		data = data.substring(1, data.length() - 1);
+		data = data.replace("\"", "");
+		String tokens[] = data.split(",");
+		String tokenId[] = tokens[0].split(":");
+		String username = tokenId[1];
+		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
+		fileUsers.banUser(username);
 		fileUsers.write();
 		return true;
 	}

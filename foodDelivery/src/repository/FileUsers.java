@@ -3,8 +3,12 @@ package repository;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -166,7 +170,7 @@ public class FileUsers {
 			if(users.get(i).getUsername().equals(username)) {
 				for(int j=0; j<users.get(i).getCustomersOrders().size(); j++) {
 					if(users.get(i).getCustomersOrders().get(j).getOrderId() == orderId) {
-						users.get(i).getCustomersOrders().remove(j);
+						users.get(i).getCustomersOrders().get(j).setStatus(Status.Canceled);
 						break;
 					}
 				}
@@ -282,6 +286,44 @@ public class FileUsers {
 		for(int i=0; i<users.size(); i++) {
 			if(users.get(i).getUsername().equals(username)) {
 				users.remove(i);
+				break;
+			}
+		}
+	}
+	
+	public void userIsSuspicious() {
+		int cnt = 0;
+		for(int i=0; i<users.size(); i++) {
+			cnt = 0;
+			//System.out.println("i: " + i);
+			if(users.get(i).getCustomersOrders() != null) {
+				for(int j=0; j<users.get(i).getCustomersOrders().size(); j++) {
+					if(users.get(i).getCustomersOrders().get(j).getStatus() == Status.Canceled) {
+						Date fromDate = users.get(i).getCustomersOrders().get(j).getDate();
+						Date toDate = new Date();
+						LocalDateTime from = LocalDateTime.ofInstant(fromDate.toInstant(), ZoneId.systemDefault());
+						LocalDateTime to= LocalDateTime.ofInstant(toDate.toInstant(), ZoneId.systemDefault());
+						if(Duration.between(from, to).toDays() <= 30){
+							cnt++;
+							if(cnt >= 5) {
+								users.get(i).setSuspicious(true);
+								return;	
+							}
+							else {
+								users.get(i).setSuspicious(false);
+							}
+						}
+					}
+				}
+			}
+			//System.out.println(cnt);
+		}
+	}
+	
+	public void banUser(String username) {
+		for(int i=0; i<users.size(); i++) {
+			if(users.get(i).getUsername().equals(username)) {
+				users.get(i).setBanned(true);
 				break;
 			}
 		}
