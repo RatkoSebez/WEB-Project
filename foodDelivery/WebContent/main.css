@@ -128,4 +128,42 @@ select {
   transform: scale(1.1);
 }
 
-/* menu */
+/* foter */
+
+footer {
+  color: white;
+  background-color: black;
+}
+
+.footerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flex-row {
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.flex-col {
+  display: inline;
+  padding: 0 15px;
+  margin-bottom: 16px;
+}
+
+.footer-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+}
+
+.footer-img {
+  width: 30px;
+  height: 30px;
+}
+
+.footer-p {
+  text-align: center;
+}

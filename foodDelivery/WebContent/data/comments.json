@@ -6,5 +6,29 @@
     "rating": 5,
     "id": 1000000001,
     "accepted": true
+  },
+  {
+    "user": "stefan",
+    "restaurant": "KFC",
+    "comment": "ok restorandsafffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "rating": 4,
+    "id": 1000000002,
+    "accepted": null
+  },
+  {
+    "user": "stefan",
+    "restaurant": "McDonald's",
+    "comment": "dobar restoran dobar restoran dobar restoran dobar restoran dobar restoran dobar restoran dobar restoran vvdobar restoran dobar restoran dobar restoran ",
+    "rating": 4,
+    "id": 1000000003,
+    "accepted": true
+  },
+  {
+    "user": "stefan",
+    "restaurant": "McDonald's",
+    "comment": "",
+    "rating": 0,
+    "id": 1000000004,
+    "accepted": true
   }
 ]

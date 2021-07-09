@@ -4,6 +4,7 @@ $(document).ready(function(){
         url: "rest/userService/getLoggedInUser",
         success: function(user){
             loadMenu(user);
+            loadFooter();
             if(!user){
                 $("#login").show();
                 $("#register").show();
@@ -99,4 +100,30 @@ function loadMenu(user){
     '        </ul>'+
     '    </div>';
     menu.append(myvar);
+}
+
+function loadFooter(){
+    let footer = $('.footerWrapper');
+    var myvar = '<footer>'+
+    '        <div class="footerContainer">'+
+    '            <ul class="flex-row" hidden>'+
+    '                <li class="flex-col"><a class="footer-link" href="">linnk</a></li>'+
+    '                <li class="flex-col"><a class="footer-link" href="">linnk</a></li>'+
+    '                <li class="flex-col"><a class="footer-link" href="">linnk</a></li>'+
+    '                <li class="flex-col"><a class="footer-link" href="">linnk</a></li>'+
+    '            </ul>'+
+    '            <ul class="flex-row">'+
+    '                <li class="flex-col">'+
+    '                    <img class="footer-img" src="images/facebook.png" alt="">'+
+    '                    <img class="footer-img" src="images/instagram2.png" alt="">'+
+    '                    <img class="footer-img" src="images/twitter.png" alt="">'+
+    '                    <img class="footer-img" src="images/telegram.png" alt="">'+
+    '                </li>'+
+    '            </ul>'+
+    '            <ul class="flex-row">'+
+    '                <li class="flex-col"><p class="footer-p">© 2021 FastDelivery</p></li>'+
+    '            </ul>'+
+    '        </div>'+
+    '    </footer>';
+    //footer.append(myvar);
 }
