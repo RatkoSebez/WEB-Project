@@ -1,47 +1,47 @@
 var restaurants = [];
 var ratingMap = new Map();
 
-$(document).ready(function(){
+$(document).ready(function () {
     $.get({
         url: "rest/userService/getRestaurants",
-        success: function(data){
+        success: function (data) {
             //dodajem restorane u niz tako da prvo stavljam one koji su otvoreni (tako pise u specifikaciji)
-            for(let i=0; i<data.length; i++){
-                if(data[i].opened == true) restaurants.push(data[i]);
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].opened == true) restaurants.push(data[i]);
             }
-            for(let i=0; i<data.length; i++){
-                if(data[i].opened == false) restaurants.push(data[i]);
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].opened == false) restaurants.push(data[i]);
             }
             buildRestaurants(restaurants);
         }
     });
 
-    $("#searchName").on('keyup', function(){
+    $("#searchName").on('keyup', function () {
         filterRestaurants();
     });
-    $("#searchType").on('keyup', function(){
+    $("#searchType").on('keyup', function () {
         filterRestaurants();
     });
-    $("#searchLocation").on('keyup', function(){
+    $("#searchLocation").on('keyup', function () {
         filterRestaurants();
     });
-    $("#searchAverageRating").on('keyup', function(){
+    $("#searchAverageRating").on('keyup', function () {
         filterRestaurants();
     });
-    $('#typeSelect').on('change', function() {
+    $('#typeSelect').on('change', function () {
         filterRestaurants();
     });
-    $('#openedSelect').on('change', function() {
+    $('#openedSelect').on('change', function () {
         filterRestaurants();
     });
-    $('#sortSelect').on('change', function() {
+    $('#sortSelect').on('change', function () {
         filterRestaurants();
     });
-    $('#ascDescSelect').on('change', function() {
+    $('#ascDescSelect').on('change', function () {
         filterRestaurants();
     });
 
-    $("#reset").click(function(){
+    $("#reset").click(function () {
         $('#searchName').val('');
         $('#searchType').val('');
         $('#searchLocation').val('');
@@ -55,23 +55,23 @@ $(document).ready(function(){
     });
 });
 
-function buildRestaurants(restaurants){
+function buildRestaurants(restaurants) {
     $('#container').html('');
     $('#container').empty();
     let mainDiv = $('.container');
-    for(let i=0; i<restaurants.length; i++){
+    for (let i = 0; i < restaurants.length; i++) {
         //console.log(i);
         $.get({
             url: "rest/userService/getAverageRating?restaurant=" + restaurants[i].name,
-            success: function(data){
+            success: function (data) {
                 ratingMap.set(restaurants[i].name, data);
             }
         });
     }
     //sacekaj da se pozivi od gore zavrse
-    setTimeout(function(){
-        for(let i=0; i<restaurants.length; i++){
-            if(i == 0){
+    setTimeout(function () {
+        for (let i = 0; i < restaurants.length; i++) {
+            if (i == 0) {
                 $('#container').html('');
                 $('#container').empty();
                 let mainDiv = $('.container');
@@ -83,8 +83,8 @@ function buildRestaurants(restaurants){
             img.classList.add('item-image');
             var textDiv = $('<div class="image-title"></div>');
             textDiv.append('<b>' + restaurants[i].name + '</b>' + '<br>' + restaurants[i].type + '<br>');
-            if(restaurants[i].opened == true) textDiv.append('opened<br>');
-            if(restaurants[i].opened == false) textDiv.append('closed<br>');
+            if (restaurants[i].opened == true) textDiv.append('opened<br>');
+            if (restaurants[i].opened == false) textDiv.append('closed<br>');
             let location = restaurants[i].location.address;
             let tokens = location.split(',');
             textDiv.append(tokens[0] + '<br>');
@@ -99,10 +99,10 @@ function buildRestaurants(restaurants){
             link.append(categoriesDiv);
             mainDiv.append(link);
         }
-    }, 20);
+    }, 40);
 }
 
-function filterRestaurants(){
+function filterRestaurants() {
     //console.log('vucicu pederu');
     var nameInput = $('#searchName').val().toLowerCase();
     var typeInput = $('#searchType').val().toLowerCase();
@@ -115,85 +115,85 @@ function filterRestaurants(){
     var allRestaurants = restaurants;
     var tmpRestaurants = [];
     //name
-    for(var i=0; i<allRestaurants.length; i++){
+    for (var i = 0; i < allRestaurants.length; i++) {
         var name = allRestaurants[i].name.toLowerCase();
-        if(name.includes(nameInput)) tmpRestaurants.push(allRestaurants[i]);
+        if (name.includes(nameInput)) tmpRestaurants.push(allRestaurants[i]);
     }
     allRestaurants = tmpRestaurants;
     tmpRestaurants = [];
     //type
-    for(var i=0; i<allRestaurants.length; i++){
+    for (var i = 0; i < allRestaurants.length; i++) {
         var type = allRestaurants[i].type.toLowerCase();
-        if(type.includes(typeInput)) tmpRestaurants.push(allRestaurants[i]);
+        if (type.includes(typeInput)) tmpRestaurants.push(allRestaurants[i]);
     }
     allRestaurants = tmpRestaurants;
     tmpRestaurants = [];
     //location, korisnik unosi grad
-    for(var i=0; i<allRestaurants.length; i++){
+    for (var i = 0; i < allRestaurants.length; i++) {
         var location = allRestaurants[i].location.address.toLowerCase();
         var tokens = location.split(',');
-        if(tokens[1].includes(locationInput)) tmpRestaurants.push(allRestaurants[i]);
+        if (tokens[1].includes(locationInput)) tmpRestaurants.push(allRestaurants[i]);
     }
     allRestaurants = tmpRestaurants;
     tmpRestaurants = [];
     //rating
-    for(var i=0; i<allRestaurants.length; i++){
+    for (var i = 0; i < allRestaurants.length; i++) {
         var rating = ratingMap.get(allRestaurants[i].name).toString();
-        if(rating.includes(ratingInput)) tmpRestaurants.push(allRestaurants[i]);
+        if (rating.includes(ratingInput)) tmpRestaurants.push(allRestaurants[i]);
     }
     allRestaurants = tmpRestaurants;
     tmpRestaurants = [];
     //type select
-    if(typeSelect == 'type') tmpRestaurants = allRestaurants;
-    for(var i=0; i<allRestaurants.length; i++){
-        if(typeSelect == 'type') break;
+    if (typeSelect == 'type') tmpRestaurants = allRestaurants;
+    for (var i = 0; i < allRestaurants.length; i++) {
+        if (typeSelect == 'type') break;
         var typeSelectFromDatabase = allRestaurants[i].type.toLowerCase();
-        if(typeSelectFromDatabase == typeSelect) tmpRestaurants.push(allRestaurants[i]);
+        if (typeSelectFromDatabase == typeSelect) tmpRestaurants.push(allRestaurants[i]);
     }
     allRestaurants = tmpRestaurants;
     tmpRestaurants = [];
     //opened select
     //console.log(openedSelect);
-    if(openedSelect == 'all') tmpRestaurants = allRestaurants;
-    for(var i=0; i<allRestaurants.length; i++){
-        if(openedSelect == 'all') break;
+    if (openedSelect == 'all') tmpRestaurants = allRestaurants;
+    for (var i = 0; i < allRestaurants.length; i++) {
+        if (openedSelect == 'all') break;
         var isOpened = allRestaurants[i].opened;
-        if(isOpened) tmpRestaurants.push(allRestaurants[i]);
+        if (isOpened) tmpRestaurants.push(allRestaurants[i]);
     }
     allRestaurants = tmpRestaurants;
     tmpRestaurants = [];
-    
+
     //sortiram allRestaurants
-    if(sortSelect == 'name'){
+    if (sortSelect == 'name') {
         function compareAscending1(a, b) {
-        if (a.name < b.name) return -1;
-        if (a.name > b.name) return 1;
-        return 0;
+            if (a.name < b.name) return -1;
+            if (a.name > b.name) return 1;
+            return 0;
         }
         function compareDescending1(a, b) {
-        if (a.name > b.name) return -1;
-        if (a.name < b.name) return 1;
-        return 0;
+            if (a.name > b.name) return -1;
+            if (a.name < b.name) return 1;
+            return 0;
         }
-        if(ascDescSelect == 'ascending'){
+        if (ascDescSelect == 'ascending') {
             allRestaurants.sort(compareAscending1);
             //console.log('asc');
         }
-        if(ascDescSelect == 'descending'){
+        if (ascDescSelect == 'descending') {
             allRestaurants.sort(compareDescending1);
             //console.log('desc');
         }
     }
     //sortiram po rejtingu
-    if(sortSelect == 'rating'){
-        for(let i=0; i<allRestaurants.length; i++){
-            for(let j=i+1; j<allRestaurants.length; j++){
-                if(ratingMap.get(allRestaurants[i].name) > ratingMap.get(allRestaurants[j].name) && ascDescSelect == 'ascending'){
+    if (sortSelect == 'rating') {
+        for (let i = 0; i < allRestaurants.length; i++) {
+            for (let j = i + 1; j < allRestaurants.length; j++) {
+                if (ratingMap.get(allRestaurants[i].name) > ratingMap.get(allRestaurants[j].name) && ascDescSelect == 'ascending') {
                     let tmp = allRestaurants[i];
                     allRestaurants[i] = allRestaurants[j];
                     allRestaurants[j] = tmp;
                 }
-                if(ratingMap.get(allRestaurants[i].name) < ratingMap.get(allRestaurants[j].name) && ascDescSelect == 'descending'){
+                if (ratingMap.get(allRestaurants[i].name) < ratingMap.get(allRestaurants[j].name) && ascDescSelect == 'descending') {
                     let tmp = allRestaurants[i];
                     allRestaurants[i] = allRestaurants[j];
                     allRestaurants[j] = tmp;
@@ -202,22 +202,22 @@ function filterRestaurants(){
         }
     }
     //za lokaciju sortira prvo po ulici, moza prebaciti da gleda grad, nisu napisali u specifikaciji detaljno
-    if(sortSelect == 'location'){
+    if (sortSelect == 'location') {
         function compareAscending2(a, b) {
-        if (a.location.address < b.location.address) return -1;
-        if (a.location.address > b.location.address) return 1;
-        return 0;
+            if (a.location.address < b.location.address) return -1;
+            if (a.location.address > b.location.address) return 1;
+            return 0;
         }
         function compareDescending2(a, b) {
-        if (a.location.address > b.location.address) return -1;
-        if (a.location.address < b.location.address) return 1;
-        return 0;
+            if (a.location.address > b.location.address) return -1;
+            if (a.location.address < b.location.address) return 1;
+            return 0;
         }
-        if(ascDescSelect == 'ascending'){
+        if (ascDescSelect == 'ascending') {
             allRestaurants.sort(compareAscending2);
             //console.log('asc');
         }
-        if(ascDescSelect == 'descending'){
+        if (ascDescSelect == 'descending') {
             allRestaurants.sort(compareDescending2);
             //console.log('desc');
         }

@@ -252,7 +252,11 @@ public class FileUsers {
 			if(users.get(i).getUsername().equals(username)) {
 				for(int j=0; j<users.get(i).getCustomersOrders().size(); j++) {
 					if(users.get(i).getCustomersOrders().get(j).getStatus() == Status.Delivered) {
-						restaurants.add(users.get(i).getCustomersOrders().get(j).getResrourant());
+						boolean ok = true;
+						for(int k=0; k<restaurants.size(); k++) {
+							if(restaurants.get(k).equals(users.get(i).getCustomersOrders().get(j).getResrourant())) ok = false;
+						}
+						if(ok) restaurants.add(users.get(i).getCustomersOrders().get(j).getResrourant());
 					}
 				}
 			}

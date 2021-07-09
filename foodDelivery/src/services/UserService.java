@@ -55,41 +55,11 @@ public class UserService {
 	@PostConstruct
 	public void init() {
 		//System.out.println(ctx.getRealPath(""));
-		/*ArrayList<User> admins = new ArrayList<User>();
-		admins.add(new User("pera", "123", "pera", "peric", Gender.Male, new Date()));
-		admins.add(new User("marko", "123", "marko", "markovic", Gender.Male, new Date()));
-		admins.add(new User("milica", "123", "milica", "milicic", Gender.Female, new Date()));
-		admins.add(new User("jovan", "123", "jovan", "jovanovic", Gender.Male, new Date()));
-		
-		FileWriter myWriter;
-		try {
-			String json = mapper.writeValueAsString(admins);
-			myWriter = new FileWriter(ctx.getRealPath("") + "/admins.json");
-			myWriter.write(json);
-			myWriter.flush();
-			myWriter.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
-		
-		
-		
-		
 		String contextPath = ctx.getRealPath("");
 		FileUsers fileUsers = FileUsers.getInstance(contextPath + "/data/users.json");
 		FileRestaurant fileRestaurant = FileRestaurant.getInstance(contextPath + "/data/restaurants.json");
 		FileItems fileItems = FileItems.getInstance(contextPath + "/data/items.json");
 		FileComments fileComments = FileComments.getInstance(contextPath + "/data/comments.json");
-		
-		
-		/*ArrayList<Restaurant> restaurantss = fileRestaurant.getRestaurants();
-		Restaurant restoran = new Restaurant();
-		restoran.setName("garibaldi");
-		restoran.setImage("images/restaurant.jpg");
-		restoran.setLocation(new Location(50, 50, "Narodnog Fronta 26, Novi Sad, 21000"));
-		restoran.setType(Type.Italian);
-		restaurantss.add(restoran);
-		fileRestaurant.write();*/
 		
 		if(ctx.getAttribute("deliverers") == null) {
 			HashMap<Long, String> deliverers = new HashMap<Long, String>();
@@ -115,14 +85,6 @@ public class UserService {
 		if(ctx.getAttribute("fileComments") == null) {
 			ctx.setAttribute("fileComments", fileComments);
 		}
-		
-		//ArrayList<Comment> comments = fileComments.getComments();
-		//comments.add(new Comment("Marko", "kfc", "komentar", 5));
-		//fileComments.write();
-		
-		//ArrayList<Item> items = fileItems.getItems();
-		//items.add(new Item("pizza2", 900.99, Type.Food, "Garibaldi", 500.22, "opis", "data slike"));
-		//fileItems.write();
 	}
 	
 	@POST
@@ -204,8 +166,7 @@ public class UserService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public boolean editUser(@Context HttpServletRequest request, User user) {
 		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
-		@SuppressWarnings("unchecked")
-		ArrayList<User> users = (ArrayList<User>) ctx.getAttribute("users");
+		ArrayList<User> users = fileUsers.getUsers();
 		for(int i=0; i<users.size(); i++) {
 			//System.out.println(users.get(i).getUsername() + ", " + user.getUsername());
 			if(users.get(i).getUsername().equals(user.getUsername())) {
@@ -680,9 +641,8 @@ public class UserService {
 	public String getRestaurantsForComments(@QueryParam("username") String username) throws JsonProcessingException {
 		//prolazim kroz ordere kupca i koji je order delivered taj restoran mogu da komentarisem
 		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
-		//dobijam imena restorana koje mogu komentarisati
+		//dobijam imena restorana koji mogu komentarisati
 		ArrayList<String> restaurants = fileUsers.getRestaurantsForComment(username);
-		//System.out.println(restaurants.size() + ", " + username);
 		String usersJson = mapper.writeValueAsString(restaurants);
 		return usersJson;
 	}

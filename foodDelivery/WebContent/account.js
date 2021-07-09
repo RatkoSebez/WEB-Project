@@ -34,6 +34,7 @@ $(document).ready(function(){
         'surname' : $('input[name="surname"').val(),
         'birthDate' : $('input[name="birthDate"]').val()
         }
+        //console.log(data);
 
         //proveri da li je uneo dobru sifru i ako jeste sacuvaj promene
         $.post({

@@ -14,56 +14,58 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
-<!-- menu -->
+    <!-- menu -->
 
     <div class="menuWrapper"></div>
 
-<!-- menu -->
+    <!-- menu -->
 
-<div class="form">
-    <div class="header">
-        <h1>Feedback</h1>
+    <div class="form">
+        <div class="header">
+            <h1>Feedback</h1>
+        </div>
+        <form id="feedbackForm" hidden>
+            <table id="feedbackTable" align="center">
+                <tr>
+                    <td>comment</td>
+                    <td><textarea name="comment" id="comment" cols="40" rows="5"></textarea></td>
+                </tr>
+                <tr>
+                    <td>rating</td>
+                    <td><input type="text" name="rating" /></td>
+                </tr>
+                <tr>
+                    <td>restaurant</td>
+                    <td>
+                        <select name="restaurants" id="restaurants"></select>
+                    </td>
+                </tr>
+                <tr align="center">
+                    <td colspan="2"><button type="submit" id="confirm">confirm</button></td>
+                </tr>
+            </table>
+        </form>
+        <p id="errorMessage" style="color: red;"></p>
     </div>
-    <form id="feedbackForm" hidden>
-        <table id="feedbackTable" align="center">
-            <tr>
-                <td>comment</td>
-                <td><textarea name="comment" id="comment" cols="40" rows="5"></textarea></td>
-            </tr>
-            <tr>
-                <td>rating</td>
-                <td><input type="text" name="rating" /></td>
-            </tr>
-            <tr>
-                <td>restaurant</td>
-                <td>
-                    <select name="restaurants" id="restaurants"></select>
-                </td>
-            </tr>
-            <tr align="center">
-                <td colspan="2"><button type="submit" id="confirm">confirm</button></td>
-            </tr>
-        </table>
-    </form>
-    <p id="errorMessage" style="color: red;"></p>
-</div>
 
-<table id="comments" hidden>
-    <thead class="commentsThead">
-        <th class="commentsTh">Customer</th>
-        <th class="commentsTh">Rating</th>
-        <th class="commentsTh">Comment</th>
-        <th class="commentsTh">Approved</th>
-        <th class="commentsTh">Approve</th>
-        <th class="commentsTh">Reject</th>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+    <table id="comments" hidden>
+        <thead class="commentsThead">
+            <th class="commentsTh">Customer</th>
+            <th class="commentsTh">Rating</th>
+            <th class="commentsTh">Comment</th>
+            <th class="commentsTh">Approved</th>
+            <th class="commentsTh">Approve</th>
+            <th class="commentsTh">Reject</th>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 
-<div class="footerWrapper"></div>
+    <div class="footerWrapper"></div>
 
 </body>
+
 </html>

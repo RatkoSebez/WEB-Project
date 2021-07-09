@@ -1,18 +1,18 @@
 var loggedInUser;
 
-$(document).ready(function(){    
+$(document).ready(function () {
     $.get({
         url: "rest/userService/getLoggedInUser",
-        success: function(user){
+        success: function (user) {
             loggedInUser = user;
-            if(user.role == 'Customer'){
+            if (user.role == 'Customer') {
                 $.get({
                     url: "rest/userService/getLoggedInUser",
-                    success: function(user){
+                    success: function (user) {
                         $.get({
                             url: "rest/userService/getRestaurantsForComments?username=" + user.username,
-                            success: function(restaurants){
-                                if(restaurants.length > 0) $('#feedbackForm').show();
+                            success: function (restaurants) {
+                                if (restaurants.length > 0) $('#feedbackForm').show();
                                 var restaurantsSelectList = $('#restaurants');
                                 for (var i = 0; i < restaurants.length; i++) {
                                     restaurantsSelectList.append(new Option(restaurants[i], 'value'));
@@ -22,12 +22,12 @@ $(document).ready(function(){
                     }
                 });
                 let form = $('form');
-                form.submit(function(event){
+                form.submit(function (event) {
                     event.preventDefault();
                     let data = {
-                    'comment' : $('textarea#comment').val(),
-                    'rating' : $('input[name="rating"]').val(),
-                    'restaurant' : $('#restaurants').find(":selected").text()
+                        'comment': $('textarea#comment').val(),
+                        'rating': $('input[name="rating"]').val(),
+                        'restaurant': $('#restaurants').find(":selected").text()
                     }
                     $.post({
                         url: "rest/userService/newComment",
@@ -36,11 +36,11 @@ $(document).ready(function(){
                     });
                 });
             }
-            if(user.role == 'Manager'){
+            if (user.role == 'Manager') {
                 $("#comments").show();
                 $.get({
                     url: "rest/userService/getCommentsForRestaurant?name=" + user.restaurant.name,
-                    success: function(comments){
+                    success: function (comments) {
                         //console.log(comments.length);
                         buildTable(comments);
                     }
@@ -50,24 +50,24 @@ $(document).ready(function(){
     });
 });
 
-function buildTable(data){
+function buildTable(data) {
     $("#comments > tbody").html("");
-    for(let comment of data){
+    for (let comment of data) {
         let tbody = $('#comments tbody');
         let user = $('<td class="commentTd">' + comment.user + '</td>');
         let rating = $('<td class="commentTd">' + comment.rating + '</td>');
         let restaurantComment = $('<td class="commentTd">' + comment.comment + '</td>');
         let accepted = comment.accepted;
-        if(comment.accepted == null) accepted = "waiting";
+        if (comment.accepted == null) accepted = "waiting";
         let isAccepted = $('<td class="commentTd">' + accepted + '</td>');
         let tr = $('<tr class="commentTr"></tr>');
         var buttonApprove = $('<td><button>approve</button></td>').find('button').click(function () {
             $.get({
                 url: "rest/userService/updateCommentApproval?id=" + comment.id + "&approve=true",
-                success: function(){
+                success: function () {
                     $.get({
                         url: "rest/userService/getCommentsForRestaurant?name=" + loggedInUser.restaurant.name,
-                        success: function(comments){
+                        success: function (comments) {
                             buildTable(comments);
                         }
                     });
@@ -77,10 +77,10 @@ function buildTable(data){
         var buttonReject = $('<td><button>reject</button></td>').find('button').click(function () {
             $.get({
                 url: "rest/userService/updateCommentApproval?id=" + comment.id + "&approve=false",
-                success: function(){
+                success: function () {
                     $.get({
                         url: "rest/userService/getCommentsForRestaurant?name=" + loggedInUser.restaurant.name,
-                        success: function(comments){
+                        success: function (comments) {
                             buildTable(comments);
                         }
                     });
