@@ -28,6 +28,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import beans.Comment;
+import beans.Constants;
+import beans.CustomerType;
 import beans.Item;
 import beans.Order;
 import beans.Order.Status;
@@ -421,16 +423,22 @@ public class UserService {
 	@Path("/getItemsForShoppingCart")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String getItemsForShoppingCart(String data) throws IOException {
+	public String getItemsForShoppingCart(String data, @Context HttpServletRequest request) throws IOException {
 		data = data.substring(10);
 		data = data.substring(0, data.length() - 2);
 		data = data.replace("\"", "");
 		String [] names = data.split(",");
-		
+		User user = (User) request.getSession().getAttribute("user");
 		FileItems fileItems = (FileItems) ctx.getAttribute("fileItems");
 		ArrayList<Item> items = new ArrayList<Item>();
 		for(int i=0; i<names.length; i++) {
 			items.add(fileItems.getItem(names[i]));
+		}
+		if(user.getCustomerType() != null) {
+			double discount = user.getCustomerType().getDiscount();
+			for(int i=0; i<items.size(); i++) {
+				items.get(i).setPrice(items.get(i).getPrice()*(100-discount)/100);
+			}
 		}
 		String usersJson = mapper.writeValueAsString(items);
 		//System.out.println(data);
@@ -442,7 +450,6 @@ public class UserService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public boolean createOrder(Order order, @Context HttpServletRequest request) throws IOException {
-		//nisam uspeo da posaljem ime restorana pa cu ga ovako setovati, preduslov je da su svi itemi iz istog restorana
 		order.setResrourant(order.getItems().get(0).getRestaurant());
 		order.setStatus(Status.Processing);
 		FileUsers fileUsers = (FileUsers) ctx.getAttribute("fileUsers");
@@ -462,6 +469,11 @@ public class UserService {
 		if(orders == null) orders = new ArrayList<Order>();
 		orders.add(order);
 		user.setCustomersOrders(orders);
+		CustomerType type = null;
+		if(currentPoints + points >= Constants.GOLD_CUSTOMER_POINTS) type = new CustomerType(2);
+		else if(currentPoints + points >= Constants.SILVER_CUSTOMER_POINTS) type = new CustomerType(1);
+		else if(currentPoints + points >= Constants.BRONZE_CUSTOMER_POINTS) type = new CustomerType(0);
+		user.setCustomerType(type);
 		fileUsers.write();
 		//System.out.println(order.getResrourant());
 		return true;
@@ -532,8 +544,12 @@ public class UserService {
 		fileUsers.cancelOrder(user.getUsername(), id);
 		int newDiscountPoints = (int) Math.max(user.getDiscountPoints() - (price/10.0)*133*4, 0);
 		user.setDiscountPoints(newDiscountPoints);
+		CustomerType type = null;
+		if(newDiscountPoints >= Constants.GOLD_CUSTOMER_POINTS) type = new CustomerType(2);
+		else if(newDiscountPoints >= Constants.SILVER_CUSTOMER_POINTS) type = new CustomerType(1);
+		else if(newDiscountPoints >= Constants.BRONZE_CUSTOMER_POINTS) type = new CustomerType(0);
+		user.setCustomerType(type);
 		fileUsers.write();
-		//System.out.println(id);
 		return true;
 	}
 	
