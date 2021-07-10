@@ -434,7 +434,7 @@ public class UserService {
 		for(int i=0; i<names.length; i++) {
 			items.add(fileItems.getItem(names[i]));
 		}
-		if(user.getCustomerType() != null) {
+		if(user.getCustomerType() != null && items.get(0) != null) {
 			double discount = user.getCustomerType().getDiscount();
 			for(int i=0; i<items.size(); i++) {
 				items.get(i).setPrice(items.get(i).getPrice()*(100-discount)/100);

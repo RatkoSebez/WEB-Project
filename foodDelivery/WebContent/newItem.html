@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,9 +14,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
-<!-- menu -->
+    <!-- menu -->
 
     <div class="menuWrapper"></div>
 
@@ -28,11 +30,11 @@
         <form method="GET">
             <table id="registerTable" align="center">
                 <tr>
-                    <td>name</td>
+                    <td>name*</td>
                     <td><input type="text" name="name" /></td>
                 </tr>
                 <tr>
-                    <td>item type</td>
+                    <td>item type*</td>
                     <td>
                         <select name="type" id="type">
                             <option value="Food">Food</option>
@@ -41,7 +43,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>price</td>
+                    <td>price*</td>
                     <td><input type="text" name="price"></td>
                 </tr>
                 <tr>
@@ -53,7 +55,7 @@
                     <td><input type="text" name="quantity"></td>
                 </tr>
                 <tr>
-                    <td>image</td>
+                    <td>image*</td>
                     <td><input type="file" id="img" accept="image/*" onchange="encodeImageFileAsURL(this)"></td>
                 </tr>
                 <tr align="center">
@@ -65,6 +67,7 @@
     </div>
 
     <div class="footerWrapper"></div>
-    
+
 </body>
+
 </html>

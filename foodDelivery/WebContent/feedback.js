@@ -29,10 +29,33 @@ $(document).ready(function () {
                         'rating': $('input[name="rating"]').val(),
                         'restaurant': $('#restaurants').find(":selected").text()
                     }
+                    var isEmpty = false;
+                    var isNumber = true;
+                    if (data.comment == "" || data.rating == "" || data.restaurant == "") isEmpty = true;
+                    if (isEmpty) {
+                        $('#errorMessage').text('*empty fields');
+                        return;
+                    }
+                    isNumber = !isNaN(data.rating);
+                    if (!isNumber) {
+                        $('#errorMessage').text('*rating must be a number between 1 and 5');
+                        return;
+                    }
+                    else {
+                        if (data.rating == 1 || data.rating == 2 || data.rating == 3 || data.rating == 4 || data.rating == 5);
+                        else {
+                            $('#errorMessage').text('*rating must be a number between 1 and 5');
+                            return;
+                        }
+                    }
+
                     $.post({
                         url: "rest/userService/newComment",
                         data: JSON.stringify(data),
                         contentType: "application/json",
+                        success: function () {
+                            window.location.replace("index.html");
+                        }
                     });
                 });
             }
