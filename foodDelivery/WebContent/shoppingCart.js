@@ -79,12 +79,13 @@ function buildItems(itemNames, itemQuantity) {
                         textDiv.append(shoppingCartDiv);
                         categoriesDiv.append(img).append(textDiv);
                         mainDiv.append(categoriesDiv);
-                        if (user.customerType.discount) {
-                            items[i].price = items[i].price * ((100 - user.customerType.discount) / 100);
+                        if (user.customerType) {
+                            if(user.customerType.discount) items[i].price = items[i].price * ((100 - user.customerType.discount) / 100);
                         }
                         price += items[i].price * itemQuantity[i];
                         price = Math.round(price * 100) / 100;
                         if (i == itemNames.length - 1) {
+                            //console.log('vucicu pederu')
                             infoDiv = $('<div class="info"></div>');
                             infoDiv.append('total price' + price + '$');
                             infoDiv.append('<button id="createOrder" onclick="createOrder()">Create Order</button>');
