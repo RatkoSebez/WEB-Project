@@ -1,3 +1,0 @@
-Jedan bug koji sam imao kod serijalizacije/deserijalizacije: tomket je promenio temp folder gde cuva fajlove, pre je bio tmp0, sad je tmp1 i fajl u tmp1 je bio prazan (sto je pravilo problem), zasto bi to radio i ako buduce bude menjao putanje da li treba da stalno kopiram fajlove sa jednog mesta na drugo?
-
-NAPOMENA - PRESTANI DA POREDIS STRINGOVE SA == NIJE TI OVO C++
